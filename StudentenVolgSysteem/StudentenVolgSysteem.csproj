@@ -177,6 +177,18 @@
     <Compile Include="Migrations\MyDbContext\201909091230427_Initial.Designer.cs">
       <DependentUpon>201909091230427_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\MyDbContext\201909091335481_TopicModelAdded.cs" />
+    <Compile Include="Migrations\MyDbContext\201909091335481_TopicModelAdded.Designer.cs">
+      <DependentUpon>201909091335481_TopicModelAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MyDbContext\201909091344008_TopicModelChangedVirtual.cs" />
+    <Compile Include="Migrations\MyDbContext\201909091344008_TopicModelChangedVirtual.Designer.cs">
+      <DependentUpon>201909091344008_TopicModelChangedVirtual.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MyDbContext\201909100922519_DatabaseNormalized.cs" />
+    <Compile Include="Migrations\MyDbContext\201909100922519_DatabaseNormalized.Designer.cs">
+      <DependentUpon>201909100922519_DatabaseNormalized.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\MyDbContext\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -262,6 +274,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\MyDbContext\201909091230427_Initial.resx">
       <DependentUpon>201909091230427_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MyDbContext\201909091335481_TopicModelAdded.resx">
+      <DependentUpon>201909091335481_TopicModelAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MyDbContext\201909091344008_TopicModelChangedVirtual.resx">
+      <DependentUpon>201909091344008_TopicModelChangedVirtual.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MyDbContext\201909100922519_DatabaseNormalized.resx">
+      <DependentUpon>201909100922519_DatabaseNormalized.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
