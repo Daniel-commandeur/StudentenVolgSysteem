@@ -11,58 +11,60 @@ namespace ExcelConverterSVS
 {
     class Program
     {
+        const char LF = '\n';
 
         static void Main(string[] args)
         {
-            Console.WriteLine("hoi");
+            MyDbContext db = new MyDbContext();
+            GetExcelData(db);
         }
 
         public static void GetExcelData(MyDbContext db)
         {
 
             #region Sheet 2
-            string pathToSheetTwo = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + @"\Data\InfraWorkshopsSheet2.csv";
-            StreamReader SheetTwoReader = new StreamReader(pathToSheetTwo);
+            //string pathToSheetTwo = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + @"\Data\InfraWorkshopsSheet2.csv";
+            //StreamReader SheetTwoReader = new StreamReader(pathToSheetTwo);
 
-            var SheetTwoHeaders = SheetTwoReader.ReadLine().Split('$');
-            foreach (var item in SheetTwoHeaders)
-            {
-                Console.WriteLine(item);
-            }
+            //var SheetTwoHeaders = SheetTwoReader.ReadLine().Split('$');
+            //foreach (var item in SheetTwoHeaders)
+            //{
+            //    Console.WriteLine(item);
+            //}
 
-            string newLine;
-            while ((newLine = SheetTwoReader.ReadLine()) != null)
-            {
-                var splitSheetTwoLine = newLine.Split('$').ToList();
-                foreach (var item in splitSheetTwoLine)
-                {
-                    if (item != string.Empty)
-                    {
-                        string typeTwo = SheetTwoHeaders[splitSheetTwoLine.IndexOf(item)];
+            //string newLine;
+            //while ((newLine = SheetTwoReader.ReadLine()) != null)
+            //{
+            //    var splitSheetTwoLine = newLine.Split('$').ToList();
+            //    foreach (var item in splitSheetTwoLine)
+            //    {
+            //        if (item != string.Empty)
+            //        {
+            //            string typeTwo = SheetTwoHeaders[splitSheetTwoLine.IndexOf(item)];
 
-                        switch (typeTwo)
-                        {
-                            case "Werkvormen":
-                                Console.WriteLine("Item: {0} | Type: {1} |Success: {2}", item, typeTwo, MakeWerkvorm(item, db));
-                                break;
-                            case "Niveau":
-                                Console.WriteLine("Item: {0} | Type: {1} |Success: {2}", item, typeTwo, MakeNiveau(item, db));
-                                break;
-                            case "Duur":
-                                Console.WriteLine("Item: {0} | Type: {1} |Success: {2}", item, typeTwo, MakeDuur(item, db));
-                                break;
-                            case "Tags":
-                                Console.WriteLine("Item: {0} | Type: {1} |Success: {2}", item, typeTwo, MakeTag(item, db));
-                                break;
-                            case "Certificeringen Infra":
-                                Console.WriteLine("Item: {0} | Type: {1} |Success: {2}", item, typeTwo, MakeCert(item, db));
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }
-            }
+            //            switch (typeTwo)
+            //            {
+            //                case "Werkvormen":
+            //                    Console.WriteLine("Item: {0} | Type: {1} |Success: {2}", item, typeTwo, MakeWerkvorm(item, db));
+            //                    break;
+            //                case "Niveau":
+            //                    Console.WriteLine("Item: {0} | Type: {1} |Success: {2}", item, typeTwo, MakeNiveau(item, db));
+            //                    break;
+            //                case "Duur":
+            //                    Console.WriteLine("Item: {0} | Type: {1} |Success: {2}", item, typeTwo, MakeDuur(item, db));
+            //                    break;
+            //                case "Tags":
+            //                    Console.WriteLine("Item: {0} | Type: {1} |Success: {2}", item, typeTwo, MakeTag(item, db));
+            //                    break;
+            //                case "Certificeringen Infra":
+            //                    Console.WriteLine("Item: {0} | Type: {1} |Success: {2}", item, typeTwo, MakeCert(item, db));
+            //                    break;
+            //                default:
+            //                    break;
+            //            }
+            //        }
+            //    }
+            //}
 
             #endregion
 
@@ -78,15 +80,52 @@ namespace ExcelConverterSVS
                 Console.WriteLine(item);
             }
 
-            while ((unsplitTopicEntry = SheetOneReader.ReadLine()) != null)
+            while ((unsplitTopicEntry = SheetOneReader.ReadLine() + LF) != LF.ToString())
             {
                 var splitLine = unsplitTopicEntry.Split('$').ToList();
+                //Trim all parts
+                var tempSplit = splitLine;
+                for (int i = 0; i < splitLine.Count; i++)
+                {
+                    tempSplit[i] = splitLine[i].Trim(' ', '*', '"', '-', '•');
+                }
+                splitLine = tempSplit;
+
+                while (splitLine.Count < Headers.Count())
+                {
+                    var moreLine = SheetOneReader.ReadLine() + LF;
+                    var moreSplits = moreLine.Split('$').ToList();
+                    //Trim all inner parts
+                    var tempSplitsTrimmed = moreSplits;
+                    for (int i = 0; i < moreSplits.Count; i++)
+                    {
+                        tempSplitsTrimmed[i] = moreSplits[i].Trim(' ', '*', '"', '-', '•');
+                    }
+                    moreSplits = tempSplitsTrimmed;
+
+                    //Join the last and first entry, cut off first entry
+                    splitLine[splitLine.Count-1] = splitLine[splitLine.Count-1] + moreSplits[0];
+                    moreSplits.Remove(moreSplits[0]);
+
+                    //and add the newline to the current line
+                    foreach (var item in moreSplits)
+                    {
+                        //Console.WriteLine("Pre-trim| {0}", item);
+                        var titem = item.Trim(' ', '*', '"', '-', '•');
+                        //Console.WriteLine("Post-trim| {0}", titem);
+                        splitLine.Add(titem);
+                    }
+                }
+
                 TopicModel topicModel = new TopicModel();
+                int counter = 0;
                 foreach (var splitTopicEntry in splitLine)
                 {
-                    if (splitTopicEntry != string.Empty)
+                    if (splitTopicEntry != string.Empty &&
+                        splitTopicEntry != LF.ToString())
                     {
-                        string type = Headers[splitLine.IndexOf(splitTopicEntry)];
+                        string type = Headers[counter];
+                        //string[] lines;
                         switch (type)
                         {
                             case "#":
@@ -94,56 +133,80 @@ namespace ExcelConverterSVS
                                 break;
                             case "Code":
                                 // dit is de code
-                                topicModel.Code = splitTopicEntry;
+                                //topicModel.Code = splitTopicEntry;
                                 break;
                             case "Niveau":
-                                // TODO: kies of maak Niveau
-                                topicModel.Niveau = FindNiveau(splitTopicEntry, db);
+                                //topicModel.Niveau = FindNiveau(splitTopicEntry, db);
                                 break;
                             case "Topic":
                                 // dit is de naam
-                                topicModel.Name = splitTopicEntry;
+                                //topicModel.Name = splitTopicEntry;
                                 break;
                             case "Duur":
-                                // TODO: kies of maak duur
                                 break;
                             case "Werkvorm(en)":
-                                // TODO: kies of maak werkvorm
                                 break;
                             case "Leerdoel(en)":
                                 // Dit zijn de leerdoelen
-                                topicModel.Leerdoel = splitTopicEntry;
+                                //topicModel.Leerdoel = splitTopicEntry;
                                 break;
                             case "Certificering":
-                                // TODO: kies of maak certificeringen
+                                //lines = splitTopicEntry.Split('\n');
+                                //Console.WriteLine("---LINES CERT---");
+                                //foreach (var item in lines)
+                                //{
+                                //    Console.WriteLine(item);
+                                //}
                                 break;
                             case "Benodigde voorkennis":
-                                // TODO: kies of maak voorkennis
+                                //lines = splitTopicEntry.Split('\n');
+                                //Console.WriteLine("---LINES VOORKENNIS---");
+                                //foreach (var item in lines)
+                                //{
+                                //    Console.WriteLine(item);
+                                //}
                                 break;
                             case "Inhoud":
                                 // Dit is een beschrijving van de inhoud
-                                topicModel.Inhoud = splitTopicEntry;
+                                //topicModel.Inhoud = splitTopicEntry;
+                                //lines = splitTopicEntry.Split('\n');
+                                //Console.WriteLine("---LINES INHOUD---");
+                                //foreach (var item in lines)
+                                //{
+                                //    Console.WriteLine(item);
+                                //}
                                 break;
                             case "Benodigdheden":
-                                // TODO: kies of maak benodigdheden
+                                //lines = splitTopicEntry.Split('\n');
+                                //Console.WriteLine("---LINES BENOD---");
+                                //foreach (var item in lines)
+                                //{
+                                //    Console.WriteLine(item);
+                                //}
                                 break;
                             case "Percipio links":
-                                // TODO: kies of maak Percipio links
+                                //lines = splitTopicEntry.Split('\n');
+                                //Console.WriteLine("---LINES LINKS---");
+                                //foreach (var item in lines)
+                                //{
+                                //    Console.WriteLine(item);
+                                //}
                                 break;
                             case "Tags 1":
-                                // TODO: kies of maak tag1
                                 break;
                             case "Tags 2":
-                                // TODO: kies of maak tag2
                                 break;
                             case "Tags 3":
-                                // TODO: kies of maak tag3
+                                //int a = (int)splitTopicEntry[0];
+                                //Console.WriteLine(a);
                                 break;
                             default:
                                 break;
                         }
-                        //Console.WriteLine(splitTopicEntry);
+                        Console.WriteLine("-----{0}-----", type);
+                        Console.WriteLine(splitTopicEntry);
                     }
+                    counter++;
                 }
             }
             #endregion
