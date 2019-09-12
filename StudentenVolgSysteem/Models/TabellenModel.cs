@@ -110,6 +110,8 @@ namespace StudentenVolgSysteem.Models
 
         [Key]
         public int TopicId { get; set; }
+        //Code
+        public string Code { get; set; }
         //Niveau 	
         public NiveauModel Niveau { get; set; }
         //Topic	
