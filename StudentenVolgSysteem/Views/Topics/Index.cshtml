@@ -1,0 +1,108 @@
+﻿@model IEnumerable<StudentenVolgSysteem.Models.TopicModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Duur)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Werkvorm)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Leerdoel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Certificeringen)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Voorkennis)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Inhoud)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Benodigdheden)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PercipioLinks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tags)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Code)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Duur)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Werkvorm)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Leerdoel)
+    </td>
+    <td>
+        @foreach (var cert in item.Certificeringen)
+        {
+            @Html.DisplayFor(modelItem => cert)
+        }
+    </td>
+    <td>
+        @foreach (var voorkennis in item.Voorkennis)
+        {
+            @Html.DisplayFor(modelItem => voorkennis)
+        }
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Inhoud)
+    </td>
+    <td>
+        @foreach (var benodigdheden in item.Benodigdheden)
+        {
+            @Html.DisplayFor(modelItem => benodigdheden)
+        }
+    </td>
+    <td>
+        @foreach (var percipioLinks in item.PercipioLinks)
+        {
+            @Html.DisplayFor(modelItem => percipioLinks)
+        }
+    </td>
+    <td>
+        @foreach (var tags in item.Tags)
+        {
+            @Html.DisplayFor(modelItem => tags)
+        }
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.TopicId }) |
+        @Html.ActionLink("Details", "Details", new { id = item.TopicId }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.TopicId })
+    </td>
+</tr>
+}
+
+</table>
