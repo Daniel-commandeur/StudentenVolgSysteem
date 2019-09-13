@@ -24,16 +24,21 @@ namespace StudentenVolgSysteem.Models
         {
             //Write Fluent API configurations here
             modelBuilder.Entity<TopicModel>().HasMany(m => m.Voorkennis).WithMany();
+
         }
     }
 
-        public class WerkvormModel
+
+    [Table(name: "Werkvormen")]
+    public class WerkvormModel
     {
         [Key]
         public int WerkvormId { get; set; }
         public string Werkvorm { get; set; }
     }
 
+
+    [Table(name: "Niveaus")]
     public class NiveauModel
     {
         [Key]
@@ -41,6 +46,8 @@ namespace StudentenVolgSysteem.Models
         public string Niveau { get; set; }
     }
 
+
+    [Table(name: "Tijdsduren")]
     public class TijdsDuurModel
     {
         [Key]
@@ -48,6 +55,8 @@ namespace StudentenVolgSysteem.Models
         public string Eenheid { get; set; }
     }
 
+
+    [Table(name: "Tags")]
     public class TagModel
     {
         public TagModel()
@@ -61,6 +70,8 @@ namespace StudentenVolgSysteem.Models
         public virtual ICollection<TopicModel> Topics { get; set; }
     }
 
+
+    [Table(name: "Certificeringen")]
     public class CertificeringenInfraModel
     {
         public CertificeringenInfraModel()
@@ -74,6 +85,8 @@ namespace StudentenVolgSysteem.Models
         public virtual ICollection<TopicModel> Topics { get; set; }
     }
 
+
+    [Table(name: "Benodigdheden")]
     public class BenodigdheidModel
     {
         [Key]
@@ -82,6 +95,7 @@ namespace StudentenVolgSysteem.Models
         public TopicModel Topic { get; set; }
     }
 
+    [Table(name: "PercipioLinks")]
     public class PercipiolinkModel
     {
         [Key]
@@ -99,6 +113,7 @@ namespace StudentenVolgSysteem.Models
     //    public TopicModel ForId { get; set; }
     //}
 
+    [Table(name: "Topics")]
     public class TopicModel
     {
         public TopicModel()

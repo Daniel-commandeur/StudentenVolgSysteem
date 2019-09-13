@@ -168,15 +168,20 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CSVController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\TopicsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\MyDbContext\201909120949190_Initial.cs" />
-    <Compile Include="Migrations\MyDbContext\201909120949190_Initial.Designer.cs">
-      <DependentUpon>201909120949190_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\MyDbContext\201909131246016_Initial.cs" />
+    <Compile Include="Migrations\MyDbContext\201909131246016_Initial.Designer.cs">
+      <DependentUpon>201909131246016_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MyDbContext\201909131302530_Tablenames.cs" />
+    <Compile Include="Migrations\MyDbContext\201909131302530_Tablenames.Designer.cs">
+      <DependentUpon>201909131302530_Tablenames.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MyDbContext\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -198,6 +203,8 @@
     <Content Include="Migrations\MyDbContext\TextFile1.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="App_Data\TopicDataInfra.csv" />
+    <Content Include="App_Data\DropdownDataInfra.csv" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -248,9 +255,10 @@
     <Content Include="Views\Topics\Details.cshtml" />
     <Content Include="Views\Topics\Edit.cshtml" />
     <Content Include="Views\Topics\Index.cshtml" />
+    <Content Include="Views\CSV\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="csv_files\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -269,8 +277,11 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\MyDbContext\201909120949190_Initial.resx">
-      <DependentUpon>201909120949190_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\MyDbContext\201909131246016_Initial.resx">
+      <DependentUpon>201909131246016_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MyDbContext\201909131302530_Tablenames.resx">
+      <DependentUpon>201909131302530_Tablenames.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
