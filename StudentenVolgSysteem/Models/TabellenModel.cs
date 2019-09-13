@@ -135,4 +135,17 @@ namespace StudentenVolgSysteem.Models
         //Tags
         public virtual ICollection<TagModel> Tags { get; set; }
     }
+
+    /// <summary>
+    /// Model for Create and update Topics
+    /// </summary>
+    [NotMapped]
+    public class CUTopicModel : TopicModel
+    {
+        public IEnumerable<NiveauModel> CUNiveaus { get; set; }
+        public IEnumerable<TijdsDuurModel> CUTijdsDuren { get; set; }
+        public IEnumerable<WerkvormModel> CUwerkvormen { get; set; }
+        public IEnumerable<CertificeringenInfraModel> CUCertificeringenInfras { get; set; }
+        public IEnumerable<TagModel> CUTags { get; set; }
+    }
 }

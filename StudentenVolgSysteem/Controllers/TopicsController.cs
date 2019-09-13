@@ -38,7 +38,15 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Topics/Create
         public ActionResult Create()
         {
-            return View();
+            CUTopicModel model = new CUTopicModel()
+            {
+                CUCertificeringenInfras = db.CertificeringenInfras.ToList(),
+                CUNiveaus = db.Niveaus.ToList(),
+                CUTags = db.Tags.ToList(),
+                CUTijdsDuren = db.TijdsDuren.ToList(),
+                CUwerkvormen = db.Werkvormen.ToList()
+            };
+            return View(model);
         }
 
         // POST: Topics/Create
