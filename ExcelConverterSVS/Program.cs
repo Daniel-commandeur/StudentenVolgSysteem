@@ -15,8 +15,21 @@ namespace ExcelConverterSVS
 
         static void Main(string[] args)
         {
-            MyDbContext db = new MyDbContext();
-            GetExcelData(db);
+            //MyDbContext db = new MyDbContext();
+            //GetExcelData(db);
+            FindFiles();
+
+            Console.ReadLine();
+        }
+
+        public static void FindFiles()
+        {
+            string dirPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + @"\Data";
+            IEnumerable<string> filePaths = Directory.EnumerateFiles(dirPath);
+            foreach (var item in filePaths)
+            {
+                Console.WriteLine(item);
+            }
         }
 
         public static void GetExcelData(MyDbContext db)

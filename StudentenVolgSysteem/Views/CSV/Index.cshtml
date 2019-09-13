@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@using (Html.BeginForm("ToDatabase", "CSV", FormMethod.Post, new { enctype = "multipart/form-data" })) { 
+
+    <input type="file" name="csvFile" />
+
+    <input type="submit" value="upload" />
+}
