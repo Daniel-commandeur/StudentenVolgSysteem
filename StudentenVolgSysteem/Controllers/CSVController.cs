@@ -1,6 +1,7 @@
 ﻿using StudentenVolgSysteem.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -111,11 +112,14 @@ namespace StudentenVolgSysteem.Controllers
             StreamReader SheetOneReader = new StreamReader(filePath);
             string unsplitTopicEntry;
 
-            var Headers = SheetOneReader.ReadLine().Split('$');
+            var Headers = SheetOneReader.ReadLine().Split('$').ToList();
+            List<string> tempHeaders = Headers;
             foreach (var item in Headers)
             {
-                Console.WriteLine(item);
+                tempHeaders[Headers.IndexOf(item)].Trim(' ', '*', '"', '-', '•');
+                //Console.WriteLine(item);
             }
+            Headers = tempHeaders;
 
             while ((unsplitTopicEntry = SheetOneReader.ReadLine() + LF) != LF.ToString())
             {
@@ -161,7 +165,7 @@ namespace StudentenVolgSysteem.Controllers
                     if (splitTopicEntry != string.Empty &&
                         splitTopicEntry != LF.ToString())
                     {
-                        string type = Headers[counter];
+                        string type = Headers[counter].Trim(' ', '*', '"', '-', '•');
                         counter++;
                         switch (type)
                         {
@@ -526,7 +530,10 @@ namespace StudentenVolgSysteem.Controllers
                     db.Niveaus.Add(new NiveauModel { Niveau = niveau });
                     db.SaveChanges();
                 }
-                catch { }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message.ToString());
+                }
             }
             return db.Niveaus.Where(a => a.Niveau == niveau).FirstOrDefault();
         }
