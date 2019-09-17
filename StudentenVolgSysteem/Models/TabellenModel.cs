@@ -11,6 +11,9 @@ namespace StudentenVolgSysteem.Models
     public class MyDbContext : DbContext
     {
         public MyDbContext() : base("DefaultConnection") { }
+
+
+
         public DbSet<WerkvormModel> Werkvormen { get; set; }
         public DbSet<NiveauModel> Niveaus { get; set; }
         public DbSet<TijdsDuurModel> TijdsDuren { get; set; }
@@ -104,15 +107,6 @@ namespace StudentenVolgSysteem.Models
         public TopicModel Topic { get; set; }
     }
 
-    //public class VoorkennisModel
-    //{
-    //    [Key, Column(Order = 1)]
-    //    public TopicModel NeededId { get; set; }
-
-    //    [Key,Column(Order =2)]
-    //    public TopicModel ForId { get; set; }
-    //}
-
     [Table(name: "Topics")]
     public class TopicModel
     {
@@ -161,6 +155,10 @@ namespace StudentenVolgSysteem.Models
         public IEnumerable<TijdsDuurModel> CUTijdsDuren { get; set; }
         public IEnumerable<WerkvormModel> CUwerkvormen { get; set; }
         public IEnumerable<CertificeringenInfraModel> CUCertificeringenInfras { get; set; }
+        public string[] CertificeringIds { get; set; }
         public IEnumerable<TagModel> CUTags { get; set; }
+        public string[] TagIds { get; set; }
+        public IEnumerable<TopicModel> VoorkennisTopics { get; set; }
+        public string[] VoorkennisIds { get; set; }
     }
 }

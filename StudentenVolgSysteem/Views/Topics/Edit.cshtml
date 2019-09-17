@@ -1,7 +1,11 @@
-﻿@model StudentenVolgSysteem.Models.TopicModel
+﻿@model StudentenVolgSysteem.Models.CUTopicModel
 
 @{
     ViewBag.Title = "Edit";
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }
 
 <h2>Edit</h2>
@@ -10,7 +14,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
 <div class="form-horizontal">
     <h4>TopicModel</h4>
     <hr />
@@ -26,6 +30,14 @@
     </div>
 
     <div class="form-group">
+        @Html.LabelFor(model => model.Niveau, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.Niveau, new SelectList(Model.CUNiveaus, "NiveauId", "Niveau", Model.Niveau), new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Niveau, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
         @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
@@ -36,8 +48,16 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Duur, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownListFor(model => model.Duur)
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            @Html.DropDownListFor(model => model.Duur, new SelectList(Model.CUTijdsDuren, "TijdsDuurId", "Eenheid", Model.Duur))
+            @Html.ValidationMessageFor(model => model.Duur, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Werkvorm, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.Werkvorm, new SelectList(Model.CUwerkvormen, "WerkvormId", "Werkvorm", Model.Werkvorm), new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Werkvorm, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -46,6 +66,22 @@
         <div class="col-md-10">
             @Html.EditorFor(model => model.Leerdoel, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Leerdoel, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Certificeringen, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.CertificeringIds, new MultiSelectList(Model.CUCertificeringenInfras, "CertificeringenInfraId", "Certificering", Model.Certificeringen.Select(c => c.CertificeringenInfraId)), new { @id = "certSelect", @multiple = "multiple" })
+            @Html.ValidationMessageFor(model => model.Certificeringen, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Certificeringen, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.CertificeringIds, new MultiSelectList(Model.CUCertificeringenInfras, "CertificeringenInfraId", "Certificering", Model.Certificeringen.Select(c => c.CertificeringenInfraId)), new { @id = "certSelect", @multiple = "multiple" })
+            @Html.ValidationMessageFor(model => model.Certificeringen, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -69,6 +105,13 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+@*<script src="/Scripts/jquery-3.3.1.js"></script>*@
+<script>
+    $(document).ready(function () {
+        //console.log("**************Test Multiselect*************")
+        $('#certSelect').multiselect({
+            includeSelectAllOption: true,
+            maxHeight: 300
+        });
+    });
+</script>

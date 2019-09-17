@@ -17,7 +17,17 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Topics
         public ActionResult Index()
         {
-            return View(db.Topics.ToList());
+            var tm = db.Topics
+                .Include("Niveau")
+                .Include("Duur")
+                .Include("Werkvorm")
+                .Include("Certificeringen")
+                .Include("Voorkennis")
+                .Include("Benodigdheden")
+                .Include("PercipioLinks")
+                .Include("Tags")
+                .ToList();
+            return View(tm);
         }
 
         // GET: Topics/Details/5
@@ -73,12 +83,37 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             TopicModel topicModel = db.Topics.Find(id);
+
             if (topicModel == null)
             {
                 return HttpNotFound();
             }
-            return View(topicModel);
+
+            CUTopicModel cuTopicModel = new CUTopicModel()
+            {
+                Benodigdheden = topicModel.Benodigdheden,
+                Certificeringen = topicModel.Certificeringen,
+                Code = topicModel.Code,
+                Duur = topicModel.Duur,
+                Inhoud = topicModel.Inhoud,
+                Leerdoel = topicModel.Leerdoel,
+                Name = topicModel.Name,
+                Niveau = topicModel.Niveau,
+                PercipioLinks = topicModel.PercipioLinks,
+                Tags = topicModel.Tags,
+                TopicId = topicModel.TopicId,
+                Voorkennis = topicModel.Voorkennis,
+                Werkvorm = topicModel.Werkvorm,
+                CUCertificeringenInfras = db.CertificeringenInfras.ToList(),
+                CUNiveaus = db.Niveaus.ToList(),
+                CUTags = db.Tags.ToList(),
+                CUTijdsDuren = db.TijdsDuren.ToList(),
+                CUwerkvormen = db.Werkvormen.ToList()
+            };
+            
+            return View(cuTopicModel);
         }
 
         // POST: Topics/Edit/5
