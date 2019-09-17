@@ -38,7 +38,8 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Curiculum/Create
         public ActionResult Create()
         {
-            return View();
+            CUCuriculumModel cuc = new CUCuriculumModel() { allTopics = db.Topics.ToList() };
+            return View(cuc);
         }
 
         // POST: Curiculum/Create
@@ -46,15 +47,16 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CuriculumId")] CuriculumModel curiculumModel)
+        public ActionResult Create([Bind(Include = "CuriculumId,StudentId,Topics")] CUCuriculumModel curiculumModel)
         {
             if (ModelState.IsValid)
             {
-                db.Curiculums.Add(curiculumModel);
+                CuriculumModel cm = new CuriculumModel(curiculumModel);
+                db.Curiculums.Add(cm);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
+            curiculumModel.allTopics = db.Topics.ToList();
             return View(curiculumModel);
         }
 
@@ -70,7 +72,9 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return HttpNotFound();
             }
-            return View(curiculumModel);
+            CUCuriculumModel cuc = new CUCuriculumModel(curiculumModel);
+            cuc.allTopics = db.Topics.ToList();
+            return View(cuc);
         }
 
         // POST: Curiculum/Edit/5
@@ -78,14 +82,18 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CuriculumId")] CuriculumModel curiculumModel)
+        public ActionResult Edit([Bind(Include = "CuriculumId,StudentId,Topics")] CUCuriculumModel curiculumModel)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(curiculumModel).State = EntityState.Modified;
+                CuriculumModel cm = db.Curiculums.Find(curiculumModel.CuriculumId);
+                cm.StudentId = curiculumModel.StudentId;
+                cm.Topics = curiculumModel.Topics;
+                db.Entry(cm).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            curiculumModel.allTopics = db.Topics.ToList();
             return View(curiculumModel);
         }
 
