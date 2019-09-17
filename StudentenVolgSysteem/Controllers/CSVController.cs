@@ -1,6 +1,7 @@
 ﻿using StudentenVolgSysteem.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -38,7 +39,7 @@ namespace StudentenVolgSysteem.Controllers
                     GetDropdownSheetData(filePath);
                 }
             }
-            return View();
+            return RedirectToAction("Index");
         }
 
         private List<string> GetCSVFiles()
@@ -57,17 +58,22 @@ namespace StudentenVolgSysteem.Controllers
         {
             //string pathToSheetTwo = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + @"\Data\InfraWorkshopsSheet2.csv";
             StreamReader SheetTwoReader = new StreamReader(filePath);
-
-            var SheetTwoHeaders = SheetTwoReader.ReadLine().Split('$');
-            foreach (var item in SheetTwoHeaders)
+            var SheetTwoHeaders = SheetTwoReader.ReadLine().Split('$').ToList();
+            for (int i = 0; i < SheetTwoHeaders.Count; i++)
             {
-                Console.WriteLine(item);
+                SheetTwoHeaders[i] = SheetTwoHeaders[i].Trim(' ', '*', '"', '-', '•');
             }
+
 
             string newLine;
             while ((newLine = SheetTwoReader.ReadLine()) != null)
             {
                 var splitSheetTwoLine = newLine.Split('$').ToList();
+                for (int i = 0; i < splitSheetTwoLine.Count; i++)
+                {
+                    splitSheetTwoLine[i] = splitSheetTwoLine[i].Trim(' ', '*', '"', '-', '•');
+                }
+
                 foreach (var item in splitSheetTwoLine)
                 {
                     if (item != string.Empty)
@@ -104,41 +110,35 @@ namespace StudentenVolgSysteem.Controllers
         /// </summary>
         /// <param name="db">The database context to write the TopicModels to</param>
         /// <param name="filePath">The path to the $-separated file</param>
-        private void GetTopicSheetData(string filePath)
+        public void GetTopicSheetData(string filePath)
         {
             //string pathToSheetOne = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + @"\Data\InfraWorkshopsSheet1.csv";
             //Console.WriteLine(pathToSheetOne);
             StreamReader SheetOneReader = new StreamReader(filePath);
             string unsplitTopicEntry;
 
-            var Headers = SheetOneReader.ReadLine().Split('$');
-            foreach (var item in Headers)
+            var Headers = SheetOneReader.ReadLine().Split('$').ToList();
+            for (int i = 0; i < Headers.Count; i++)
             {
-                Console.WriteLine(item);
+                Headers[i] = Headers[i].Trim(' ', '*', '"', '-', '•');
             }
 
             while ((unsplitTopicEntry = SheetOneReader.ReadLine() + LF) != LF.ToString())
             {
                 var splitLine = unsplitTopicEntry.Split('$').ToList();
-                //Trim all parts
-                var tempSplit = splitLine;
                 for (int i = 0; i < splitLine.Count; i++)
                 {
-                    tempSplit[i] = splitLine[i].Trim(' ', '*', '"', '-', '•');
+                    splitLine[i] = splitLine[i].Trim(' ', '*', '"', '-', '•');
                 }
-                splitLine = tempSplit;
 
                 while (splitLine.Count < Headers.Count())
                 {
                     var moreLine = SheetOneReader.ReadLine() + LF;
                     var moreSplits = moreLine.Split('$').ToList();
-                    //Trim all inner parts
-                    var tempSplitsTrimmed = moreSplits;
                     for (int i = 0; i < moreSplits.Count; i++)
                     {
-                        tempSplitsTrimmed[i] = moreSplits[i].Trim(' ', '*', '"', '-', '•');
+                        moreSplits[i] = moreSplits[i].Trim(' ', '*', '"', '-', '•');
                     }
-                    moreSplits = tempSplitsTrimmed;
 
                     //Join the last and first entry, cut off first entry
                     splitLine[splitLine.Count - 1] = splitLine[splitLine.Count - 1] + moreSplits[0];
@@ -158,11 +158,12 @@ namespace StudentenVolgSysteem.Controllers
                 int counter = 0;
                 foreach (var splitTopicEntry in splitLine)
                 {
+                    string type = Headers[counter].Trim(' ', '*', '"', '-', '•');
+                    counter++;
+
                     if (splitTopicEntry != string.Empty &&
                         splitTopicEntry != LF.ToString())
                     {
-                        string type = Headers[counter];
-                        counter++;
                         switch (type)
                         {
                             case "#":
@@ -220,8 +221,8 @@ namespace StudentenVolgSysteem.Controllers
                     }
                 }
                 db.Topics.Add(topicModel);
+                db.SaveChanges();
             }
-            db.SaveChanges();
         }
 
         /// <summary>
@@ -526,7 +527,10 @@ namespace StudentenVolgSysteem.Controllers
                     db.Niveaus.Add(new NiveauModel { Niveau = niveau });
                     db.SaveChanges();
                 }
-                catch { }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message.ToString());
+                }
             }
             return db.Niveaus.Where(a => a.Niveau == niveau).FirstOrDefault();
         }

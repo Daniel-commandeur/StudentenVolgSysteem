@@ -169,20 +169,28 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CSVController.cs" />
+    <Compile Include="Controllers\CuriculumController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TopicsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\MyDbContext\201909131312161_initial.cs" />
-    <Compile Include="Migrations\MyDbContext\201909131312161_initial.Designer.cs">
-      <DependentUpon>201909131312161_initial.cs</DependentUpon>
+    <Compile Include="Migrations\MyDbContext\201909131406515_Initial.cs" />
+    <Compile Include="Migrations\MyDbContext\201909131406515_Initial.Designer.cs">
+      <DependentUpon>201909131406515_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MyDbContext\201909171139466_Students_and_curiculums.cs" />
+    <Compile Include="Migrations\MyDbContext\201909171139466_Students_and_curiculums.Designer.cs">
+      <DependentUpon>201909171139466_Students_and_curiculums.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MyDbContext\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CuriculumModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\StudentModel.cs" />
     <Compile Include="Models\TabellenModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -254,6 +262,16 @@
     <Content Include="Views\Topics\Edit.cshtml" />
     <Content Include="Views\Topics\Index.cshtml" />
     <Content Include="Views\CSV\Index.cshtml" />
+    <Content Include="Views\Student\Create.cshtml" />
+    <Content Include="Views\Student\Delete.cshtml" />
+    <Content Include="Views\Student\Details.cshtml" />
+    <Content Include="Views\Student\Edit.cshtml" />
+    <Content Include="Views\Student\Index.cshtml" />
+    <Content Include="Views\Curiculum\Create.cshtml" />
+    <Content Include="Views\Curiculum\Delete.cshtml" />
+    <Content Include="Views\Curiculum\Details.cshtml" />
+    <Content Include="Views\Curiculum\Edit.cshtml" />
+    <Content Include="Views\Curiculum\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="csv_files\" />
@@ -275,8 +293,11 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\MyDbContext\201909131312161_initial.resx">
-      <DependentUpon>201909131312161_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\MyDbContext\201909131406515_Initial.resx">
+      <DependentUpon>201909131406515_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MyDbContext\201909171139466_Students_and_curiculums.resx">
+      <DependentUpon>201909171139466_Students_and_curiculums.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
