@@ -2,5 +2,8 @@
 
 add-Migration -Configuration StudentenVolgSysteem.Migrations.MyDbContext.Configuration
 
-
+(upgrade)
 update-database -Configuration StudentenVolgSysteem.Migrations.MyDbContext.Configuration
+
+(downgrade)
+update-database -Configuration StudentenVolgSysteem.Migrations.MyDbContext.Configuration -TargetMigration

@@ -1,0 +1,18 @@
+﻿@model StudentenVolgSysteem.Models.CuriculumModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CuriculumModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CuriculumId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
