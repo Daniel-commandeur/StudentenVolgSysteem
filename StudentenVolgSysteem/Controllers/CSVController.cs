@@ -38,7 +38,7 @@ namespace StudentenVolgSysteem.Controllers
                     GetDropdownSheetData(filePath);
                 }
             }
-            return View();
+            return RedirectToAction("Index");
         }
 
         private List<string> GetCSVFiles()
@@ -57,7 +57,7 @@ namespace StudentenVolgSysteem.Controllers
         {
             //string pathToSheetTwo = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + @"\Data\InfraWorkshopsSheet2.csv";
             StreamReader SheetTwoReader = new StreamReader(filePath);
-
+            // TODO: sanitize input
             var SheetTwoHeaders = SheetTwoReader.ReadLine().Split('$');
             foreach (var item in SheetTwoHeaders)
             {
@@ -104,7 +104,7 @@ namespace StudentenVolgSysteem.Controllers
         /// </summary>
         /// <param name="db">The database context to write the TopicModels to</param>
         /// <param name="filePath">The path to the $-separated file</param>
-        private void GetTopicSheetData(string filePath)
+        public void GetTopicSheetData(string filePath)
         {
             //string pathToSheetOne = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + @"\Data\InfraWorkshopsSheet1.csv";
             //Console.WriteLine(pathToSheetOne);
@@ -220,8 +220,8 @@ namespace StudentenVolgSysteem.Controllers
                     }
                 }
                 db.Topics.Add(topicModel);
+                db.SaveChanges();
             }
-            db.SaveChanges();
         }
 
         /// <summary>

@@ -10,7 +10,12 @@ namespace StudentenVolgSysteem.Models
 {
     public class MyDbContext : DbContext
     {
-        public MyDbContext() : base("DefaultConnection") { }
+
+        public MyDbContext() : base("DefaultConnection")
+        {
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<MyDbContext>());
+        }
+
         public DbSet<WerkvormModel> Werkvormen { get; set; }
         public DbSet<NiveauModel> Niveaus { get; set; }
         public DbSet<TijdsDuurModel> TijdsDuren { get; set; }

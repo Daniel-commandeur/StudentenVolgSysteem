@@ -1,5 +1,6 @@
 namespace StudentenVolgSysteem.Migrations.MyDbContext
 {
+    using StudentenVolgSysteem.Controllers;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -19,6 +20,9 @@ namespace StudentenVolgSysteem.Migrations.MyDbContext
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
+
+            CSVController csv = new CSVController();
+            csv.GetTopicSheetData("~/csv_files/TopicDataInfra.csv");
         }
     }
 }

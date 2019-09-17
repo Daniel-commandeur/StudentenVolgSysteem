@@ -175,13 +175,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\MyDbContext\201909131246016_Initial.cs" />
-    <Compile Include="Migrations\MyDbContext\201909131246016_Initial.Designer.cs">
-      <DependentUpon>201909131246016_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\MyDbContext\201909131302530_Tablenames.cs" />
-    <Compile Include="Migrations\MyDbContext\201909131302530_Tablenames.Designer.cs">
-      <DependentUpon>201909131302530_Tablenames.cs</DependentUpon>
+    <Compile Include="Migrations\MyDbContext\201909131406515_Initial.cs" />
+    <Compile Include="Migrations\MyDbContext\201909131406515_Initial.Designer.cs">
+      <DependentUpon>201909131406515_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MyDbContext\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -277,11 +273,8 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\MyDbContext\201909131246016_Initial.resx">
-      <DependentUpon>201909131246016_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\MyDbContext\201909131302530_Tablenames.resx">
-      <DependentUpon>201909131302530_Tablenames.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\MyDbContext\201909131406515_Initial.resx">
+      <DependentUpon>201909131406515_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
