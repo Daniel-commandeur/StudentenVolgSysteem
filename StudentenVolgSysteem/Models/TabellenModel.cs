@@ -99,7 +99,7 @@ namespace StudentenVolgSysteem.Models
         [Key]
         public int BenodigdheidId { get; set; }
         public string Content { get; set; }
-        public TopicModel Topic { get; set; }
+        //public TopicModel Topic { get; set; }
     }
 
     [Table(name: "PercipioLinks")]

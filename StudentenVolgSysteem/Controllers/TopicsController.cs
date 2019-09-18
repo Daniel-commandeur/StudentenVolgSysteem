@@ -107,6 +107,7 @@ namespace StudentenVolgSysteem.Controllers
                 Voorkennis = topicModel.Voorkennis,
                 Werkvorm = topicModel.Werkvorm,
                 CUCertificeringenInfras = db.CertificeringenInfras.ToList(),
+                VoorkennisTopics = db.Topics.ToList(),
                 CUNiveaus = db.Niveaus.ToList(),
                 CUTags = db.Tags.ToList(),
                 CUTijdsDuren = db.TijdsDuren.ToList(),

@@ -21,6 +21,9 @@
                 </button>
                 @Html.ActionLink("Studenten volg systeem", "Index", "Topics", new { area = "" }, new { @class = "navbar-brand" })
             </div>
+            <div>
+                @Html.ActionLink("Upload CSV Bestand", "Index", "CSV", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
             <div class="navbar-collapse collapse">
                 @Html.Partial("_LoginPartial")
             </div>

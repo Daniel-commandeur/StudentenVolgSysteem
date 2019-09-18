@@ -72,16 +72,16 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Certificeringen, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownListFor(model => model.CertificeringIds, new MultiSelectList(Model.CUCertificeringenInfras, "CertificeringenInfraId", "Certificering", Model.Certificeringen.Select(c => c.CertificeringenInfraId)), new { @id = "certSelect", @multiple = "multiple" })
+            @Html.DropDownListFor(model => model.CertificeringIds, new MultiSelectList(Model.CUCertificeringenInfras, "CertificeringenInfraId", "Certificering", Model.Certificeringen.Select(c => c.CertificeringenInfraId)), new { @class = "multiSelect", @multiple = "multiple" })
             @Html.ValidationMessageFor(model => model.Certificeringen, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Certificeringen, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Voorkennis, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownListFor(model => model.CertificeringIds, new MultiSelectList(Model.CUCertificeringenInfras, "CertificeringenInfraId", "Certificering", Model.Certificeringen.Select(c => c.CertificeringenInfraId)), new { @id = "certSelect", @multiple = "multiple" })
-            @Html.ValidationMessageFor(model => model.Certificeringen, "", new { @class = "text-danger" })
+            @Html.DropDownListFor(model => model.VoorkennisIds, new MultiSelectList(Model.VoorkennisTopics, "TopicId", "Name", Model.Voorkennis.Select(c => c.TopicId)), new { @class = "multiSelect", @multiple = "multiple" })
+            @Html.ValidationMessageFor(model => model.Voorkennis, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -109,7 +109,7 @@
 <script>
     $(document).ready(function () {
         //console.log("**************Test Multiselect*************")
-        $('#certSelect').multiselect({
+        $('.multiSelect').multiselect({
             includeSelectAllOption: true,
             maxHeight: 300
         });

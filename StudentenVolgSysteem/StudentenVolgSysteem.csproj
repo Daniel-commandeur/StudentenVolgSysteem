@@ -177,13 +177,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\MyDbContext\201909131406515_Initial.cs" />
-    <Compile Include="Migrations\MyDbContext\201909131406515_Initial.Designer.cs">
-      <DependentUpon>201909131406515_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\MyDbContext\201909171244412_Initial.cs" />
+    <Compile Include="Migrations\MyDbContext\201909171244412_Initial.Designer.cs">
+      <DependentUpon>201909171244412_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\MyDbContext\201909171139466_Students_and_curiculums.cs" />
-    <Compile Include="Migrations\MyDbContext\201909171139466_Students_and_curiculums.Designer.cs">
-      <DependentUpon>201909171139466_Students_and_curiculums.cs</DependentUpon>
+    <Compile Include="Migrations\MyDbContext\201909180747395_initial2.cs" />
+    <Compile Include="Migrations\MyDbContext\201909180747395_initial2.Designer.cs">
+      <DependentUpon>201909180747395_initial2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MyDbContext\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -293,11 +293,11 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\MyDbContext\201909131406515_Initial.resx">
-      <DependentUpon>201909131406515_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\MyDbContext\201909171244412_Initial.resx">
+      <DependentUpon>201909171244412_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\MyDbContext\201909171139466_Students_and_curiculums.resx">
-      <DependentUpon>201909171139466_Students_and_curiculums.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\MyDbContext\201909180747395_initial2.resx">
+      <DependentUpon>201909180747395_initial2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
