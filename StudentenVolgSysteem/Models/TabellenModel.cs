@@ -13,7 +13,8 @@ namespace StudentenVolgSysteem.Models
 
         public MyDbContext() : base("DefaultConnection")
         {
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<MyDbContext>());
+            Database.SetInitializer(new DropCreateDatabaseAlways<MyDbContext>());
+            //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<MyDbContext>());
         }
 
         public DbSet<WerkvormModel> Werkvormen { get; set; }
@@ -99,7 +100,7 @@ namespace StudentenVolgSysteem.Models
         [Key]
         public int BenodigdheidId { get; set; }
         public string Content { get; set; }
-        //public TopicModel Topic { get; set; }
+        public ICollection<TopicModel> Topics { get; set; }
     }
 
     [Table(name: "PercipioLinks")]
@@ -108,7 +109,7 @@ namespace StudentenVolgSysteem.Models
         [Key]
         public int PercipiolinkId { get; set; }
         public string Link { get; set; }
-        public TopicModel Topic { get; set; }
+        public ICollection<TopicModel> Topics { get; set; }
     }
 
     [Table(name: "Topics")]
@@ -120,6 +121,8 @@ namespace StudentenVolgSysteem.Models
             this.Voorkennis = new HashSet<TopicModel>();
             this.Certificeringen = new HashSet<CertificeringenInfraModel>();
             this.Curiculums = new HashSet<CuriculumModel>();
+            this.Benodigdheden = new HashSet<BenodigdheidModel>();
+            this.PercipioLinks = new HashSet<PercipiolinkModel>();
         }
 
         [Key]
