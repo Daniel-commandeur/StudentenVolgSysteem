@@ -24,10 +24,20 @@ textarea {
 }
 
 .my-body-content {
-    margin : 20px;
+    margin: 20px;
 }
+
 .my-table {
     border-collapse: collapse;
     border-spacing: 0;
     width: auto;
 }
+
+.my-table th {
+    text-align: center;
+}
+
+    .my-table td {
+        text-align: center;
+        border: solid;
+    }
