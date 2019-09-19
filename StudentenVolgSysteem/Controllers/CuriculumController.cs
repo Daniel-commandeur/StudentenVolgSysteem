@@ -38,7 +38,8 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Curiculum/Create
         public ActionResult Create()
         {
-            CUCuriculumModel cuc = new CUCuriculumModel() { allTopics = db.Topics.ToList() };
+            List<TopicModel> theTopics = db.Topics.ToList();
+            CUCuriculumModel cuc = new CUCuriculumModel() { AllTopics = theTopics };
             return View(cuc);
         }
 
@@ -47,7 +48,7 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CuriculumId,StudentId,Topics")] CUCuriculumModel curiculumModel)
+        public ActionResult Create([Bind(Include = "CuriculumId,StudentId,Topics,allTopicIds")] CUCuriculumModel curiculumModel)
         {
             if (ModelState.IsValid)
             {
@@ -56,7 +57,7 @@ namespace StudentenVolgSysteem.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            curiculumModel.allTopics = db.Topics.ToList();
+            curiculumModel.AllTopics = db.Topics.ToList();
             return View(curiculumModel);
         }
 
@@ -73,7 +74,7 @@ namespace StudentenVolgSysteem.Controllers
                 return HttpNotFound();
             }
             CUCuriculumModel cuc = new CUCuriculumModel(curiculumModel);
-            cuc.allTopics = db.Topics.ToList();
+            cuc.AllTopics = db.Topics.ToList();
             return View(cuc);
         }
 
@@ -93,7 +94,7 @@ namespace StudentenVolgSysteem.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            curiculumModel.allTopics = db.Topics.ToList();
+            curiculumModel.AllTopics = db.Topics.ToList();
             return View(curiculumModel);
         }
 

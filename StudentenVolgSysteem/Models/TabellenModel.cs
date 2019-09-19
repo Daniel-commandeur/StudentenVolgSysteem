@@ -13,7 +13,7 @@ namespace StudentenVolgSysteem.Models
 
         public MyDbContext() : base("DefaultConnection")
         {
-            Database.SetInitializer(new DropCreateDatabaseAlways<MyDbContext>());
+            //Database.SetInitializer(new DropCreateDatabaseAlways<MyDbContext>());
             //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<MyDbContext>());
         }
 
@@ -97,19 +97,29 @@ namespace StudentenVolgSysteem.Models
     [Table(name: "Benodigdheden")]
     public class BenodigdheidModel
     {
+        public BenodigdheidModel()
+        {
+            this.Topics = new HashSet<TopicModel>();
+        }
+
         [Key]
         public int BenodigdheidId { get; set; }
         public string Content { get; set; }
-        public ICollection<TopicModel> Topics { get; set; }
+        public virtual ICollection<TopicModel> Topics { get; set; }
     }
 
     [Table(name: "PercipioLinks")]
     public class PercipiolinkModel
     {
+        public PercipiolinkModel()
+        {
+            this.Topics = new HashSet<TopicModel>();
+        }
+
         [Key]
         public int PercipiolinkId { get; set; }
         public string Link { get; set; }
-        public ICollection<TopicModel> Topics { get; set; }
+        public virtual ICollection<TopicModel> Topics { get; set; }
     }
 
     [Table(name: "Topics")]
@@ -152,6 +162,23 @@ namespace StudentenVolgSysteem.Models
         //Tags
         public virtual ICollection<TagModel> Tags { get; set; }
         public virtual ICollection<CuriculumModel> Curiculums { get; set; }
+
+        [NotMapped]
+        public string NameCode {
+            get
+            {
+                string returnString;
+                if (string.IsNullOrEmpty(Name))
+                {
+                    returnString = Code;
+                }
+                else
+                {
+                    returnString = Name;
+                }
+                return returnString;
+            }
+        }
     }
 
     /// <summary>

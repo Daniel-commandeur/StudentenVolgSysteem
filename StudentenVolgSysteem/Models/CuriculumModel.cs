@@ -17,9 +17,16 @@ namespace StudentenVolgSysteem.Models
 
         public CuriculumModel(CUCuriculumModel cuc)
         {
-            this.CuriculumId = cuc.CuriculumId;
             this.StudentId = cuc.StudentId;
-            this.Topics = cuc.Topics;
+            this.Topics = new HashSet<TopicModel>();
+
+            using(MyDbContext db = new MyDbContext()) { 
+                foreach (var item in cuc.allTopicIds)
+                {
+                    TopicModel tm = db.Topics.Where(topic => topic.TopicId.ToString() == item).FirstOrDefault();
+                    this.Topics.Add(tm);
+                }
+            }
         }
 
         [Key]
@@ -43,7 +50,24 @@ namespace StudentenVolgSysteem.Models
             this.StudentId = cm.StudentId;
             this.Topics = cm.Topics;
         }
-        public List<TopicModel> allTopics { get; set; }
+        public List<TopicModel> AllTopics { get; set; }
+        //private List<TopicModel> allTopics;
+        //{
+        //    get {
+        //        return allTopics;
+        //    }
+        //    set {
+        //        allTopics = value;
+        //        allTopicIds = new string[allTopics.Count];
+        //        for (int i = 0; i < allTopics.Count; i++)
+        //        {
+        //            allTopicIds[i] = allTopics[i].TopicId.ToString();
+        //        }
+        //    }
+        //}
+        public string[] allTopicIds { get; set; }
+
+
     }
 
 

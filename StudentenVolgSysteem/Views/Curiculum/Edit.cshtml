@@ -1,7 +1,29 @@
-﻿@model StudentenVolgSysteem.Models.CuriculumModel
+﻿@model StudentenVolgSysteem.Models.CUCuriculumModel
 
 @{
     ViewBag.Title = "Edit";
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+            console.log("document ready");
+            $("#allTopics").change(function () {
+                $("#allTopics > option").each(function () {
+                    if ($(this).is(":selected")) {
+                        alert(this);
+                    };
+                });
+            });
+
+            $('.multiSelect').multiselect({
+                includeSelectAllOption: true,
+                maxHeight: 300
+            });
+        });
+    </script>
 }
 
 <h2>Edit</h2>
@@ -9,7 +31,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>CuriculumModel</h4>
         <hr />
@@ -17,8 +39,10 @@
         @Html.HiddenFor(model => model.CuriculumId)
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+            @Html.LabelFor(model => model.Topics, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.allTopicIds, new MultiSelectList(Model.AllTopics, "TopicId", "NameCode", Model.AllTopics.Select(c => c.TopicId)), new { @class = "multiSelect", @multiple = "multiple" })
+                @Html.ValidationMessageFor(model => model.Topics, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
