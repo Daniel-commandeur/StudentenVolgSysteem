@@ -24,6 +24,12 @@
             <div>
                 @Html.ActionLink("Upload CSV Bestand", "Index", "CSV", new { area = "" }, new { @class = "navbar-brand" })
             </div>
+            <div>
+                @Html.ActionLink("Curricula", "Index", "Curiculum", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div>
+                @Html.ActionLink("Studenten", "Index", "Student", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
             <div class="navbar-collapse collapse">
                 @Html.Partial("_LoginPartial")
             </div>

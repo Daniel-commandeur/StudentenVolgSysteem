@@ -48,11 +48,17 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CuriculumId,StudentId,Topics,allTopicIds")] CUCuriculumModel curiculumModel)
+        public ActionResult Create([Bind(Include = "CuriculumId,StudentId,Topics,allTopicIds,Name")] CUCuriculumModel curiculumModel)
         {
             if (ModelState.IsValid)
             {
-                CuriculumModel cm = new CuriculumModel(curiculumModel);
+                CuriculumModel cm = new CuriculumModel();
+                cm.Name = curiculumModel.Name;
+                cm.StudentId = curiculumModel.StudentId;
+                foreach (var topic in curiculumModel.allTopicIds)
+                {
+                    cm.Topics.Add(db.Topics.Where(a => a.TopicId.ToString() == topic).FirstOrDefault());
+                }
                 db.Curiculums.Add(cm);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -83,13 +89,15 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CuriculumId,StudentId,Topics")] CUCuriculumModel curiculumModel)
+        public ActionResult Edit([Bind(Include = "CuriculumId,StudentId,Topics,Name,AllTopics,allTopicIds")] CUCuriculumModel curiculumModel)
         {
             if (ModelState.IsValid)
             {
                 CuriculumModel cm = db.Curiculums.Find(curiculumModel.CuriculumId);
-                cm.StudentId = curiculumModel.StudentId;
-                cm.Topics = curiculumModel.Topics;
+                foreach (var topic in curiculumModel.allTopicIds)
+                {
+                    cm.Topics.Add(db.Topics.Where(a => a.TopicId.ToString() == topic).FirstOrDefault());
+                }
                 db.Entry(cm).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
