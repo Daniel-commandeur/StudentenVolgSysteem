@@ -272,6 +272,7 @@
     <Content Include="Views\Curiculum\Details.cshtml" />
     <Content Include="Views\Curiculum\Edit.cshtml" />
     <Content Include="Views\Curiculum\Index.cshtml" />
+    <Content Include="Views\Shared\PartialDisplayCurriculum.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="csv_files\" />

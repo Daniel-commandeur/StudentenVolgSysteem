@@ -36,10 +36,15 @@ namespace StudentenVolgSysteem.Controllers
         }
 
         // GET: Curiculum/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
             List<TopicModel> theTopics = db.Topics.ToList();
             CUCuriculumModel cuc = new CUCuriculumModel() { AllTopics = theTopics };
+            if(id != null)
+            {
+                cuc.StudentIdInt = db.Studenten.Find(id).StudentId;
+                cuc.StudentId = db.Studenten.Find(id);
+            }
             return View(cuc);
         }
 
@@ -48,19 +53,23 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CuriculumId,StudentId,Topics,allTopicIds,Name")] CUCuriculumModel curiculumModel)
+        public ActionResult Create([Bind(Include = "CuriculumId,StudentIdInt,Topics,allTopicIds,Name")] CUCuriculumModel curiculumModel)
         {
             if (ModelState.IsValid)
             {
                 CuriculumModel cm = new CuriculumModel();
                 cm.Name = curiculumModel.Name;
-                cm.StudentId = curiculumModel.StudentId;
+                cm.StudentId = db.Studenten.Find(curiculumModel.StudentIdInt);
                 foreach (var topic in curiculumModel.allTopicIds)
                 {
                     cm.Topics.Add(db.Topics.Where(a => a.TopicId.ToString() == topic).FirstOrDefault());
                 }
                 db.Curiculums.Add(cm);
                 db.SaveChanges();
+                if (curiculumModel.StudentIdInt != 0)
+                {
+                    return RedirectToAction("Details", "Student", new { id = curiculumModel.StudentIdInt });
+                }
                 return RedirectToAction("Index");
             }
             curiculumModel.AllTopics = db.Topics.ToList();
@@ -130,6 +139,13 @@ namespace StudentenVolgSysteem.Controllers
             db.Curiculums.Remove(curiculumModel);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult GetPartialDisplayCurriculum(int id)
+        {
+            CuriculumModel curriculum = db.Curiculums.Find(id);
+            return PartialView("PartialDisplayCurriculum", curriculum);
         }
 
         protected override void Dispose(bool disposing)

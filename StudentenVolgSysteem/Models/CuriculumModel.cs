@@ -54,6 +54,7 @@ namespace StudentenVolgSysteem.Models
             }
         }
         public string[] allTopicIds { get; set; }
+        public int StudentIdInt { get; set; }
     }
 
 

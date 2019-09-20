@@ -17,4 +17,22 @@ namespace StudentenVolgSysteem.Models
 
         public ICollection<CuriculumModel> Curiculums { get; set; }
     }
+
+    [NotMapped]
+    public class CUStudentModel : StudentModel
+    {
+        public CUStudentModel()
+        {
+
+        }
+        public CUStudentModel(StudentModel sm)
+        {
+            this.Curiculums = sm.Curiculums;
+            this.StudentId = sm.StudentId;
+            this.FirstName = sm.FirstName;
+            this.LastName = sm.LastName;
+        }
+
+
+    }
 }
