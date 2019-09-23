@@ -9,18 +9,17 @@
 
     <script>
         $(document).ready(function () {
-            console.log("document ready");
-            $("#allTopics").change(function () {
-                $("#allTopics > option").each(function () {
-                    if ($(this).is(":selected")) {
-                        alert(this);
-                    };
-                });
-            });
-
             $('.multiSelect').multiselect({
                 includeSelectAllOption: true,
-                maxHeight: 300
+                maxHeight : 300,
+                enableFiltering: true,
+                onDropdownShown: function () {
+                    $("li.filter").show();
+                },
+                onDropdownHidden: function () {
+                    $("li.filter").hide();
+                },
+                enableCaseInsensitiveFiltering: true
             });
         });
     </script>

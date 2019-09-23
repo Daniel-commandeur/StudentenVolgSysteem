@@ -27,6 +27,8 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            //Every relation that is handled with a link-table isn't automatically
+            //included and needs to be included explicitly
             StudentModel studentModel = db.Studenten
                                         .Include(a => a.Curiculums)
                                         .Include(a => a.Curiculums.Select(b => b.Topics.Select(c => c.Duur)))
