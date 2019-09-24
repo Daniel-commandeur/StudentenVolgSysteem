@@ -253,7 +253,7 @@ namespace StudentenVolgSysteem.Controllers
                 TopicModel tpm;
                 if ((tpm = db.Topics.Where(a => a.Code == item).FirstOrDefault()) == null)
                 {
-                    //TODO: log or display error in topic Hierarchy
+                    Debug.WriteLine(item + " could not be found, is the topic list Hierarchical?");
                 }
                 voorkennis.Add(tpm);
             }

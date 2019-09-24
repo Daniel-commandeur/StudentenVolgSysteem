@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -19,7 +20,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Studenten volg systeem", "Index", "Topics", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("SVS", "Index", "Topics", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div>
                 @Html.ActionLink("Upload CSV Bestand", "Index", "CSV", new { area = "" }, new { @class = "navbar-brand" })
@@ -43,7 +44,7 @@
         </footer>
     </div>
 
-   
+
     @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -29,5 +29,7 @@ namespace StudentenVolgSysteem.Models
         {
             return new ApplicationDbContext();
         }
+
+        //public System.Data.Entity.DbSet<StudentenVolgSysteem.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }

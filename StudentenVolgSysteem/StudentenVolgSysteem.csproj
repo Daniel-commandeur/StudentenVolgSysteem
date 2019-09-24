@@ -46,6 +46,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PdfSharp, Version=1.50.5147.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.1.50.5147\lib\net20\PdfSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Charting, Version=1.50.5147.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.1.50.5147\lib\net20\PdfSharp.Charting.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -168,12 +174,21 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\BenodigdhedenController.cs" />
+    <Compile Include="Controllers\CertificeringenController.cs" />
     <Compile Include="Controllers\CSVController.cs" />
     <Compile Include="Controllers\CuriculumController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\NiveauController.cs" />
+    <Compile Include="Controllers\PdfController.cs" />
+    <Compile Include="Controllers\PercipiolinkController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Controllers\TagController.cs" />
+    <Compile Include="Controllers\TijdsdurenController.cs" />
     <Compile Include="Controllers\TopicsController.cs" />
+    <Compile Include="Controllers\WerkvormController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -273,9 +288,46 @@
     <Content Include="Views\Curiculum\Edit.cshtml" />
     <Content Include="Views\Curiculum\Index.cshtml" />
     <Content Include="Views\Shared\PartialDisplayCurriculum.cshtml" />
+    <Content Include="Views\Benodigdheden\Create.cshtml" />
+    <Content Include="Views\Benodigdheden\Delete.cshtml" />
+    <Content Include="Views\Benodigdheden\Details.cshtml" />
+    <Content Include="Views\Benodigdheden\Edit.cshtml" />
+    <Content Include="Views\Benodigdheden\Index.cshtml" />
+    <Content Include="Views\Certificeringen\Create.cshtml" />
+    <Content Include="Views\Certificeringen\Delete.cshtml" />
+    <Content Include="Views\Certificeringen\Details.cshtml" />
+    <Content Include="Views\Certificeringen\Edit.cshtml" />
+    <Content Include="Views\Certificeringen\Index.cshtml" />
+    <Content Include="Views\Tag\Create.cshtml" />
+    <Content Include="Views\Tag\Delete.cshtml" />
+    <Content Include="Views\Tag\Details.cshtml" />
+    <Content Include="Views\Tag\Edit.cshtml" />
+    <Content Include="Views\Tag\Index.cshtml" />
+    <Content Include="Views\Tijdsduren\Create.cshtml" />
+    <Content Include="Views\Tijdsduren\Delete.cshtml" />
+    <Content Include="Views\Tijdsduren\Details.cshtml" />
+    <Content Include="Views\Tijdsduren\Edit.cshtml" />
+    <Content Include="Views\Tijdsduren\Index.cshtml" />
+    <Content Include="Views\Niveau\Create.cshtml" />
+    <Content Include="Views\Niveau\Delete.cshtml" />
+    <Content Include="Views\Niveau\Details.cshtml" />
+    <Content Include="Views\Niveau\Edit.cshtml" />
+    <Content Include="Views\Niveau\Index.cshtml" />
+    <Content Include="Views\Percipiolink\Create.cshtml" />
+    <Content Include="Views\Percipiolink\Delete.cshtml" />
+    <Content Include="Views\Percipiolink\Details.cshtml" />
+    <Content Include="Views\Percipiolink\Edit.cshtml" />
+    <Content Include="Views\Percipiolink\Index.cshtml" />
+    <Content Include="Views\Werkvorm\Create.cshtml" />
+    <Content Include="Views\Werkvorm\Delete.cshtml" />
+    <Content Include="Views\Werkvorm\Details.cshtml" />
+    <Content Include="Views\Werkvorm\Edit.cshtml" />
+    <Content Include="Views\Werkvorm\Index.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="csv_files\" />
+    <Folder Include="Views\Pdf\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
