@@ -9,9 +9,8 @@ namespace StudentenVolgSysteem.Models
 {
     public class PdfViewModel
     {
-        [Required(ErrorMessage = "Selecteer student")]
+        public int curriculumId { get; set; }
         public string Student { get; set; }
-        public List<SelectListItem> StudentList { get; set; }
 
         [Required(ErrorMessage = "Voer geboortedatum in")]
         public DateTime DoB { get; set; }
@@ -27,13 +26,10 @@ namespace StudentenVolgSysteem.Models
 
         [Required(ErrorMessage = "Voer de richting in")]
         public string Course { get; set; }
-        //public List<SelectListItem> CourseList { get; set; }
-
-        [Required(ErrorMessage = "Selecteer curriculum")]
-        public string Curriculum { get; set; }
-        public List<SelectListItem> Curricula { get; set; }
 
         public bool Leerdoel { get; set; }
         public bool Certificeringen { get; set; }
+
+        //TODO: opmerkingen checkbox
     }
 }

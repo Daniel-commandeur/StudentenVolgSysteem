@@ -7,6 +7,10 @@ using System.Web;
 
 namespace StudentenVolgSysteem.Models
 {
+
+    //TODO: Notitievelden voor studenten en docenten bij het curriculum
+
+
     [Table(name: "Curiculums")]
     public class CuriculumModel
     {
