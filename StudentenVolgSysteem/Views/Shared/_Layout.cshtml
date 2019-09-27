@@ -13,13 +13,15 @@
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="imagecontainer">
+        </div>
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                @*<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>
+                </button>*@
                 @Html.ActionLink("SVS", "Index", "Topics", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div>
@@ -28,12 +30,12 @@
             <div>
                 @Html.ActionLink("Studenten", "Index", "Student", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse">
+            <div class="navbar-collapse">
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
-    <div class="my-body-content" style="background-color: aqua">
+    <div class="my-body-content"> @*style="background-color: aqua">*@
         @RenderBody()
         <hr />
         <footer>

@@ -37,7 +37,8 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TopicModel topicModel = db.Topics.Find(id);
+            TopicModel topicModel = db.Topics.Include(m => m.Duur).Where(m => m.TopicId == id).FirstOrDefault();
+            
             if (topicModel == null)
             {
                 return HttpNotFound();
