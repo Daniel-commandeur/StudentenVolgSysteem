@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace StudentenVolgSysteem.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class CSVController : Controller
     {
         //Linefeed character to insert after readlines so we can preserve multi-line cells

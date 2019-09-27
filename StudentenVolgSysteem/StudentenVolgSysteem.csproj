@@ -175,6 +175,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BenodigdhedenController.cs" />
     <Compile Include="Controllers\CertificeringenController.cs" />
     <Compile Include="Controllers\CSVController.cs" />
@@ -205,6 +206,7 @@
     <Compile Include="Models\CuriculumModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PdfViewModel.cs" />
     <Compile Include="Models\StudentModel.cs" />
     <Compile Include="Models\TabellenModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -324,10 +326,13 @@
     <Content Include="Views\Werkvorm\Edit.cshtml" />
     <Content Include="Views\Werkvorm\Index.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Users.cshtml" />
+    <Content Include="Views\Admin\AssignRolesToUsersAsync.cshtml" />
+    <Content Include="Views\Pdf\CreatePDF.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="csv_files\" />
-    <Folder Include="Views\Pdf\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -10,6 +10,7 @@ using StudentenVolgSysteem.Models;
 
 namespace StudentenVolgSysteem.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class TagController : Controller
     {
         private MyDbContext db = new MyDbContext();

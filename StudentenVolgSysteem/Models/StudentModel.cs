@@ -15,6 +15,9 @@ namespace StudentenVolgSysteem.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
+        [NotMapped]
+        public string WholeName { get { return $"{FirstName} {LastName}"; } }
+
         public ICollection<CuriculumModel> Curiculums { get; set; }
     }
 
