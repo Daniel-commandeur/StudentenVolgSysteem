@@ -6,11 +6,11 @@
 
 <h2>Index</h2>
 
-<p>
+<button>
     @Html.ActionLink("Create New", "Create")
-</p>
-<body @*style="background-color: aqua"*@>
-    <table class="my-table" @*style="background-color: red"*@>
+</button>
+<body>
+    <table class="my-table">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Code)
@@ -28,25 +28,7 @@
                 @Html.DisplayNameFor(model => model.Werkvorm)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Leerdoel)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Certificeringen)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Voorkennis)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Inhoud)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Benodigdheden)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PercipioLinks)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Tags)
             </th>
             <th></th>
         </tr>
@@ -70,41 +52,12 @@
                     @Html.DisplayFor(modelItem => item.Werkvorm.Werkvorm)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Leerdoel)
-                </td>
-                <td>
                     @foreach (var cert in item.Certificeringen)
                     {
                         @Html.DisplayFor(modelItem => cert.Certificering)
                     }
                 </td>
-                <td>
-                    @foreach (var voorkennis in item.Voorkennis)
-                    {
-                        @Html.DisplayFor(modelItem => voorkennis.Name)
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Inhoud)
-                </td>
-                <td>
-                    @foreach (var benodigdheden in item.Benodigdheden)
-                    {
-                        @Html.DisplayFor(modelItem => benodigdheden.Content)
-                    }
-                </td>
-                <td>
-                    @foreach (var percipioLinks in item.PercipioLinks)
-                    {
-                        @Html.DisplayFor(modelItem => percipioLinks.Link)
-                    }
-                </td>
-                <td>
-                    @foreach (var tags in item.Tags)
-                    {
-                        @Html.DisplayFor(modelItem => tags.Naam)
-                    }
-                </td>
+
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.TopicId }) |
                     @Html.ActionLink("Details", "Details", new { id = item.TopicId }) |

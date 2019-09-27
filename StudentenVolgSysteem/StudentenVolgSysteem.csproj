@@ -193,13 +193,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\MyDbContext\201909200915200_Initial.cs" />
-    <Compile Include="Migrations\MyDbContext\201909200915200_Initial.Designer.cs">
-      <DependentUpon>201909200915200_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\MyDbContext\201909200927113_curricula.cs" />
-    <Compile Include="Migrations\MyDbContext\201909200927113_curricula.Designer.cs">
-      <DependentUpon>201909200927113_curricula.cs</DependentUpon>
+    <Compile Include="Migrations\MyDbContext\201909271020001_initial.cs" />
+    <Compile Include="Migrations\MyDbContext\201909271020001_initial.Designer.cs">
+      <DependentUpon>201909271020001_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MyDbContext\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -218,6 +214,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\logo_itvitae_liggend_anders_denken.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -351,11 +348,8 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\MyDbContext\201909200915200_Initial.resx">
-      <DependentUpon>201909200915200_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\MyDbContext\201909200927113_curricula.resx">
-      <DependentUpon>201909200927113_curricula.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\MyDbContext\201909271020001_initial.resx">
+      <DependentUpon>201909271020001_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

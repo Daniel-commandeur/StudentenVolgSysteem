@@ -1,4 +1,47 @@
-﻿body {
+﻿.navbar {
+    background-color: white;
+    height: 100px;
+}
+
+.navbar-inverse {
+    border-color: #e9e9e9;
+}
+
+.navbar-collapse collapse {
+    background-color: red;
+    color: black;
+}
+
+.navbar-brand {
+    color: black !important;
+}
+
+    .navbar-brand:hover {
+        color: #ff6d00 !important;
+    }
+
+.navbar-nav li a {
+    color: black !important;
+}
+
+    .navbar-nav li a:hover {
+        color: #ff6d00 !important;
+    }
+
+.imagecontainer {
+    background-image: url(logo_itvitae_liggend_anders_denken.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    /*background-color: aqua;*/
+    height: 100px;
+    min-width: 270px;
+    float: left;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+body {
+    font-family: Arial, Verdana, Helvetica sans-serif;
     padding-top: 50px;
     padding-bottom: 20px;
 }
@@ -7,6 +50,10 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+}
+
+.my-body-content hr {
+    color: #e9e9e9;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -33,11 +80,13 @@ textarea {
     width: auto;
 }
 
-.my-table th {
-    text-align: center;
-}
+    .my-table th {
+        text-align: center;
+    }
 
     .my-table td {
         text-align: center;
         border: solid;
+        border-width: 2px;
+        border-color: #e9e9e9;
     }
