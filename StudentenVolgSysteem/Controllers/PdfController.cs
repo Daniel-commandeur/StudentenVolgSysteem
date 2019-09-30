@@ -1,4 +1,5 @@
 ﻿using PdfSharp.Drawing;
+using PdfSharp.Drawing.Layout;
 using PdfSharp.Pdf;
 using StudentenVolgSysteem.Models;
 using System;
@@ -95,7 +96,7 @@ namespace StudentenVolgSysteem.Controllers
         {
             if (curriculumId == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest); 
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             CuriculumModel curiculum = db.Curiculums.Include("StudentId").Where(m => m.CuriculumId == curriculumId).FirstOrDefault();
             if (curiculum == null)
@@ -131,6 +132,11 @@ namespace StudentenVolgSysteem.Controllers
             PdfDocument document = new PdfDocument();
             PdfPage page = document.AddPage();
             XGraphics gfx = XGraphics.FromPdfPage(page);
+            var tf = new XTextFormatter(gfx);
+
+            XStringFormat stringFormat = new XStringFormat();
+            stringFormat.LineAlignment = XLineAlignment.Near;
+            stringFormat.Alignment = XStringAlignment.Near;
 
             //Fonts
             XFont verdana20Bold = new XFont("verdana", 20, XFontStyle.Bold);
@@ -148,17 +154,9 @@ namespace StudentenVolgSysteem.Controllers
             //30-100-30 -100 -75-100-30 -100 -30
             //0 |30 |130|160|260|335|435|465|565|595
             //Student Info
-            int col1x = 30;
-            int col2x = 130;
-            int col3x = 335;
-            int col4x = 435;
-
-            int colwidth = 100;
-            int rowheight = 20;
-
-            int row1 = 60;
-            int row2 = 80;
-            int row3 = 100;
+            int col1x = 30; int col2x = 130; int col3x = 335; int col4x = 435;
+            int colwidth = 100; int rowheight = 20;
+            int row1 = 60; int row2 = 80; int row3 = 100;
 
             DrawLabel("Naam", col1x, row1, colwidth, rowheight, gfx);
             DrawLabel(student.WholeName, col2x, row1, colwidth, rowheight, gfx);
@@ -177,6 +175,101 @@ namespace StudentenVolgSysteem.Controllers
 
             DrawLabel("Richting", col3x, row2, colwidth, rowheight, gfx);
             DrawLabel(pdfvm.Course, col4x, row2, colwidth, rowheight, gfx);
+
+            //Topics
+            //595 into 3 columns starting on Y = 150
+            int YPointer = 150;
+            int topicColumnWidth = 159;
+            int topicColumn1 = 30; int topicColumn2 = 30 + topicColumnWidth; int topicColumn3 = 2 * topicColumnWidth + 60;
+            XFont certFont = new XFont("verdana", 10, XFontStyle.Regular);
+            XPen pen = new XPen(XColors.LightGray);
+
+            //Add headers
+            DrawLabel("Topics", topicColumn1, YPointer, topicColumnWidth, rowheight, gfx);
+            YPointer += rowheight;
+
+            int extraCertRows = 0;
+            List<TopicModel> topics = curriculum.Topics.ToList();
+            for (int i = 0; i < curriculum.Topics.Count; i++)
+            {
+
+                gfx.DrawLine(pen, topicColumn1, YPointer - 2, topicColumn3 + topicColumnWidth, YPointer - 2);
+                TopicModel topic = topics[i];
+
+                //measure topic
+                XSize topicSize = gfx.MeasureString(topic.NameCode, certFont);
+                //make rect
+                int rectWidth = topicColumnWidth;
+                double rectRows = rowheight;
+                if (topicSize.Width > topicColumnWidth)
+                {
+                    rectRows = topicSize.Width / topicColumnWidth;
+                    if (rectRows % 1 > 0)
+                    {
+                        rectRows++;
+                    }
+                    rectRows = Math.Floor(rectRows);
+                }
+                XRect topicRect = new XRect(topicColumn1, YPointer, rectWidth, rowheight * rectRows);
+                tf.DrawString(topic.NameCode, certFont, XBrushes.Black, topicRect);
+
+                if (pdfvm.Leerdoel)
+                {
+                    //measure leerdoel
+                    XSize leerdoelSize = gfx.MeasureString(topic.Leerdoel, certFont);
+                    //make rect
+                    if (leerdoelSize.Width / topicColumnWidth > rectRows)
+                    {
+                        rectRows = leerdoelSize.Width / topicColumnWidth;
+                        if (rectRows % 1 > 0)
+                        {
+                            rectRows++;
+                        }
+                        rectRows = Math.Floor(rectRows);
+                    }
+                    XRect leerdoelRect = new XRect(topicColumn2, YPointer, rectWidth, rowheight * rectRows);
+                    //update height and y pointer
+                    tf.DrawString(topic.Leerdoel, certFont, XBrushes.Black, leerdoelRect);
+                }
+
+                if (pdfvm.Certificeringen)
+                {
+                    List<CertificeringenInfraModel> certs = topic.Certificeringen.ToList();
+                    for (int j = 0; j < certs.Count; j++)
+                    {
+                        //measure each cert
+                        XSize certSize = gfx.MeasureString(certs[j].Certificering, certFont);
+                        //make rect for each cert
+                        double certRows = 0;
+                        if (certSize.Width / topicColumnWidth > certRows)
+                        {
+                            certRows = certSize.Width / topicColumnWidth;
+                            if (certRows % 1 > 0)
+                            {
+                                certRows++;
+                            }
+                            certRows = Math.Floor(certRows);
+                        }
+                        //update height and y pointer for each cert
+                        XRect certRect = new XRect(topicColumn3, YPointer, rectWidth, rowheight * certRows);
+
+                        tf.DrawString(certs[j].Certificering, certFont, XBrushes.Black, certRect);
+
+                        YPointer += rowheight * (int)certRows;
+                    }
+
+                }
+                //Update YPointer;
+                //add footer
+                YPointer += 4;
+                if (YPointer > 800)
+                {
+                    page = document.AddPage();
+                    gfx = XGraphics.FromPdfPage(page);
+                    tf = new XTextFormatter(gfx);
+                    YPointer = 40;
+                }
+            }
 
             string filename = $"Hello_{DateTime.Now.Millisecond.ToString()}.pdf";
             document.Save(filename);
