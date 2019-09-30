@@ -111,6 +111,10 @@ namespace StudentenVolgSysteem.Controllers
             stringFormat.LineAlignment = XLineAlignment.Near;
             stringFormat.Alignment = XStringAlignment.Near;
 
+            var path = Server.MapPath(@"~/App_Data/logo_itvitae_learning_liggend.png");
+            XImage logo = XImage.FromFile(path);
+            gfx.DrawImage(logo, new XPoint(430, 5));
+            
             //Fonts
             XFont verdana20Bold = new XFont("verdana", 20, XFontStyle.Bold);
             XFont arial20BoldItalic = new XFont("arial", 20, XFontStyle.BoldItalic);
@@ -127,26 +131,26 @@ namespace StudentenVolgSysteem.Controllers
             //30-100-30 -100 -75-100-30 -100 -30
             //0 |30 |130|160|260|335|435|465|565|595
             //Student Info
-            int col1x = 30; int col2x = 130; int col3x = 335; int col4x = 435;
-            int colwidth = 100; int rowheight = 20;
+            int col1x = 30; int col2x = 135; int col3x = 335; int col4x = 435;
+            int colwidth = 100; int rowheight = 15;
             int row1 = 60; int row2 = 80; int row3 = 100;
 
-            DrawLabel("Naam", col1x, row1, colwidth, rowheight, gfx);
+            DrawLabel("Naam:", col1x, row1, colwidth, rowheight, gfx);
             DrawLabel(student.WholeName, col2x, row1, colwidth, rowheight, gfx);
 
-            DrawLabel("Geboortedatum", col1x, row2, colwidth, rowheight, gfx);
+            DrawLabel("Geboortedatum:", col1x, row2, colwidth, rowheight, gfx);
             DrawLabel(pdfvm.DoB.ToShortDateString(), col2x, row2, colwidth, rowheight, gfx);
 
-            DrawLabel("StartDatum", col1x, row3, colwidth, rowheight, gfx);
+            DrawLabel("StartDatum:", col1x, row3, colwidth, rowheight, gfx);
             DrawLabel(pdfvm.StartDate.ToShortDateString(), col2x, row3, colwidth, rowheight, gfx);
 
-            DrawLabel("Einddatum", col3x, row3, colwidth, rowheight, gfx);
+            DrawLabel("Einddatum:", col3x, row3, colwidth, rowheight, gfx);
             DrawLabel(pdfvm.EndDate.ToShortDateString(), col4x, row3, colwidth, rowheight, gfx);
 
-            DrawLabel("Niveau", col3x, row1, colwidth, rowheight, gfx);
+            DrawLabel("Niveau:", col3x, row1, colwidth, rowheight, gfx);
             DrawLabel(pdfvm.Niveau, col4x, row1, colwidth, rowheight, gfx);
 
-            DrawLabel("Richting", col3x, row2, colwidth, rowheight, gfx);
+            DrawLabel("Richting:", col3x, row2, colwidth, rowheight, gfx);
             DrawLabel(pdfvm.Course, col4x, row2, colwidth, rowheight, gfx);
 
             //Topics
@@ -158,7 +162,7 @@ namespace StudentenVolgSysteem.Controllers
             XPen pen = new XPen(XColors.LightGray);
 
             //Add headers
-            DrawLabel("Topics", topicColumn1, YPointer, topicColumnWidth, rowheight, gfx);
+            DrawLabel("Modules", topicColumn1, YPointer, topicColumnWidth, rowheight, gfx);
             if (pdfvm.Leerdoel)
             {
                 DrawLabel("Leerdoelen", topicColumn2, YPointer, topicColumnWidth, rowheight, gfx);
@@ -176,7 +180,6 @@ namespace StudentenVolgSysteem.Controllers
 
                 //Update YPointer;
                 YPointer += 4;
-                gfx.DrawLine(pen, topicColumn1, YPointer - 2, topicColumn3 + topicColumnWidth, YPointer - 2);
                 TopicModel topic = topics[i];
 
                 //measure topic
@@ -197,7 +200,7 @@ namespace StudentenVolgSysteem.Controllers
                 //check if new page is needed
                 if (YPointer + (rowheight * rectRows) > 780)
                 {
-                    gfx = NewPage(document, out page, gfx, out tf, out YPointer);
+                    gfx = NewPage(document, out page, gfx, out tf, out YPointer, logo);
                 }
                 //Make topicrect
                 XRect topicRect = new XRect(topicColumn1, 0, rectWidth, rowheight * rectRows);
@@ -221,7 +224,7 @@ namespace StudentenVolgSysteem.Controllers
                     //check if new page is needed
                     if (YPointer + (rowheight * rectRows) > 780)
                     {
-                        gfx = NewPage(document, out page, gfx, out tf, out YPointer);
+                        gfx = NewPage(document, out page, gfx, out tf, out YPointer, logo);
                     }
                     XRect leerdoelRect = new XRect(topicColumn2, 0, rectWidth, rowheight * rectRows);
                     //update height and y pointer
@@ -254,11 +257,13 @@ namespace StudentenVolgSysteem.Controllers
                     }
                     if(YPointer + CertYPointer > 780)
                     {
-                        gfx = NewPage(document, out page, gfx, out tf, out YPointer);
+                        gfx = NewPage(document, out page, gfx, out tf, out YPointer, logo);
                     }
 
                 }
+
                 //Draw all the things relative to YPointer
+                gfx.DrawLine(pen, topicColumn1, YPointer - 2, topicColumn3 + topicColumnWidth, YPointer - 2);
                 foreach (var item in drawList)
                 {
                     XRect r = new XRect(item.Rect.X, item.Rect.Y + YPointer, item.Rect.Width, item.Rect.Height);
@@ -277,6 +282,7 @@ namespace StudentenVolgSysteem.Controllers
                 XFont footerFont = new XFont("verdana", 10, XFontStyle.Italic);
                 gfx.DrawLine(pen, 0, footerY, page.Width, footerY);
                 gfx.DrawString($"Pagina {pageNumber}/{outOf}", footerFont, XBrushes.SlateGray, new XPoint(455, footerY + 20));
+                gfx.DrawString("Versie 1.0", footerFont, XBrushes.SlateGray, new XPoint(65, footerY + 20));
                 pageNumber++;
             }
 
@@ -285,13 +291,17 @@ namespace StudentenVolgSysteem.Controllers
             Process.Start(filename);
         }
 
-        private XGraphics NewPage(PdfDocument document, out PdfPage page, XGraphics gfx, out XTextFormatter tf, out int YPointer)
+        private XGraphics NewPage(PdfDocument document, out PdfPage page, XGraphics gfx, out XTextFormatter tf, out int YPointer, XImage logo)
         {
             gfx.Dispose();
             page = document.AddPage();
             XGraphics g = XGraphics.FromPdfPage(page);
             tf = new XTextFormatter(g);
             YPointer = 40;
+
+            //put logo on page before returning
+            gfx.DrawImage(logo, new XPoint(595 - 191 - 30, 20));
+
             return g;
         }
 
