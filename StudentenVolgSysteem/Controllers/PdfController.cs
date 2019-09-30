@@ -12,42 +12,15 @@ using SelectListItem = System.Web.WebPages.Html.SelectListItem;
 
 namespace StudentenVolgSysteem.Controllers
 {
+    [Authorize(Roles ="Administrator, Docent")]
     public class PdfController : Controller
     {
         MyDbContext db = new MyDbContext();
 
-        public void MakePdfFromStudent(int? studentId)
-        {
-            if (studentId == null)
-            {
-                studentId = 1;
-            }
-            PdfDocument document = new PdfDocument();
-            PdfPage page = document.AddPage();
-            XGraphics gfx = XGraphics.FromPdfPage(page);
-            XFont font = new XFont("verdana", 20, XFontStyle.Bold);
-
-            gfx.DrawString(string.Format("Hello {0}, I can't let you do that.", db.Studenten.Find(studentId).FirstName),
-                           font, XBrushes.Black,
-                           new XRect(0, 0, page.Width, page.Height),
-                           XStringFormats.Center);
-
-            string filename = "Hello.pdf";
-            document.Save(filename);
-            Process.Start(filename);
-        }
-
         [NonAction]
         private List<SelectListItem> GetCourses()
         {
-            List<SelectListItem> listCourses = new List<SelectListItem>();
-            //TODO: Make models and courses in the db and add a view for the admin to create, and edit
-            listCourses.Add(new SelectListItem { Text = "Select", Value = "0" });
-            listCourses.Add(new SelectListItem { Text = "Infra", Value = "1" });
-            listCourses.Add(new SelectListItem { Text = "C#", Value = "2" });
-            listCourses.Add(new SelectListItem { Text = "Data Science", Value = "3" });
-            listCourses.Add(new SelectListItem { Text = "Cyber", Value = "4" });
-            return listCourses;
+            throw new NotImplementedException();
         }
 
         [NonAction]
@@ -186,13 +159,23 @@ namespace StudentenVolgSysteem.Controllers
 
             //Add headers
             DrawLabel("Topics", topicColumn1, YPointer, topicColumnWidth, rowheight, gfx);
+            if (pdfvm.Leerdoel)
+            {
+                DrawLabel("Leerdoelen", topicColumn2, YPointer, topicColumnWidth, rowheight, gfx);
+            }
+            if (pdfvm.Certificeringen)
+            {
+                DrawLabel("Certificeringen", topicColumn3, YPointer, topicColumnWidth, rowheight, gfx);
+            }
             YPointer += rowheight;
 
-            int extraCertRows = 0;
             List<TopicModel> topics = curriculum.Topics.ToList();
             for (int i = 0; i < curriculum.Topics.Count; i++)
             {
+                List<DrawStringListItem> drawList = new List<DrawStringListItem>();
 
+                //Update YPointer;
+                YPointer += 4;
                 gfx.DrawLine(pen, topicColumn1, YPointer - 2, topicColumn3 + topicColumnWidth, YPointer - 2);
                 TopicModel topic = topics[i];
 
@@ -200,7 +183,8 @@ namespace StudentenVolgSysteem.Controllers
                 XSize topicSize = gfx.MeasureString(topic.NameCode, certFont);
                 //make rect
                 int rectWidth = topicColumnWidth;
-                double rectRows = rowheight;
+                double rectRows = 1;
+                int CertYPointer = 0;
                 if (topicSize.Width > topicColumnWidth)
                 {
                     rectRows = topicSize.Width / topicColumnWidth;
@@ -210,8 +194,15 @@ namespace StudentenVolgSysteem.Controllers
                     }
                     rectRows = Math.Floor(rectRows);
                 }
-                XRect topicRect = new XRect(topicColumn1, YPointer, rectWidth, rowheight * rectRows);
-                tf.DrawString(topic.NameCode, certFont, XBrushes.Black, topicRect);
+                //check if new page is needed
+                if (YPointer + (rowheight * rectRows) > 780)
+                {
+                    gfx = NewPage(document, out page, gfx, out tf, out YPointer);
+                }
+                //Make topicrect
+                XRect topicRect = new XRect(topicColumn1, 0, rectWidth, rowheight * rectRows);
+                //Add string to drawlist
+                drawList.Add(new DrawStringListItem(topic.NameCode, certFont, XBrushes.Black, topicRect));
 
                 if (pdfvm.Leerdoel)
                 {
@@ -227,9 +218,14 @@ namespace StudentenVolgSysteem.Controllers
                         }
                         rectRows = Math.Floor(rectRows);
                     }
-                    XRect leerdoelRect = new XRect(topicColumn2, YPointer, rectWidth, rowheight * rectRows);
+                    //check if new page is needed
+                    if (YPointer + (rowheight * rectRows) > 780)
+                    {
+                        gfx = NewPage(document, out page, gfx, out tf, out YPointer);
+                    }
+                    XRect leerdoelRect = new XRect(topicColumn2, 0, rectWidth, rowheight * rectRows);
                     //update height and y pointer
-                    tf.DrawString(topic.Leerdoel, certFont, XBrushes.Black, leerdoelRect);
+                    drawList.Add(new DrawStringListItem(topic.Leerdoel, certFont, XBrushes.Black, leerdoelRect));
                 }
 
                 if (pdfvm.Certificeringen)
@@ -240,7 +236,7 @@ namespace StudentenVolgSysteem.Controllers
                         //measure each cert
                         XSize certSize = gfx.MeasureString(certs[j].Certificering, certFont);
                         //make rect for each cert
-                        double certRows = 0;
+                        double certRows = 1;
                         if (certSize.Width / topicColumnWidth > certRows)
                         {
                             certRows = certSize.Width / topicColumnWidth;
@@ -250,25 +246,38 @@ namespace StudentenVolgSysteem.Controllers
                             }
                             certRows = Math.Floor(certRows);
                         }
-                        //update height and y pointer for each cert
-                        XRect certRect = new XRect(topicColumn3, YPointer, rectWidth, rowheight * certRows);
+                        XRect certRect = new XRect(topicColumn3, CertYPointer, rectWidth, rowheight * certRows);
 
-                        tf.DrawString(certs[j].Certificering, certFont, XBrushes.Black, certRect);
+                        drawList.Add(new DrawStringListItem(certs[j].Certificering, certFont, XBrushes.Black, certRect));
 
-                        YPointer += rowheight * (int)certRows;
+                        CertYPointer += rowheight * (int)certRows;
+                    }
+                    if(YPointer + CertYPointer > 780)
+                    {
+                        gfx = NewPage(document, out page, gfx, out tf, out YPointer);
                     }
 
                 }
-                //Update YPointer;
-                //add footer
-                YPointer += 4;
-                if (YPointer > 800)
+                //Draw all the things relative to YPointer
+                foreach (var item in drawList)
                 {
-                    page = document.AddPage();
-                    gfx = XGraphics.FromPdfPage(page);
-                    tf = new XTextFormatter(gfx);
-                    YPointer = 40;
+                    XRect r = new XRect(item.Rect.X, item.Rect.Y + YPointer, item.Rect.Width, item.Rect.Height);
+                    tf.DrawString(item.Text, item.Font, item.Brush, r);
                 }
+                YPointer += (rowheight * (int)rectRows) > CertYPointer ? (rowheight * (int)rectRows) : CertYPointer;
+            }
+
+            //add footers
+            gfx.Dispose();
+            int pageNumber = 1; int outOf = document.Pages.Count;
+            foreach (PdfPage pdfPage in document.Pages)
+            {
+                gfx = XGraphics.FromPdfPage(pdfPage);
+                int footerY = 802;
+                XFont footerFont = new XFont("verdana", 10, XFontStyle.Italic);
+                gfx.DrawLine(pen, 0, footerY, page.Width, footerY);
+                gfx.DrawString($"Pagina {pageNumber}/{outOf}", footerFont, XBrushes.SlateGray, new XPoint(455, footerY + 20));
+                pageNumber++;
             }
 
             string filename = $"Hello_{DateTime.Now.Millisecond.ToString()}.pdf";
@@ -276,10 +285,40 @@ namespace StudentenVolgSysteem.Controllers
             Process.Start(filename);
         }
 
+        private XGraphics NewPage(PdfDocument document, out PdfPage page, XGraphics gfx, out XTextFormatter tf, out int YPointer)
+        {
+            gfx.Dispose();
+            page = document.AddPage();
+            XGraphics g = XGraphics.FromPdfPage(page);
+            tf = new XTextFormatter(g);
+            YPointer = 40;
+            return g;
+        }
+
         private void DrawLabel(string text, int x, int y, int width, int height, XGraphics gfx)
         {
             XFont LabelFont = new XFont("arial", 14, XFontStyle.Regular);
             gfx.DrawString(text, LabelFont, XBrushes.Black, new XRect(x, y, width, height), XStringFormats.CenterLeft);
         }
+    }
+
+    /// <summary>
+    /// DrawStringListItems are used to stage drawstring operations to be drawn simultaneously
+    /// after it is made sure the topic and contents do not exceed the page limit
+    /// </summary>
+    public class DrawStringListItem
+    {
+        public DrawStringListItem(string text, XFont font, XBrush brush, XRect rect)
+        {
+            this.Text = text;
+            this.Font = font;
+            this.Brush = brush;
+            this.Rect = rect;
+        }
+
+        public string Text { get; set; }
+        public XFont Font { get; set; }
+        public XBrush Brush { get; set; }
+        public XRect Rect { get; set; }
     }
 }
