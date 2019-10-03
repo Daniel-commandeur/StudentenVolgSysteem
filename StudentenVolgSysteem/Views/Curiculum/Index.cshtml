@@ -6,9 +6,7 @@
 
 <h2>Curricula</h2>
 
-<button>
-    @Html.ActionLink("Create New", "Create")
-</button>
+@Html.ActionLink("Create New", "Create", null, new { type = "button" })
 <table class="table">
     <tr>
         <th>
@@ -25,29 +23,30 @@
         </th>
     </tr>
 
-@foreach (var item in Model) {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.Name)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.StudentId.FirstName)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.StudentId.LastName)
-    </td>
-    <td>
-        @foreach (var topic in item.Topics)
-        {
-            @Html.DisplayFor(modelItem => topic.NameCode)
-        }
-    </td>
-    <td>
-        @Html.ActionLink("Edit", "Edit", new { id = item.CuriculumId }) |
-        @Html.ActionLink("Details", "Details", new { id = item.CuriculumId }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.CuriculumId })
-    </td>
-</tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentId.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentId.LastName)
+            </td>
+            <td>
+                @foreach (var topic in item.Topics)
+                {
+                    @Html.DisplayFor(modelItem => topic.NameCode)
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.CuriculumId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.CuriculumId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.CuriculumId })
+            </td>
+        </tr>
+    }
 
 </table>
