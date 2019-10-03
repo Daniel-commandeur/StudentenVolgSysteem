@@ -6,9 +6,7 @@
 
 <h2>Studenten</h2>
 
-<button>
-    @Html.ActionLink("Create New", "Create")
-</button>
+@Html.ActionLink("Create New", "Create", null, new { type = "button" })
 <table class="table">
     <tr>
         <th>
@@ -39,9 +37,9 @@
                 }
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.StudentId }) |
-                @Html.ActionLink("Details", "Details", new { id=item.StudentId }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.StudentId })
+                @Html.ActionLink("Edit", "Edit", new { id = item.StudentId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.StudentId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.StudentId })
             </td>
         </tr>
     }

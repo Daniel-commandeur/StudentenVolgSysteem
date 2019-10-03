@@ -12,28 +12,30 @@
 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <a href='@Url.Action("Index", "Topics")'>
-            <div class="imagecontainer">
-            </div>
-        </a>
-        <div class="container">
-            <div class="navbar-header">
-                @*<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>*@
-                @Html.ActionLink("SVS", "Index", "Topics", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div>
-                @Html.ActionLink("Curricula", "Index", "Curiculum", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div>
-                @Html.ActionLink("Studenten", "Index", "Student", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse">
-                @Html.Partial("_LoginPartial")
+    <div class="body-center">
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <a href='@Url.Action("Index", "Topics")'>
+                <div class="imagecontainer">
+                </div>
+            </a>
+            <div class="container">
+                <div class="navbar-header">
+                    @*<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>*@
+                    @Html.ActionLink("SVS", "Index", "Topics", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div>
+                    @Html.ActionLink("Curricula", "Index", "Curiculum", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div>
+                    @Html.ActionLink("Studenten", "Index", "Student", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse">
+                    @Html.Partial("_LoginPartial")
+                </div>
             </div>
         </div>
     </div>
