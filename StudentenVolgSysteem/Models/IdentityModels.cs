@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -16,6 +18,20 @@ namespace StudentenVolgSysteem.Models
             // Add custom user claims here
             return userIdentity;
         }
+    }
+
+    [NotMapped]
+    public class FrontEndApplicationUser
+    {
+
+        public FrontEndApplicationUser(ApplicationUser applicationUser)
+        {
+            this.ApplicationUser = applicationUser;
+            this.RoleNames = new List<string>();
+        }
+
+        public ApplicationUser ApplicationUser { get; set; }
+        public List<string> RoleNames { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

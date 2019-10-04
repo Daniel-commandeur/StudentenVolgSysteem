@@ -1,0 +1,46 @@
+﻿@model StudentenVolgSysteem.Models.AssignRole
+@{
+    ViewBag.Title = "Assign roles";
+}
+
+<h2>AssignRolesToUsers</h2>
+<link href="~/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<script src="~/bootstrap/js/bootstrap.min.js"></script>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>AssignRole</legend>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.UserRoleName)
+        </div>
+        <div class="editor-field">
+            @*@Html.EditorFor(model => model.UserRoleName)*@
+            @Html.DropDownListFor(m => m.UserRoleName, new SelectList(Model.UserRolesList, "Value", "Text"),
+            new { style = "width:200px", @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.UserRoleName)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.UserID)
+        </div>
+        <div class="editor-field">
+            @*@Html.EditorFor(model => model.UserID)*@
+            @Html.DropDownListFor(m => m.UserID, new SelectList(Model.UserList, "Value", "Text"),
+            new { style = "width:200px", @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.UserID)
+        </div>
+        <p>
+            <input type="submit" value="Assign" /> @ViewBag.ResultMessage
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

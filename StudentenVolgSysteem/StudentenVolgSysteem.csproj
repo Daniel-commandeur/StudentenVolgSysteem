@@ -46,6 +46,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PdfSharp, Version=1.50.5147.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.1.50.5147\lib\net20\PdfSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Charting, Version=1.50.5147.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.1.50.5147\lib\net20\PdfSharp.Charting.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -168,35 +174,46 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BenodigdhedenController.cs" />
+    <Compile Include="Controllers\CertificeringenController.cs" />
     <Compile Include="Controllers\CSVController.cs" />
     <Compile Include="Controllers\CuriculumController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\NiveauController.cs" />
+    <Compile Include="Controllers\PdfController.cs" />
+    <Compile Include="Controllers\PercipiolinkController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Controllers\TagController.cs" />
+    <Compile Include="Controllers\TijdsdurenController.cs" />
     <Compile Include="Controllers\TopicsController.cs" />
+    <Compile Include="Controllers\WerkvormController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\MyDbContext\201909181321585_initial.cs" />
-    <Compile Include="Migrations\MyDbContext\201909181321585_initial.Designer.cs">
-      <DependentUpon>201909181321585_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MyDbContext\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CuriculumModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PdfViewModel.cs" />
     <Compile Include="Models\StudentModel.cs" />
     <Compile Include="Models\TabellenModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\logo_itvitae_learning_liggend.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\bootstrap-multiselect.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\logo_itvitae_liggend_anders_denken.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -268,9 +285,50 @@
     <Content Include="Views\Curiculum\Details.cshtml" />
     <Content Include="Views\Curiculum\Edit.cshtml" />
     <Content Include="Views\Curiculum\Index.cshtml" />
+    <Content Include="Views\Shared\PartialDisplayCurriculum.cshtml" />
+    <Content Include="Views\Benodigdheden\Create.cshtml" />
+    <Content Include="Views\Benodigdheden\Delete.cshtml" />
+    <Content Include="Views\Benodigdheden\Details.cshtml" />
+    <Content Include="Views\Benodigdheden\Edit.cshtml" />
+    <Content Include="Views\Benodigdheden\Index.cshtml" />
+    <Content Include="Views\Certificeringen\Create.cshtml" />
+    <Content Include="Views\Certificeringen\Delete.cshtml" />
+    <Content Include="Views\Certificeringen\Details.cshtml" />
+    <Content Include="Views\Certificeringen\Edit.cshtml" />
+    <Content Include="Views\Certificeringen\Index.cshtml" />
+    <Content Include="Views\Tag\Create.cshtml" />
+    <Content Include="Views\Tag\Delete.cshtml" />
+    <Content Include="Views\Tag\Details.cshtml" />
+    <Content Include="Views\Tag\Edit.cshtml" />
+    <Content Include="Views\Tag\Index.cshtml" />
+    <Content Include="Views\Tijdsduren\Create.cshtml" />
+    <Content Include="Views\Tijdsduren\Delete.cshtml" />
+    <Content Include="Views\Tijdsduren\Details.cshtml" />
+    <Content Include="Views\Tijdsduren\Edit.cshtml" />
+    <Content Include="Views\Tijdsduren\Index.cshtml" />
+    <Content Include="Views\Niveau\Create.cshtml" />
+    <Content Include="Views\Niveau\Delete.cshtml" />
+    <Content Include="Views\Niveau\Details.cshtml" />
+    <Content Include="Views\Niveau\Edit.cshtml" />
+    <Content Include="Views\Niveau\Index.cshtml" />
+    <Content Include="Views\Percipiolink\Create.cshtml" />
+    <Content Include="Views\Percipiolink\Delete.cshtml" />
+    <Content Include="Views\Percipiolink\Details.cshtml" />
+    <Content Include="Views\Percipiolink\Edit.cshtml" />
+    <Content Include="Views\Percipiolink\Index.cshtml" />
+    <Content Include="Views\Werkvorm\Create.cshtml" />
+    <Content Include="Views\Werkvorm\Delete.cshtml" />
+    <Content Include="Views\Werkvorm\Details.cshtml" />
+    <Content Include="Views\Werkvorm\Edit.cshtml" />
+    <Content Include="Views\Werkvorm\Index.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Users.cshtml" />
+    <Content Include="Views\Admin\AssignRolesToUsersAsync.cshtml" />
+    <Content Include="Views\Pdf\CreatePDF.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="csv_files\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -287,11 +345,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\MyDbContext\201909181321585_initial.resx">
-      <DependentUpon>201909181321585_initial.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

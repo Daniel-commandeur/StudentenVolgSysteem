@@ -26,9 +26,20 @@
             @Html.DisplayFor(model => model.LastName)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Curiculums)
+        </dt>
+
+        <dd></dd>
+
+        @foreach (var Curriculum in Model.Curiculums)
+        {
+            @Html.Partial("PartialDisplayCurriculum", Curriculum)
+        }
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.StudentId }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.StudentId })
+    @Html.ActionLink("Add Curriculum", "Create", "Curiculum", new { id = Model.StudentId }, null)
     @Html.ActionLink("Back to List", "Index")
 </p>

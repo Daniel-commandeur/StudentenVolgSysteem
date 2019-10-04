@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.WebPages.Html;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
@@ -82,5 +83,15 @@ namespace StudentenVolgSysteem.Models
     {
         public string SelectedProvider { get; set; }
         public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
+    }
+
+    public class AssignRole
+    {
+        [Required (ErrorMessage = "Select proper role")]
+        public string UserRoleName { get; set; }
+        [Required (ErrorMessage = "Select username")]
+        public string UserID { get; set; }
+        public List<SelectListItem> UserList { get; set; }
+        public List<SelectListItem> UserRolesList { get; set; }
     }
 }

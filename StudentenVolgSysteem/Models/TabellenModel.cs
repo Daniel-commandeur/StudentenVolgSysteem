@@ -13,7 +13,7 @@ namespace StudentenVolgSysteem.Models
 
         public MyDbContext() : base("DefaultConnection")
         {
-            Database.SetInitializer(new DropCreateDatabaseAlways<MyDbContext>());
+            //Database.SetInitializer(new DropCreateDatabaseAlways<MyDbContext>());
             //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<MyDbContext>());
         }
 
@@ -97,19 +97,29 @@ namespace StudentenVolgSysteem.Models
     [Table(name: "Benodigdheden")]
     public class BenodigdheidModel
     {
+        public BenodigdheidModel()
+        {
+            this.Topics = new HashSet<TopicModel>();
+        }
+
         [Key]
         public int BenodigdheidId { get; set; }
         public string Content { get; set; }
-        public ICollection<TopicModel> Topics { get; set; }
+        public virtual ICollection<TopicModel> Topics { get; set; }
     }
 
     [Table(name: "PercipioLinks")]
     public class PercipiolinkModel
     {
+        public PercipiolinkModel()
+        {
+            this.Topics = new HashSet<TopicModel>();
+        }
+
         [Key]
         public int PercipiolinkId { get; set; }
         public string Link { get; set; }
-        public ICollection<TopicModel> Topics { get; set; }
+        public virtual ICollection<TopicModel> Topics { get; set; }
     }
 
     [Table(name: "Topics")]
@@ -123,6 +133,23 @@ namespace StudentenVolgSysteem.Models
             this.Curiculums = new HashSet<CuriculumModel>();
             this.Benodigdheden = new HashSet<BenodigdheidModel>();
             this.PercipioLinks = new HashSet<PercipiolinkModel>();
+        }
+
+        public TopicModel(TopicModel topicModel)
+        {
+            //TopicId = topicModel.TopicId;
+            Code = topicModel.Code;
+            Niveau = topicModel.Niveau;
+            Name = topicModel.Name;
+            Duur = topicModel.Duur;
+            Werkvorm = topicModel.Werkvorm;
+            Leerdoel = topicModel.Leerdoel;
+            Certificeringen = topicModel.Certificeringen;
+            Voorkennis = topicModel.Voorkennis;
+            Inhoud = topicModel.Inhoud;
+            Benodigdheden = topicModel.Benodigdheden;
+            PercipioLinks = topicModel.PercipioLinks;
+            Tags = topicModel.Tags;
         }
 
         [Key]
@@ -152,6 +179,24 @@ namespace StudentenVolgSysteem.Models
         //Tags
         public virtual ICollection<TagModel> Tags { get; set; }
         public virtual ICollection<CuriculumModel> Curiculums { get; set; }
+
+        [NotMapped]
+        public string NameCode
+        {
+            get
+            {
+                string returnString;
+                if (string.IsNullOrEmpty(Name))
+                {
+                    returnString = Code;
+                }
+                else
+                {
+                    returnString = Name;
+                }
+                return returnString;
+            }
+        }
     }
 
     /// <summary>
@@ -160,14 +205,66 @@ namespace StudentenVolgSysteem.Models
     [NotMapped]
     public class CUTopicModel : TopicModel
     {
+        public CUTopicModel()
+        {
+
+        }
+        public CUTopicModel(TopicModel topicModel)
+        {
+            using (MyDbContext db = new MyDbContext())
+            {
+                TopicId = topicModel.TopicId;
+                Code = topicModel.Code;
+                Name = topicModel.Name;
+                Inhoud = topicModel.Inhoud;
+                Leerdoel = topicModel.Leerdoel;
+
+                Benodigdheden = topicModel.Benodigdheden;
+                CUBenodigdheden = db.Benodigdheden.ToList();
+
+                Certificeringen = topicModel.Certificeringen;
+                CUCertificeringenInfras = db.CertificeringenInfras.ToList();
+
+                Duur = topicModel.Duur;
+                CUTijdsDuren = db.TijdsDuren.ToList();
+
+                Niveau = topicModel.Niveau;
+                CUNiveaus = db.Niveaus.ToList();
+
+                PercipioLinks = topicModel.PercipioLinks;
+                CUPercipiolinks = db.PercipioLinks.ToList();
+
+                Tags = topicModel.Tags;
+                CUTags = db.Tags.ToList();
+
+                Voorkennis = topicModel.Voorkennis;
+                VoorkennisTopics = db.Topics.ToList();
+
+                Werkvorm = topicModel.Werkvorm;
+                CUwerkvormen = db.Werkvormen.ToList();
+            }
+        }
+
         public IEnumerable<NiveauModel> CUNiveaus { get; set; }
+        public string NiveauId { get; set; }
         public IEnumerable<TijdsDuurModel> CUTijdsDuren { get; set; }
+        public string TijdsDuurId { get; set; }
         public IEnumerable<WerkvormModel> CUwerkvormen { get; set; }
+        public string WerkvormId { get; set; }
         public IEnumerable<CertificeringenInfraModel> CUCertificeringenInfras { get; set; }
         public string[] CertificeringIds { get; set; }
         public IEnumerable<TagModel> CUTags { get; set; }
         public string[] TagIds { get; set; }
         public IEnumerable<TopicModel> VoorkennisTopics { get; set; }
         public string[] VoorkennisIds { get; set; }
+        public IEnumerable<BenodigdheidModel> CUBenodigdheden { get; set; }
+        public string[] BenodigdhedenIds { get; set; }
+        public IEnumerable<PercipiolinkModel> CUPercipiolinks { get; set; }
+        public string[] PercipiolinkIds { get; set; }
+
+        public TopicModel GetAsTopicModel()
+        {
+            return this as TopicModel;
+        }
     }
 }

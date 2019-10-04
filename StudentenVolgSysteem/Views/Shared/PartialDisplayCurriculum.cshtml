@@ -1,0 +1,64 @@
+﻿@model StudentenVolgSysteem.Models.CuriculumModel
+
+@*TODO: add checkbox functionality to keep track of student progress*@
+    <div>
+        <h4>
+            @Html.DisplayFor(model => model.Name) |
+            @Html.ActionLink("Edit", "Edit", "Curiculum", new { id = Model.CuriculumId }, null) |
+            @Html.ActionLink("PDF", "CreatePDF", "Pdf", new { curriculumId = Model.CuriculumId }, null)
+        </h4>
+        <hr />
+        <table class="my-table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Topics.FirstOrDefault().Code)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Topics.FirstOrDefault().Niveau)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Topics.FirstOrDefault().Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Topics.FirstOrDefault().Duur)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Topics.FirstOrDefault().Certificeringen)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Topics.FirstOrDefault().Voorkennis)
+                </th>
+                <th></th>
+            </tr>
+            @foreach (var topic in Model.Topics)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => topic.Code)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => topic.Niveau.Niveau)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => topic.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => topic.Duur.Eenheid)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => topic.Werkvorm.Werkvorm)
+                    </td>
+                    <td>
+                        @foreach (var cert in topic.Certificeringen)
+                        {
+                            @Html.DisplayFor(modelItem => cert.Certificering)
+                        }
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", "Topics", new { id = topic.TopicId }, null)
+                    </td>
+                </tr>
+            }
+        </table>
+        <br />
+    </div>

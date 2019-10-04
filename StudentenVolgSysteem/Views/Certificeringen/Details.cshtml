@@ -1,0 +1,26 @@
+﻿@model StudentenVolgSysteem.Models.CertificeringenInfraModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CertificeringenInfraModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Certificering)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Certificering)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CertificeringenInfraId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

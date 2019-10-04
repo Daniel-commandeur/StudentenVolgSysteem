@@ -12,6 +12,7 @@ using StudentenVolgSysteem.Models;
 
 namespace StudentenVolgSysteem.Controllers
 {
+
     [Authorize]
     public class AccountController : Controller
     {

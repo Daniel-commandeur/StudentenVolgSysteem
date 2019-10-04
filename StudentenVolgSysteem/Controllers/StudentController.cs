@@ -17,7 +17,7 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Student
         public ActionResult Index()
         {
-            return View(db.Studenten.ToList());
+            return View(db.Studenten.Include(a => a.Curiculums).ToList());
         }
 
         // GET: Student/Details/5
@@ -27,7 +27,16 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StudentModel studentModel = db.Studenten.Find(id);
+            //Every relation that is handled with a link-table isn't automatically
+            //included and needs to be included explicitly
+            StudentModel studentModel = db.Studenten
+                                        .Include(a => a.Curiculums)
+                                        .Include(a => a.Curiculums.Select(b => b.Topics.Select(c => c.Duur)))
+                                        .Include(a => a.Curiculums.Select(b => b.Topics.Select(c => c.Benodigdheden)))
+                                        .Include(a => a.Curiculums.Select(b => b.Topics.Select(c => c.Werkvorm)))
+                                        .Include(a => a.Curiculums.Select(b => b.Topics.Select(c => c.Niveau)))
+                                        .Where(a => a.StudentId == id)
+                                        .FirstOrDefault();
             if (studentModel == null)
             {
                 return HttpNotFound();

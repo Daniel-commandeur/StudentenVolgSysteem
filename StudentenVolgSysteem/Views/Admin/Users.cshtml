@@ -1,0 +1,92 @@
+﻿@model IEnumerable<StudentenVolgSysteem.Models.FrontEndApplicationUser>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ApplicationUser.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApplicationUser.EmailConfirmed)
+        </th>
+        <th>
+            Password
+        </th>
+        <th>
+            Roles (@Html.ActionLink("edit", "AssignRolesToUsersAsync", "Admin", new { area = "" }, ""))
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApplicationUser.PhoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApplicationUser.PhoneNumberConfirmed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApplicationUser.TwoFactorEnabled)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApplicationUser.LockoutEndDateUtc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApplicationUser.LockoutEnabled)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApplicationUser.AccessFailedCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApplicationUser.UserName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApplicationUser.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApplicationUser.EmailConfirmed)
+        </td>
+        <td>
+            @*@Html.DisplayFor(modelItem => item.PasswordHash)*@
+            @Html.ActionLink("Reset", "ResetPasswordForUser", "Admin", new { id = item.ApplicationUser.Id }, "")
+        </td>
+        <td>
+            @*@Html.DisplayFor(modelItem => item.SecurityStamp)*@
+            @foreach (var role in item.RoleNames)
+            {
+                @Html.DisplayFor(modelItem => role)<br />
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApplicationUser.PhoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApplicationUser.PhoneNumberConfirmed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApplicationUser.TwoFactorEnabled)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApplicationUser.LockoutEndDateUtc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApplicationUser.LockoutEnabled)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApplicationUser.AccessFailedCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApplicationUser.UserName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ApplicationUser.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ApplicationUser.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ApplicationUser.Id })
+        </td>
+    </tr>
+}
+
+</table>

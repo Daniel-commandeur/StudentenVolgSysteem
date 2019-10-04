@@ -7,6 +7,10 @@ using System.Web;
 
 namespace StudentenVolgSysteem.Models
 {
+
+    //TODO: Notitievelden voor studenten en docenten bij het curriculum
+
+
     [Table(name: "Curiculums")]
     public class CuriculumModel
     {
@@ -15,16 +19,10 @@ namespace StudentenVolgSysteem.Models
             this.Topics = new HashSet<TopicModel>();
         }
 
-        public CuriculumModel(CUCuriculumModel cuc)
-        {
-            this.CuriculumId = cuc.CuriculumId;
-            this.StudentId = cuc.StudentId;
-            this.Topics = cuc.Topics;
-        }
-
         [Key]
         public int CuriculumId { get; set; }
         public StudentModel StudentId { get; set; }
+        public string Name { get; set; }
 
         public virtual ICollection<TopicModel> Topics { get; set; }
     }
@@ -42,8 +40,25 @@ namespace StudentenVolgSysteem.Models
             this.CuriculumId = cm.CuriculumId;
             this.StudentId = cm.StudentId;
             this.Topics = cm.Topics;
+            this.Name = cm.Name;
         }
-        public List<TopicModel> allTopics { get; set; }
+        private List<TopicModel> allTopics;
+        public List<TopicModel> AllTopics
+        {
+            get {
+                return allTopics;
+            }
+            set {
+                allTopics = value;
+                allTopicIds = new string[allTopics.Count];
+                for (int i = 0; i<allTopics.Count; i++)
+                {
+                    allTopicIds[i] = allTopics[i].TopicId.ToString();
+                }
+            }
+        }
+        public string[] allTopicIds { get; set; }
+        public int StudentIdInt { get; set; }
     }
 
 
