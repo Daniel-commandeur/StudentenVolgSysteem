@@ -32,32 +32,32 @@
             </tr>
             @foreach (var topic in Model.Topics)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => topic.Code)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => topic.Niveau.Niveau)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => topic.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => topic.Duur.Eenheid)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => topic.Werkvorm.Werkvorm)
-                    </td>
-                    <td>
-                        @foreach (var cert in topic.Certificeringen)
-                        {
-                            @Html.DisplayFor(modelItem => cert.Certificering)
-                        }
-                    </td>
-                    <td>
-                        @Html.ActionLink("Details", "Details", "Topics", new { id = topic.TopicId }, null)
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => topic.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => topic.Niveau.Niveau)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => topic.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => topic.Duur.Eenheid)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => topic.Werkvorm.Werkvorm)
+                </td>
+                <td>
+                    @foreach (var cert in topic.Certificeringen)
+                    {
+                        @Html.DisplayFor(modelItem => cert.Certificering)
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", "Topics", new { id = topic.TopicId, returnUrl = this.Request.RawUrl }, null)
+                </td>
+            </tr>
             }
         </table>
         <br />
