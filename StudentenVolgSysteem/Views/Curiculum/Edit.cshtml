@@ -48,7 +48,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Topics, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownListFor(model => model.allTopicIds, new MultiSelectList(Model.AllTopics, "TopicId", "NameCode", Model.Topics.Select(c => c.TopicId)), new { @class = "multiSelect", @multiple = "multiple" })
+            @Html.DropDownListFor(model => model.allTopicIds, new MultiSelectList(Model.AllTopics, "TopicId", "NameCode", Model.Topics.Select(c => c.TopicId)), new { @class = "multiSelect", @multiple = "multiple", @searchable = "Search here.." })
             @Html.ValidationMessageFor(model => model.Topics, "", new { @class = "text-danger" })
         </div>
     </div>

@@ -83,7 +83,7 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CuriculumModel curiculumModel = db.Curiculums.Find(id);
+            CuriculumModel curiculumModel = db.Curiculums.Include(c => c.Topics).Where(c => c.CuriculumId == id).FirstOrDefault();
             if (curiculumModel == null)
             {
                 return HttpNotFound();
@@ -98,7 +98,7 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CuriculumId,StudentId,Topics,Name,AllTopics,allTopicIds")] CUCuriculumModel curiculumModel)
+        public ActionResult Edit([Bind(Include = "CuriculumId,StudentId,Topics,Name,allTopicIds")] CUCuriculumModel curiculumModel)
         {
             if (ModelState.IsValid)
             {

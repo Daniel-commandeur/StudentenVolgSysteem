@@ -42,21 +42,7 @@ namespace StudentenVolgSysteem.Models
             this.Topics = cm.Topics;
             this.Name = cm.Name;
         }
-        private List<TopicModel> allTopics;
-        public List<TopicModel> AllTopics
-        {
-            get {
-                return allTopics;
-            }
-            set {
-                allTopics = value;
-                allTopicIds = new string[allTopics.Count];
-                for (int i = 0; i<allTopics.Count; i++)
-                {
-                    allTopicIds[i] = allTopics[i].TopicId.ToString();
-                }
-            }
-        }
+        public List<TopicModel> AllTopics { get; set; }
         public string[] allTopicIds { get; set; }
         public int StudentIdInt { get; set; }
     }
