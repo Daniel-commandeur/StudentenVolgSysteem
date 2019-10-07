@@ -225,13 +225,13 @@ namespace StudentenVolgSysteem.Models
                 Certificeringen = topicModel.Certificeringen;
                 CUCertificeringenInfras = db.CertificeringenInfras.ToList();
 
-                Duur = topicModel.Duur;
+                Duur = topicModel.Duur;//
                 CUTijdsDuren = db.TijdsDuren.ToList();
 
-                Niveau = topicModel.Niveau;
+                Niveau = topicModel.Niveau;//
                 CUNiveaus = db.Niveaus.ToList();
 
-                PercipioLinks = topicModel.PercipioLinks;
+                PercipioLinks = topicModel.PercipioLinks;//
                 CUPercipiolinks = db.PercipioLinks.ToList();
 
                 Tags = topicModel.Tags;
@@ -240,7 +240,7 @@ namespace StudentenVolgSysteem.Models
                 Voorkennis = topicModel.Voorkennis;
                 VoorkennisTopics = db.Topics.ToList();
 
-                Werkvorm = topicModel.Werkvorm;
+                Werkvorm = topicModel.Werkvorm;//
                 CUwerkvormen = db.Werkvormen.ToList();
             }
         }

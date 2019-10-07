@@ -88,7 +88,11 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            TopicModel topicModel = db.Topics.Find(id);
+            TopicModel topicModel = db.Topics.Include(t => t.Duur)
+                                             .Include(t => t.Niveau)
+                                             .Include(t => t.PercipioLinks)
+                                             .Include(t => t.Werkvorm)
+                                             .FirstOrDefault(t => t.TopicId == id);
 
             if (topicModel == null)
             {
@@ -114,46 +118,83 @@ namespace StudentenVolgSysteem.Controllers
                 //Make changes to the topicModel here, we have to get all the models from side-tables from the dbcontext by reference.
                 //Otherwise EF will think these are new objects
                 topicModel.Code = cuTopicModel.Code;
-                topicModel.Niveau = db.Niveaus.Where(n => n.Niveau == cuTopicModel.Niveau.Niveau).FirstOrDefault();
+                topicModel.Niveau = db.Niveaus.FirstOrDefault(n => n.NiveauId.ToString() == cuTopicModel.NiveauId);
                 topicModel.Name = cuTopicModel.Name;
-                topicModel.Duur = db.TijdsDuren.Where(d => d.Eenheid == cuTopicModel.Duur.Eenheid).FirstOrDefault();
-                topicModel.Werkvorm = db.Werkvormen.Where(w => w.Werkvorm == cuTopicModel.Werkvorm.Werkvorm).FirstOrDefault();
+                topicModel.Duur = db.TijdsDuren.FirstOrDefault(d => d.TijdsDuurId.ToString() == cuTopicModel.TijdsDuurId);
+                topicModel.Werkvorm = db.Werkvormen.FirstOrDefault(w => w.WerkvormId.ToString() == cuTopicModel.WerkvormId);
                 topicModel.Leerdoel = cuTopicModel.Leerdoel;
                 topicModel.Inhoud = cuTopicModel.Inhoud;
 
                 //Certs
                 topicModel.Certificeringen.Clear();
-                foreach (var certId in cuTopicModel.CertificeringIds)
+                try
                 {
-                    topicModel.Certificeringen.Add(db.CertificeringenInfras.Where(c => c.CertificeringenInfraId.ToString() == certId).FirstOrDefault());
+                    foreach (var certId in cuTopicModel.CertificeringIds)
+                    {
+                        topicModel.Certificeringen.Add(db.CertificeringenInfras.Where(c => c.CertificeringenInfraId.ToString() == certId).FirstOrDefault());
+                    }
+                }
+                catch (NullReferenceException)
+                {
+
                 }
 
                 //Voorkennis
                 topicModel.Voorkennis.Clear();
-                foreach (var voorkennisId in cuTopicModel.VoorkennisIds)
+                try
                 {
-                    topicModel.Voorkennis.Add(db.Topics.Where(t => t.TopicId.ToString() == voorkennisId).FirstOrDefault());
+                    foreach (var voorkennisId in cuTopicModel.VoorkennisIds)
+                    {
+                        topicModel.Voorkennis.Add(db.Topics.Where(t => t.TopicId.ToString() == voorkennisId).FirstOrDefault());
+                    }
+                }
+                catch (NullReferenceException e)
+                {
+
                 }
 
                 //Benodigdheden
                 topicModel.Benodigdheden.Clear();
-                foreach (var benodigdheidsId in cuTopicModel.BenodigdhedenIds)
+                try
                 {
-                    topicModel.Benodigdheden.Add(db.Benodigdheden.Where(b => b.BenodigdheidId.ToString() == benodigdheidsId).FirstOrDefault());
+                    foreach (var benodigdheidsId in cuTopicModel.BenodigdhedenIds)
+                    {
+                        topicModel.Benodigdheden.Add(db.Benodigdheden.Where(b => b.BenodigdheidId.ToString() == benodigdheidsId).FirstOrDefault());
+                    }
+                }
+                catch (NullReferenceException e)
+                {
+
+                    throw;
                 }
 
                 //Percipiolinks
                 topicModel.PercipioLinks.Clear();
-                foreach (var percipioId in cuTopicModel.PercipiolinkIds)
+                try
                 {
-                    topicModel.PercipioLinks.Add(db.PercipioLinks.Where(p => p.PercipiolinkId.ToString() == percipioId).FirstOrDefault());
+                    foreach (var percipioId in cuTopicModel.PercipiolinkIds)
+                    {
+                        topicModel.PercipioLinks.Add(db.PercipioLinks.Where(p => p.PercipiolinkId.ToString() == percipioId).FirstOrDefault());
+                    }
+                }
+                catch (NullReferenceException e)
+                {
+
                 }
 
                 //Tags
                 topicModel.Tags.Clear();
-                foreach (var tagId in cuTopicModel.TagIds)
+                try
                 {
-                    topicModel.Tags.Add(db.Tags.Where(t => t.TagId.ToString() == tagId).FirstOrDefault());
+                    foreach (var tagId in cuTopicModel.TagIds)
+                    {
+                        topicModel.Tags.Add(db.Tags.Where(t => t.TagId.ToString() == tagId).FirstOrDefault());
+                    }
+                }
+                catch (NullReferenceException e)
+                {
+
+                    throw;
                 }
 
                 //Tell the context the topicModel has changed and save changes
