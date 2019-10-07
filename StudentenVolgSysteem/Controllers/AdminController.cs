@@ -1,16 +1,21 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using StudentenVolgSysteem.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using SelectListItem = System.Web.WebPages.Html.SelectListItem;
+
 
 namespace StudentenVolgSysteem.Controllers
 {
     [Authorize(Roles = "Administrator")]
     public class AdminController : BaseController
     {
+        MyDbContext db = new MyDbContext();
 
         // GET: Admin
         public ActionResult Index()
@@ -44,102 +49,102 @@ namespace StudentenVolgSysteem.Controllers
         }
 
         // GET: Admin/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+        //public ActionResult Details(int id)
+        //{
+        //    return View();
+        //}
 
         // GET: Admin/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
 
         // POST: Admin/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
+        //[HttpPost]
+        //public ActionResult Create(FormCollection collection)
+        //{
+        //    try
+        //    {
+        //        // TODO: Add insert logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
 
         // GET: Admin/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+        //public ActionResult Edit(int id)
+        //{
+        //    return View();
+        //}
 
         // POST: Admin/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
+        //[HttpPost]
+        //public ActionResult Edit(int id, FormCollection collection)
+        //{
+        //    try
+        //    {
+        //        // TODO: Add update logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
 
         // GET: Admin/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+        //public ActionResult Delete(int id)
+        //{
+        //    return View();
+        //}
 
         // POST: Admin/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
+        //[HttpPost]
+        //public ActionResult Delete(int id, FormCollection collection)
+        //{
+        //    try
+        //    {
+        //        // TODO: Add delete logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
 
         [NonAction]
-        public List<System.Web.WebPages.Html.SelectListItem> getUsers()
+        public List<SelectListItem> getUsers()
         {
-            List<System.Web.WebPages.Html.SelectListItem> listUsers = new List<System.Web.WebPages.Html.SelectListItem>();
-            listUsers.Add(new System.Web.WebPages.Html.SelectListItem { Text = "Select", Value = "0" });
+            List<SelectListItem> listUsers = new List<SelectListItem>();
+            listUsers.Add(new SelectListItem { Text = "Select", Value = "0" });
 
             foreach (var item in UserManager.Users)
             {
-                listUsers.Add(new System.Web.WebPages.Html.SelectListItem { Text = item.UserName, Value = item.Id });
+                listUsers.Add(new SelectListItem { Text = item.UserName, Value = item.Id });
             }
 
             return listUsers;
         }
 
         [NonAction]
-        public List<System.Web.WebPages.Html.SelectListItem> getRoles()
+        public List<SelectListItem> getRoles()
         {
-            List<System.Web.WebPages.Html.SelectListItem> listRoles = new List<System.Web.WebPages.Html.SelectListItem>();
-            listRoles.Add(new System.Web.WebPages.Html.SelectListItem { Text = "Select", Value = "0" });
+            List<SelectListItem> listRoles = new List<SelectListItem>();
+            listRoles.Add(new SelectListItem { Text = "Select", Value = "0" });
 
             var roles = RoleManager.Roles;
 
             foreach (var item in roles)
             {
-                listRoles.Add(new System.Web.WebPages.Html.SelectListItem { Text = item.Name, Value = item.Id });
+                listRoles.Add(new SelectListItem { Text = item.Name, Value = item.Id });
             }
 
             return listRoles;
@@ -156,7 +161,7 @@ namespace StudentenVolgSysteem.Controllers
 
         public bool UserHasRole(string userId, string roleName)
         {
-            var roleNames = UserManager.GetRolesAsync(userId).Result;
+            var roleNames = UserManager.GetRoles(userId);
             foreach (var name in roleNames)
             {
                 if (roleName == name)
@@ -168,6 +173,7 @@ namespace StudentenVolgSysteem.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async System.Threading.Tasks.Task<ActionResult> AssignRolesToUsersAsync(AssignRole assignRole)
         {
             if (assignRole.UserRoleName == "0")
@@ -212,6 +218,101 @@ namespace StudentenVolgSysteem.Controllers
         public void ResetPasswordForUser(int id)
         {
             throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        public ActionResult EditRolesForUser(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            UserRolesModel urm = new UserRolesModel();
+            var user = UserManager.Users.Where(u => u.Id == id).FirstOrDefault();
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            urm.UserId = id;
+            urm.UserName = user.UserName;
+            urm.UserRolesList = RoleManager.Roles.ToList();
+            IList<string> userRoleNames = UserManager.GetRoles(urm.UserId);
+            urm.CurrentRoles = new List<IdentityRole>();
+            foreach (var role in RoleManager.Roles)
+            {
+                foreach (string userRoleName in userRoleNames)
+                {
+                    if (role.Name == userRoleName)
+                    {
+                        urm.CurrentRoles.Add(role);
+                    }
+                }
+            }
+            return View(urm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditRolesForUser([Bind(Include = "UserId,UserName,UserRolesList,RoleNames")] UserRolesModel urm)
+        {
+            if (ModelState.IsValid)
+            {
+                List<IdentityRole> roles = RoleManager.Roles.ToList();
+                foreach (var role in roles)
+                {
+                    //If the user already has the role
+                    if (UserManager.IsInRole(urm.UserId, role.Name))
+                    {
+                        //but it is not in the list of selected roles
+                        try
+                        {
+                            if (!urm.RoleNames.Contains(role.Name))
+                            {
+                                //remove the user from role
+                                UserManager.RemoveFromRole(urm.UserId, role.Name);
+                            }
+                        }
+                        catch (ArgumentNullException e)
+                        {
+                            UserManager.RemoveFromRole(urm.UserId, role.Name);
+                        }
+                        //if it is in the list of selected roles, do nothing
+                    }
+                    //If the user doesn't already have the role
+                    else
+                    {
+                        //But the role is in the list of selected roles
+                        try
+                        {
+                            if (urm.RoleNames.Contains(role.Name))
+                            {
+                                //Add the user to role
+                                UserManager.AddToRole(urm.UserId, role.Name);
+                            }
+                        }
+                        catch (ArgumentNullException e)
+                        {
+
+                        }
+                        //If it's not in the ilst of selected roles, do nothing
+                    }
+                }
+                return RedirectToAction("Users");
+            }
+
+            urm.UserRolesList = RoleManager.Roles.ToList();
+            IList<string> userRoleNames = UserManager.GetRoles(urm.UserId);
+            foreach (var role in RoleManager.Roles)
+            {
+                foreach (string userRoleName in userRoleNames)
+                {
+                    if (role.Name == userRoleName)
+                    {
+                        urm.CurrentRoles.Add(role);
+                    }
+                }
+            }
+            return View(urm);
         }
     }
 }

@@ -15,7 +15,7 @@
             Password
         </th>
         <th>
-            Roles (@Html.ActionLink("edit", "AssignRolesToUsersAsync", "Admin", new { area = "" }, ""))
+            Roles @*(@Html.ActionLink("edit", "EditRolesForUser", "Admin", new { area = "" }, ""))*@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ApplicationUser.PhoneNumber)
@@ -59,6 +59,7 @@
             {
                 @Html.DisplayFor(modelItem => role)<br />
             }
+            @Html.ActionLink("Edit Roles", "EditRolesForUser", "Admin", new { id = item.ApplicationUser.Id }, "")
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ApplicationUser.PhoneNumber)
