@@ -109,5 +109,5 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.TopicId }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "BackToPrevious", new { returnUrl = ViewBag.returnurl})
 </p>

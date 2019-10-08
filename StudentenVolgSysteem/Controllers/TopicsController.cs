@@ -32,8 +32,9 @@ namespace StudentenVolgSysteem.Controllers
         }
 
         // GET: Topics/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, string returnUrl)
         {
+            ViewBag.returnurl = returnUrl;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -244,6 +245,21 @@ namespace StudentenVolgSysteem.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult BackToPrevious(string returnUrl)
+        {
+            ViewBag.returnurl = returnUrl;
+            string[] path = returnUrl.Split('/');
+            if (path.Count() == 4)
+            {
+                return RedirectToAction(path[2], path[1], new { id = path[3] });
+            }
+            else
+            {
+                return RedirectToAction(returnUrl);
+            }
+            
         }
     }
 }

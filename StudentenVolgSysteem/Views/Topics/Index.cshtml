@@ -58,7 +58,7 @@
 
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.TopicId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.TopicId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.TopicId, returnUrl = this.Request.RawUrl}) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.TopicId })
                 </td>
             </tr>
