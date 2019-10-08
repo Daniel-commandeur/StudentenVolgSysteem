@@ -133,7 +133,7 @@ namespace StudentenVolgSysteem.Controllers
                         topicModel.Certificeringen.Add(db.CertificeringenInfras.Where(c => c.CertificeringenInfraId.ToString() == certId).FirstOrDefault());
                     }
                 }
-                catch (NullReferenceException)
+                catch (NullReferenceException e)
                 {
 
                 }
@@ -164,7 +164,6 @@ namespace StudentenVolgSysteem.Controllers
                 catch (NullReferenceException e)
                 {
 
-                    throw;
                 }
 
                 //Percipiolinks
@@ -193,7 +192,6 @@ namespace StudentenVolgSysteem.Controllers
                 catch (NullReferenceException e)
                 {
 
-                    throw;
                 }
 
                 //Tell the context the topicModel has changed and save changes
