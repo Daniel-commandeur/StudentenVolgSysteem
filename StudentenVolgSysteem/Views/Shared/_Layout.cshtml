@@ -33,6 +33,13 @@
                 <div>
                     @Html.ActionLink("Studenten", "Index", "Student", new { area = "" }, new { @class = "navbar-brand" })
                 </div>
+                @if (User.IsInRole("Administrator"))
+                {
+                    <div>
+                        @Html.ActionLink("Admin", "Index", "Admin", new { area = "" }, new { @class = "navbar-brand"})
+                    </div>
+                }
+
                 <div class="navbar-collapse">
                     @Html.Partial("_LoginPartial")
                 </div>
