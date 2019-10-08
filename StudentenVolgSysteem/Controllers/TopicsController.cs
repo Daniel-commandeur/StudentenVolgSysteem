@@ -268,7 +268,7 @@ namespace StudentenVolgSysteem.Controllers
             }
             else
             {
-                return RedirectToAction(returnUrl);
+                return RedirectToAction("Index");
             }
             
         }

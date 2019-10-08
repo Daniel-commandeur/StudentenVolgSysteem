@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using SelectListItem = System.Web.WebPages.Html.SelectListItem;
+using System.Collections;
 
 namespace StudentenVolgSysteem.Controllers
 {
@@ -102,6 +103,22 @@ namespace StudentenVolgSysteem.Controllers
             CuriculumModel curriculum = db.Curiculums.Include("StudentId").Where(m => m.CuriculumId == pdfvm.curriculumId).FirstOrDefault();
             StudentModel student = curriculum.StudentId;
 
+            // TODO sort topics by first cert and display them grouped like that
+            SortedDictionary<string, List<TopicModel>> groupedTopics = new SortedDictionary<string, List<TopicModel>>();
+            foreach (var topic in curriculum.Topics)
+            {
+                string first = topic.Certificeringen.First().Certificering;
+                if (!groupedTopics.ContainsKey(first))
+                {
+                    groupedTopics.Add(first, new List<TopicModel>());
+                    groupedTopics[first].Add(topic);
+                }
+                else
+                {
+                    groupedTopics[first].Add(topic);
+                }
+            }
+
             PdfDocument document = new PdfDocument();
             PdfPage page = document.AddPage();
             XGraphics gfx = XGraphics.FromPdfPage(page);
@@ -116,14 +133,14 @@ namespace StudentenVolgSysteem.Controllers
             gfx.DrawImage(logo, new XPoint(430, 5));
             
             //Fonts
-            XFont verdana20Bold = new XFont("verdana", 20, XFontStyle.Bold);
-            XFont arial20BoldItalic = new XFont("arial", 20, XFontStyle.BoldItalic);
-            XFont LabelFont = new XFont("arial", 14, XFontStyle.Regular);
+            XFont Calibri20Bold = new XFont("calibri", 20, XFontStyle.Bold);
+            XFont Calibri20BoldItalic = new XFont("calibri", 20, XFontStyle.BoldItalic);
+            XFont LabelFont = new XFont("calibri", 11, XFontStyle.Regular);
 
             //Title Header
-            gfx.DrawString("Persoonlijk Curriculum", verdana20Bold, XBrushes.Black,
+            gfx.DrawString("Persoonlijk Curriculum", Calibri20Bold, XBrushes.Black,
                            new XRect(0, 20, page.Width, 0), XStringFormats.Center);
-            gfx.DrawString("ITvitae learning", arial20BoldItalic, XBrushes.Black,
+            gfx.DrawString("ITvitae learning", Calibri20BoldItalic, XBrushes.Black,
                            new XRect(0, 41, page.Width, 0), XStringFormats.Center);
             //XImage ITvitaeLogo = XImage.FromFile(string.Empty);
             //gfx.DrawImage(ITvitaeLogo, new XRect(0, 0, 0, 0));
@@ -132,7 +149,7 @@ namespace StudentenVolgSysteem.Controllers
             //0 |30 |130|160|260|335|435|465|565|595
             //Student Info
             int col1x = 30; int col2x = 135; int col3x = 335; int col4x = 435;
-            int colwidth = 100; int rowheight = 15;
+            int colwidth = 100; int rowheight = 12;
             int row1 = 60; int row2 = 80; int row3 = 100;
 
             DrawLabel("Naam:", col1x, row1, colwidth, rowheight, gfx);
@@ -158,7 +175,7 @@ namespace StudentenVolgSysteem.Controllers
             int YPointer = 150;
             int topicColumnWidth = 159;
             int topicColumn1 = 30; int topicColumn2 = 30 + topicColumnWidth; int topicColumn3 = 2 * topicColumnWidth + 60;
-            XFont certFont = new XFont("verdana", 10, XFontStyle.Regular);
+            XFont certFont = new XFont("calibri", 11, XFontStyle.Regular);
             XPen pen = new XPen(XColors.LightGray);
 
             //Add headers
@@ -250,11 +267,12 @@ namespace StudentenVolgSysteem.Controllers
                             certRows = Math.Floor(certRows);
                         }
                         XRect certRect = new XRect(topicColumn3, CertYPointer, rectWidth, rowheight * certRows);
-
+                        //Add each cert to drawlist
                         drawList.Add(new DrawStringListItem(certs[j].Certificering, certFont, XBrushes.Black, certRect));
-
+                        //update CertYPointer for the next cert
                         CertYPointer += rowheight * (int)certRows;
                     }
+                    //Check if certs go over the footer
                     if(YPointer + CertYPointer > 780)
                     {
                         gfx = NewPage(document, out page, gfx, out tf, out YPointer, logo);
@@ -307,7 +325,7 @@ namespace StudentenVolgSysteem.Controllers
 
         private void DrawLabel(string text, int x, int y, int width, int height, XGraphics gfx)
         {
-            XFont LabelFont = new XFont("arial", 14, XFontStyle.Regular);
+            XFont LabelFont = new XFont("calibri", 11, XFontStyle.Regular);
             gfx.DrawString(text, LabelFont, XBrushes.Black, new XRect(x, y, width, height), XStringFormats.CenterLeft);
         }
     }
