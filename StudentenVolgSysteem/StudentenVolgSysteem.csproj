@@ -193,6 +193,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\MyDbContext\201912061435290_pushdb.cs" />
+    <Compile Include="Migrations\MyDbContext\201912061435290_pushdb.Designer.cs">
+      <DependentUpon>201912061435290_pushdb.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\MyDbContext\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModels.cs" />
@@ -225,6 +229,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="App_Data\TopicDataInfra.csv" />
     <Content Include="App_Data\DropdownDataInfra.csv" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -347,6 +352,11 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\MyDbContext\201912061435290_pushdb.resx">
+      <DependentUpon>201912061435290_pushdb.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
