@@ -6,6 +6,8 @@ using System.Net;
 using System.Web.Mvc;
 using SelectListItem = System.Web.WebPages.Html.SelectListItem;
 using StudentenVolgSysteem.Documents;
+using System.Collections;
+using StudentenVolgSysteem.DAL;
 
 
 
@@ -14,7 +16,7 @@ namespace StudentenVolgSysteem.Controllers
     [Authorize(Roles = "Administrator, Docent")]
     public class PdfController : Controller
     {
-        MyDbContext db = new MyDbContext();
+        SVSContext db = new SVSContext();
 
         // GET: PDF/CreatePDF
         [HttpGet]
@@ -24,7 +26,7 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CuriculumModel curiculum = db.Curiculums.Include("StudentId").Where(m => m.CuriculumId == curriculumId).FirstOrDefault();
+            Curriculum curiculum = db.Curricula.Include("Student").Where(m => m.CurriculumId == curriculumId).FirstOrDefault();
             if (curiculum == null)
             {
                 return HttpNotFound();
@@ -32,7 +34,7 @@ namespace StudentenVolgSysteem.Controllers
 
             PdfViewModel pdfViewModel = new PdfViewModel();
 
-            pdfViewModel.Student = db.Studenten.Find(curiculum.StudentId.StudentId).WholeName;
+            pdfViewModel.Student = db.Studenten.Find(curiculum.Student.StudentId).VolledigeNaam;
             pdfViewModel.curriculumId = (int)curriculumId;
             pdfViewModel.NiveauList = GetNiveaus();
 

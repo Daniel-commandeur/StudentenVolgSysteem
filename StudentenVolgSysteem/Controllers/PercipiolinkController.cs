@@ -7,13 +7,14 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using StudentenVolgSysteem.Models;
+using StudentenVolgSysteem.DAL;
 
 namespace StudentenVolgSysteem.Controllers
 {
     [Authorize(Roles = "Administrator")]
     public class PercipiolinkController : Controller
     {
-        private MyDbContext db = new MyDbContext();
+        private SVSContext db = new SVSContext();
 
         // GET: Percipiolink
         public ActionResult Index()
@@ -28,12 +29,12 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PercipiolinkModel percipiolinkModel = db.PercipioLinks.Find(id);
-            if (percipiolinkModel == null)
+            PercipioLink percipioLink = db.PercipioLinks.Find(id);
+            if (percipioLink == null)
             {
                 return HttpNotFound();
             }
-            return View(percipiolinkModel);
+            return View(percipioLink);
         }
 
         // GET: Percipiolink/Create
@@ -47,16 +48,16 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PercipiolinkId,Link")] PercipiolinkModel percipiolinkModel)
+        public ActionResult Create([Bind(Include = "PercipioLinkId,Link")] PercipioLink percipioLink)
         {
             if (ModelState.IsValid)
             {
-                db.PercipioLinks.Add(percipiolinkModel);
+                db.PercipioLinks.Add(percipioLink);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(percipiolinkModel);
+            return View(percipioLink);
         }
 
         // GET: Percipiolink/Edit/5
@@ -66,12 +67,12 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PercipiolinkModel percipiolinkModel = db.PercipioLinks.Find(id);
-            if (percipiolinkModel == null)
+            PercipioLink percipioLink = db.PercipioLinks.Find(id);
+            if (percipioLink == null)
             {
                 return HttpNotFound();
             }
-            return View(percipiolinkModel);
+            return View(percipioLink);
         }
 
         // POST: Percipiolink/Edit/5
@@ -79,15 +80,15 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PercipiolinkId,Link")] PercipiolinkModel percipiolinkModel)
+        public ActionResult Edit([Bind(Include = "PercipioLinkId,Link")] PercipioLink percipioLink)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(percipiolinkModel).State = EntityState.Modified;
+                db.Entry(percipioLink).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(percipiolinkModel);
+            return View(percipioLink);
         }
 
         // GET: Percipiolink/Delete/5
@@ -97,12 +98,12 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PercipiolinkModel percipiolinkModel = db.PercipioLinks.Find(id);
-            if (percipiolinkModel == null)
+            PercipioLink percipioLink = db.PercipioLinks.Find(id);
+            if (percipioLink == null)
             {
                 return HttpNotFound();
             }
-            return View(percipiolinkModel);
+            return View(percipioLink);
         }
 
         // POST: Percipiolink/Delete/5
@@ -110,8 +111,8 @@ namespace StudentenVolgSysteem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            PercipiolinkModel percipiolinkModel = db.PercipioLinks.Find(id);
-            db.PercipioLinks.Remove(percipiolinkModel);
+            PercipioLink percipioLink = db.PercipioLinks.Find(id);
+            db.PercipioLinks.Remove(percipioLink);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -7,13 +7,14 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using StudentenVolgSysteem.Models;
+using StudentenVolgSysteem.DAL;
 
 namespace StudentenVolgSysteem.Controllers
 {
     [Authorize(Roles = "Administrator")]
     public class NiveauController : Controller
     {
-        private MyDbContext db = new MyDbContext();
+        private SVSContext db = new SVSContext();
 
         // GET: Niveau
         public ActionResult Index()
@@ -28,12 +29,12 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            NiveauModel niveauModel = db.Niveaus.Find(id);
-            if (niveauModel == null)
+            Niveau niveau = db.Niveaus.Find(id);
+            if (niveau == null)
             {
                 return HttpNotFound();
             }
-            return View(niveauModel);
+            return View(niveau);
         }
 
         // GET: Niveau/Create
@@ -47,16 +48,16 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "NiveauId,Niveau")] NiveauModel niveauModel)
+        public ActionResult Create([Bind(Include = "NiveauId,Naam")] Niveau niveau)
         {
             if (ModelState.IsValid)
             {
-                db.Niveaus.Add(niveauModel);
+                db.Niveaus.Add(niveau);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(niveauModel);
+            return View(niveau);
         }
 
         // GET: Niveau/Edit/5
@@ -66,12 +67,12 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            NiveauModel niveauModel = db.Niveaus.Find(id);
-            if (niveauModel == null)
+            Niveau niveau = db.Niveaus.Find(id);
+            if (niveau == null)
             {
                 return HttpNotFound();
             }
-            return View(niveauModel);
+            return View(niveau);
         }
 
         // POST: Niveau/Edit/5
@@ -79,15 +80,15 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "NiveauId,Niveau")] NiveauModel niveauModel)
+        public ActionResult Edit([Bind(Include = "NiveauId,Naam")] Niveau niveau)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(niveauModel).State = EntityState.Modified;
+                db.Entry(niveau).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(niveauModel);
+            return View(niveau);
         }
 
         // GET: Niveau/Delete/5
@@ -97,12 +98,12 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            NiveauModel niveauModel = db.Niveaus.Find(id);
-            if (niveauModel == null)
+            Niveau niveau = db.Niveaus.Find(id);
+            if (niveau == null)
             {
                 return HttpNotFound();
             }
-            return View(niveauModel);
+            return View(niveau);
         }
 
         // POST: Niveau/Delete/5
@@ -110,8 +111,8 @@ namespace StudentenVolgSysteem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            NiveauModel niveauModel = db.Niveaus.Find(id);
-            db.Niveaus.Remove(niveauModel);
+            Niveau niveau = db.Niveaus.Find(id);
+            db.Niveaus.Remove(niveau);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

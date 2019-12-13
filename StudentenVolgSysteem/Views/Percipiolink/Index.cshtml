@@ -1,4 +1,4 @@
-﻿@model IEnumerable<StudentenVolgSysteem.Models.PercipiolinkModel>
+﻿@model IEnumerable<StudentenVolgSysteem.Models.PercipioLink>
 
 @{
     ViewBag.Title = "Index";
@@ -23,9 +23,9 @@
             @Html.DisplayFor(modelItem => item.Link)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.PercipiolinkId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.PercipiolinkId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.PercipiolinkId })
+            @Html.ActionLink("Edit", "Edit", new { id=item.PercipioLinkId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.PercipioLinkId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.PercipioLinkId })
         </td>
     </tr>
 }

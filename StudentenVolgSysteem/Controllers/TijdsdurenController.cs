@@ -7,18 +7,19 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using StudentenVolgSysteem.Models;
+using StudentenVolgSysteem.DAL;
 
 namespace StudentenVolgSysteem.Controllers
 {
     [Authorize(Roles = "Administrator")]
     public class TijdsdurenController : Controller
     {
-        private MyDbContext db = new MyDbContext();
+        private SVSContext db = new SVSContext();
 
         // GET: Tijdsduren
         public ActionResult Index()
         {
-            return View(db.TijdsDuren.ToList());
+            return View(db.Tijdsduren.ToList());
         }
 
         // GET: Tijdsduren/Details/5
@@ -28,12 +29,12 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TijdsDuurModel tijdsDuurModel = db.TijdsDuren.Find(id);
-            if (tijdsDuurModel == null)
+            Tijdsduur tijdsduur = db.Tijdsduren.Find(id);
+            if (tijdsduur == null)
             {
                 return HttpNotFound();
             }
-            return View(tijdsDuurModel);
+            return View(tijdsduur);
         }
 
         // GET: Tijdsduren/Create
@@ -47,16 +48,16 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TijdsDuurId,Eenheid")] TijdsDuurModel tijdsDuurModel)
+        public ActionResult Create([Bind(Include = "TijdsduurId,Eenheid")] Tijdsduur tijdsduur)
         {
             if (ModelState.IsValid)
             {
-                db.TijdsDuren.Add(tijdsDuurModel);
+                db.Tijdsduren.Add(tijdsduur);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(tijdsDuurModel);
+            return View(tijdsduur);
         }
 
         // GET: Tijdsduren/Edit/5
@@ -66,12 +67,12 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TijdsDuurModel tijdsDuurModel = db.TijdsDuren.Find(id);
-            if (tijdsDuurModel == null)
+            Tijdsduur tijdsduur = db.Tijdsduren.Find(id);
+            if (tijdsduur == null)
             {
                 return HttpNotFound();
             }
-            return View(tijdsDuurModel);
+            return View(tijdsduur);
         }
 
         // POST: Tijdsduren/Edit/5
@@ -79,15 +80,15 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "TijdsDuurId,Eenheid")] TijdsDuurModel tijdsDuurModel)
+        public ActionResult Edit([Bind(Include = "TijdsduurId,Eenheid")] Tijdsduur tijdsduur)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(tijdsDuurModel).State = EntityState.Modified;
+                db.Entry(tijdsduur).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(tijdsDuurModel);
+            return View(tijdsduur);
         }
 
         // GET: Tijdsduren/Delete/5
@@ -97,12 +98,12 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TijdsDuurModel tijdsDuurModel = db.TijdsDuren.Find(id);
-            if (tijdsDuurModel == null)
+            Tijdsduur tijdsduur = db.Tijdsduren.Find(id);
+            if (tijdsduur == null)
             {
                 return HttpNotFound();
             }
-            return View(tijdsDuurModel);
+            return View(tijdsduur);
         }
 
         // POST: Tijdsduren/Delete/5
@@ -110,8 +111,8 @@ namespace StudentenVolgSysteem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            TijdsDuurModel tijdsDuurModel = db.TijdsDuren.Find(id);
-            db.TijdsDuren.Remove(tijdsDuurModel);
+            Tijdsduur tijdsduur = db.Tijdsduren.Find(id);
+            db.Tijdsduren.Remove(tijdsduur);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -7,13 +7,14 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using StudentenVolgSysteem.Models;
+using StudentenVolgSysteem.DAL;
 
 namespace StudentenVolgSysteem.Controllers
 {
     [Authorize (Roles = "Administrator")]
     public class WerkvormController : Controller
     {
-        private MyDbContext db = new MyDbContext();
+        private SVSContext db = new SVSContext();
 
         // GET: Werkvorm
         public ActionResult Index()
@@ -28,12 +29,12 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            WerkvormModel werkvormModel = db.Werkvormen.Find(id);
-            if (werkvormModel == null)
+            Werkvorm werkvorm = db.Werkvormen.Find(id);
+            if (werkvorm == null)
             {
                 return HttpNotFound();
             }
-            return View(werkvormModel);
+            return View(werkvorm);
         }
 
         // GET: Werkvorm/Create
@@ -47,16 +48,16 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "WerkvormId,Werkvorm")] WerkvormModel werkvormModel)
+        public ActionResult Create([Bind(Include = "WerkvormId,Naam")] Werkvorm werkvorm)
         {
             if (ModelState.IsValid)
             {
-                db.Werkvormen.Add(werkvormModel);
+                db.Werkvormen.Add(werkvorm);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(werkvormModel);
+            return View(werkvorm);
         }
 
         // GET: Werkvorm/Edit/5
@@ -66,12 +67,12 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            WerkvormModel werkvormModel = db.Werkvormen.Find(id);
-            if (werkvormModel == null)
+            Werkvorm werkvorm = db.Werkvormen.Find(id);
+            if (werkvorm == null)
             {
                 return HttpNotFound();
             }
-            return View(werkvormModel);
+            return View(werkvorm);
         }
 
         // POST: Werkvorm/Edit/5
@@ -79,15 +80,15 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "WerkvormId,Werkvorm")] WerkvormModel werkvormModel)
+        public ActionResult Edit([Bind(Include = "WerkvormId,Naam")] Werkvorm werkvorm)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(werkvormModel).State = EntityState.Modified;
+                db.Entry(werkvorm).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(werkvormModel);
+            return View(werkvorm);
         }
 
         // GET: Werkvorm/Delete/5
@@ -97,12 +98,12 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            WerkvormModel werkvormModel = db.Werkvormen.Find(id);
-            if (werkvormModel == null)
+            Werkvorm werkvorm = db.Werkvormen.Find(id);
+            if (werkvorm == null)
             {
                 return HttpNotFound();
             }
-            return View(werkvormModel);
+            return View(werkvorm);
         }
 
         // POST: Werkvorm/Delete/5
@@ -110,8 +111,8 @@ namespace StudentenVolgSysteem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            WerkvormModel werkvormModel = db.Werkvormen.Find(id);
-            db.Werkvormen.Remove(werkvormModel);
+            Werkvorm werkvorm = db.Werkvormen.Find(id);
+            db.Werkvormen.Remove(werkvorm);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

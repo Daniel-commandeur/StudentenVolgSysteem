@@ -1,5 +1,4 @@
-﻿@model StudentenVolgSysteem.Models.TopicModel
-
+﻿@model StudentenVolgSysteem.Models.Topic
 @{
     ViewBag.Title = "Details";
 }
@@ -19,11 +18,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Naam)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.Naam)
         </dd>
 
         <dt>
@@ -49,7 +48,7 @@
         <dd>
             @foreach (var kennis in Model.Voorkennis)
             {
-                @Html.DisplayFor(model => kennis.Name)
+                @Html.DisplayFor(model => kennis.Naam)
             }
         </dd>
 
@@ -68,7 +67,7 @@
         <dd>
             @foreach (var cert in Model.Certificeringen)
             {
-                @Html.DisplayFor(modelItem => cert.Certificering)
+                @Html.DisplayFor(modelItem => cert.Naam)
             }
         </dd>
 
@@ -79,7 +78,7 @@
         <dd>
             @foreach (var benodigdheden in Model.Benodigdheden)
             {
-                @Html.DisplayFor(model => benodigdheden.Content)
+                @Html.DisplayFor(model => benodigdheden.Naam)
             }
         </dd>
 

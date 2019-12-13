@@ -1,11 +1,11 @@
-﻿@model StudentenVolgSysteem.Models.CuriculumModel
+﻿@model StudentenVolgSysteem.Models.Curriculum
 
 @*TODO: add checkbox functionality to keep track of student progress*@
     <div>
         <h4>
-            @Html.DisplayFor(model => model.Name) |
-            @Html.ActionLink("Edit", "Edit", "Curiculum", new { id = Model.CuriculumId }, null) |
-            @Html.ActionLink("PDF", "CreatePDF", "Pdf", new { curriculumId = Model.CuriculumId }, null)
+            @Html.DisplayFor(model => model.Naam) |
+            @Html.ActionLink("Edit", "Edit", "Curiculum", new { id = Model.CurriculumId }, null) |
+            @Html.ActionLink("PDF", "CreatePDF", "Pdf", new { curriculumId = Model.CurriculumId }, null)
         </h4>
         <hr />
         <table class="my-table">
@@ -37,16 +37,16 @@
                     @Html.DisplayFor(modelItem => topic.Code)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => topic.Niveau.Niveau)
+                    @Html.DisplayFor(modelItem => topic.Niveau.Naam)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => topic.Name)
+                    @Html.DisplayFor(modelItem => topic.Naam)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => topic.Duur.Eenheid)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => topic.Werkvorm.Werkvorm)
+                    @Html.DisplayFor(modelItem => topic.Werkvorm.Naam)
                 </td>
                 <td>
                     @foreach (var cert in topic.Certificeringen)

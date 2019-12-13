@@ -7,13 +7,14 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using StudentenVolgSysteem.Models;
+using StudentenVolgSysteem.DAL;
 
 namespace StudentenVolgSysteem.Controllers
 {
     [Authorize(Roles = "Administrator")]
     public class BenodigdhedenController : Controller
     {
-        private MyDbContext db = new MyDbContext();
+        private SVSContext db = new SVSContext();
 
         // GET: Benodigdheden
         public ActionResult Index()
@@ -28,12 +29,12 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BenodigdheidModel benodigdheidModel = db.Benodigdheden.Find(id);
-            if (benodigdheidModel == null)
+            Benodigdheid benodigdheid = db.Benodigdheden.Find(id);
+            if (benodigdheid == null)
             {
                 return HttpNotFound();
             }
-            return View(benodigdheidModel);
+            return View(benodigdheid);
         }
 
         // GET: Benodigdheden/Create
@@ -47,16 +48,16 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "BenodigdheidId,Content")] BenodigdheidModel benodigdheidModel)
+        public ActionResult Create([Bind(Include = "BenodigdheidId,Naam")] Benodigdheid benodigdheid)
         {
             if (ModelState.IsValid)
             {
-                db.Benodigdheden.Add(benodigdheidModel);
+                db.Benodigdheden.Add(benodigdheid);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(benodigdheidModel);
+            return View(benodigdheid);
         }
 
         // GET: Benodigdheden/Edit/5
@@ -66,12 +67,12 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BenodigdheidModel benodigdheidModel = db.Benodigdheden.Find(id);
-            if (benodigdheidModel == null)
+            Benodigdheid benodigdheid = db.Benodigdheden.Find(id);
+            if (benodigdheid == null)
             {
                 return HttpNotFound();
             }
-            return View(benodigdheidModel);
+            return View(benodigdheid);
         }
 
         // POST: Benodigdheden/Edit/5
@@ -79,15 +80,15 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "BenodigdheidId,Content")] BenodigdheidModel benodigdheidModel)
+        public ActionResult Edit([Bind(Include = "BenodigdheidId,Naam")] Benodigdheid benodigdheid)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(benodigdheidModel).State = EntityState.Modified;
+                db.Entry(benodigdheid).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(benodigdheidModel);
+            return View(benodigdheid);
         }
 
         // GET: Benodigdheden/Delete/5
@@ -97,12 +98,12 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BenodigdheidModel benodigdheidModel = db.Benodigdheden.Find(id);
-            if (benodigdheidModel == null)
+            Benodigdheid benodigdheid = db.Benodigdheden.Find(id);
+            if (benodigdheid == null)
             {
                 return HttpNotFound();
             }
-            return View(benodigdheidModel);
+            return View(benodigdheid);
         }
 
         // POST: Benodigdheden/Delete/5
@@ -110,8 +111,8 @@ namespace StudentenVolgSysteem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            BenodigdheidModel benodigdheidModel = db.Benodigdheden.Find(id);
-            db.Benodigdheden.Remove(benodigdheidModel);
+            Benodigdheid benodigdheid = db.Benodigdheden.Find(id);
+            db.Benodigdheden.Remove(benodigdheid);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -1,4 +1,4 @@
-﻿@model StudentenVolgSysteem.Models.CuriculumModel
+﻿@model StudentenVolgSysteem.Models.Curriculum
 
 @{
     ViewBag.Title = "Delete";
@@ -8,39 +8,39 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>CuriculumModel</h4>
+    <h4>Curriculum</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Naam)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.Naam)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.StudentId)
+            @Html.DisplayNameFor(model => model.Student)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.StudentId)
+            @Html.DisplayFor(model => model.Student)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.StudentId.FirstName)
+            @Html.DisplayNameFor(model => model.Student.Voornaam)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.StudentId.FirstName)
+            @Html.DisplayFor(model => model.Student.Voornaam)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.StudentId.LastName)
+            @Html.DisplayNameFor(model => model.Student.Achternaam)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.StudentId.LastName)
+            @Html.DisplayFor(model => model.Student.Achternaam)
         </dd>
 
         <dt>
@@ -50,7 +50,7 @@
         <dd>
             @foreach (var item in Model.Topics)
             {
-                @Html.DisplayFor(model => item.NameCode)<br />
+                @Html.DisplayFor(model => item.NaamCode)<br />
             }
         </dd>
     </dl>

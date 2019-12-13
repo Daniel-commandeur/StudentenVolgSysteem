@@ -7,13 +7,14 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using StudentenVolgSysteem.Models;
+using StudentenVolgSysteem.DAL;
 
 namespace StudentenVolgSysteem.Controllers
 {
     [Authorize(Roles = "Administrator, Docent")]
     public class TopicsController : Controller
     {
-        private MyDbContext db = new MyDbContext();
+        private SVSContext db = new SVSContext();
 
         // GET: Topics
         public ActionResult Index()
@@ -39,28 +40,28 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TopicModel topicModel = db.Topics.Include(m => m.Duur).Where(m => m.TopicId == id).FirstOrDefault();
+            Topic topic = db.Topics.Include(m => m.Duur).Where(m => m.TopicId == id).FirstOrDefault();
 
-            if (topicModel == null)
+            if (topic == null)
             {
                 return HttpNotFound();
             }
-            return View(topicModel);
+            return View(topic);
         }
 
         // GET: Topics/Create
         public ActionResult Create()
         {
-            CUTopicModel cuTopicModel = new CUTopicModel();
-            cuTopicModel.CUNiveaus = db.Niveaus.ToList();
-            cuTopicModel.CUTijdsDuren = db.TijdsDuren.ToList();
-            cuTopicModel.CUwerkvormen = db.Werkvormen.ToList();
-            cuTopicModel.CUCertificeringenInfras = db.CertificeringenInfras.ToList();
-            cuTopicModel.CUTags = db.Tags.ToList();
-            cuTopicModel.CUBenodigdheden = db.Benodigdheden.ToList();
-            cuTopicModel.CUPercipiolinks = db.PercipioLinks.ToList();
-            cuTopicModel.VoorkennisTopics = db.Topics.ToList();
-            return View(cuTopicModel);
+            CUTopic cuTopic = new CUTopic();
+            cuTopic.CUNiveaus = db.Niveaus.ToList();
+            cuTopic.CUTijdsduren = db.Tijdsduren.ToList();
+            cuTopic.CUWerkvormen = db.Werkvormen.ToList();
+            cuTopic.CUCertificeringen = db.Certificeringen.ToList();
+            cuTopic.CUTags = db.Tags.ToList();
+            cuTopic.CUBenodigdheden = db.Benodigdheden.ToList();
+            cuTopic.CUPercipioLinks = db.PercipioLinks.ToList();
+            cuTopic.CUVoorkennis = db.Topics.ToList();
+            return View(cuTopic);
         }
 
         // POST: Topics/Create
@@ -68,26 +69,26 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TopicId,Code,NiveauId,Name,TijdsDuurId,WerkvormId,Leerdoel,CertificeringIds,VoorkennisIds,Inhoud,BenodigdhedenIds,PercipiolinkIds")] CUTopicModel cuTopicModel)
+        public ActionResult Create([Bind(Include = "TopicId,Code,NiveauId,Naam,TijdsduurId,WerkvormId,Leerdoel,CertificeringIds,VoorkennisIds,Inhoud,BenodigdhedenIds,PercipioLinkIds")] CUTopic cuTopic)
         {
             if (ModelState.IsValid)
             {
-                TopicModel topicModel = new TopicModel();
-                topicModel.CopyCUTopicModelToTopicModel(cuTopicModel, db);
+                Topic topic = new Topic();
+                topic.CopyCUTopicToTopic(cuTopic, db);
 
-                db.Topics.Add(topicModel);
+                db.Topics.Add(topic);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            cuTopicModel.CUNiveaus = db.Niveaus.ToList();
-            cuTopicModel.CUTijdsDuren = db.TijdsDuren.ToList();
-            cuTopicModel.CUwerkvormen = db.Werkvormen.ToList();
-            cuTopicModel.CUCertificeringenInfras = db.CertificeringenInfras.ToList();
-            cuTopicModel.CUTags = db.Tags.ToList();
-            cuTopicModel.CUBenodigdheden = db.Benodigdheden.ToList();
-            cuTopicModel.CUPercipiolinks = db.PercipioLinks.ToList();
-            cuTopicModel.VoorkennisTopics = db.Topics.ToList();
-            return View(cuTopicModel);
+            cuTopic.CUNiveaus = db.Niveaus.ToList();
+            cuTopic.CUTijdsduren = db.Tijdsduren.ToList();
+            cuTopic.CUWerkvormen = db.Werkvormen.ToList();
+            cuTopic.CUCertificeringen = db.Certificeringen.ToList();
+            cuTopic.CUTags = db.Tags.ToList();
+            cuTopic.CUBenodigdheden = db.Benodigdheden.ToList();
+            cuTopic.CUPercipioLinks = db.PercipioLinks.ToList();
+            cuTopic.CUVoorkennis = db.Topics.ToList();
+            return View(cuTopic);
         }
 
         // GET: Topics/Edit/5
@@ -98,7 +99,7 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            TopicModel topicModel = db.Topics.Include(t => t.Duur)
+            Topic topicModel = db.Topics.Include(t => t.Duur)
                                              .Include(t => t.Niveau)
                                              .Include(t => t.PercipioLinks)
                                              .Include(t => t.Werkvorm)
@@ -109,7 +110,7 @@ namespace StudentenVolgSysteem.Controllers
                 return HttpNotFound();
             }
 
-            CUTopicModel cuTopicModel = new CUTopicModel(topicModel);
+            CUTopic cuTopicModel = new CUTopic(topicModel);
 
             return View(cuTopicModel);
         }
@@ -119,12 +120,12 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "TopicId,Code,NiveauId,Name,TijdsDuurId,WerkvormId,Leerdoel,CertificeringIds,VoorkennisIds,Inhoud,BenodigdhedenIds,PercipiolinkIds,TagIds")] CUTopicModel cuTopicModel)
+        public ActionResult Edit([Bind(Include = "TopicId,Code,NiveauId,Naam,TijdsduurId,WerkvormId,Leerdoel,CertificeringIds,VoorkennisIds,Inhoud,BenodigdhedenIds,PercipioLinkIds,TagIds")] CUTopic cuTopic)
         {
             if (ModelState.IsValid)
             {
-                TopicModel topicModel = db.Topics.Find(cuTopicModel.TopicId);
-                topicModel.CopyCUTopicModelToTopicModel(cuTopicModel, db);
+                Topic topicModel = db.Topics.Find(cuTopic.TopicId);
+                topicModel.CopyCUTopicToTopic(cuTopic, db);
                 
                 ////Make changes to the topicModel here, we have to get all the models from side-tables from the dbcontext by reference.
                 ////Otherwise EF will think these are new objects
@@ -212,15 +213,15 @@ namespace StudentenVolgSysteem.Controllers
                 return RedirectToAction("Index");
             }
             //If the model is not valid we need to re-do all the things that were filtered out by the bind
-            cuTopicModel.CUNiveaus = db.Niveaus.ToList();
-            cuTopicModel.CUTijdsDuren = db.TijdsDuren.ToList();
-            cuTopicModel.CUwerkvormen = db.Werkvormen.ToList();
-            cuTopicModel.CUCertificeringenInfras = db.CertificeringenInfras.ToList();
-            cuTopicModel.CUTags = db.Tags.ToList();
-            cuTopicModel.CUBenodigdheden = db.Benodigdheden.ToList();
-            cuTopicModel.CUPercipiolinks = db.PercipioLinks.ToList();
-            cuTopicModel.VoorkennisTopics = db.Topics.ToList();
-            return View(cuTopicModel);
+            cuTopic.CUNiveaus = db.Niveaus.ToList();
+            cuTopic.CUTijdsduren = db.Tijdsduren.ToList();
+            cuTopic.CUWerkvormen = db.Werkvormen.ToList();
+            cuTopic.CUCertificeringen = db.Certificeringen.ToList();
+            cuTopic.CUTags = db.Tags.ToList();
+            cuTopic.CUBenodigdheden = db.Benodigdheden.ToList();
+            cuTopic.CUPercipioLinks = db.PercipioLinks.ToList();
+            cuTopic.CUVoorkennis = db.Topics.ToList();
+            return View(cuTopic);
         }
 
         // GET: Topics/Delete/5
@@ -230,7 +231,7 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TopicModel topicModel = db.Topics.Find(id);
+            Topic topicModel = db.Topics.Find(id);
             if (topicModel == null)
             {
                 return HttpNotFound();
@@ -243,7 +244,7 @@ namespace StudentenVolgSysteem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            TopicModel topicModel = db.Topics.Find(id);
+            Topic topicModel = db.Topics.Find(id);
             db.Topics.Remove(topicModel);
             db.SaveChanges();
             return RedirectToAction("Index");

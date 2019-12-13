@@ -7,18 +7,19 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using StudentenVolgSysteem.Models;
+using StudentenVolgSysteem.DAL;
 
 namespace StudentenVolgSysteem.Controllers
 {
     [Authorize(Roles = "Administrator")]
     public class CertificeringenController : Controller
     {
-        private MyDbContext db = new MyDbContext();
+        private SVSContext db = new SVSContext();
 
         // GET: Certificeringen
         public ActionResult Index()
         {
-            return View(db.CertificeringenInfras.ToList());
+            return View(db.Certificeringen.ToList());
         }
 
         // GET: Certificeringen/Details/5
@@ -28,12 +29,12 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CertificeringenInfraModel certificeringenInfraModel = db.CertificeringenInfras.Find(id);
-            if (certificeringenInfraModel == null)
+            Certificering certificering = db.Certificeringen.Find(id);
+            if (certificering == null)
             {
                 return HttpNotFound();
             }
-            return View(certificeringenInfraModel);
+            return View(certificering);
         }
 
         // GET: Certificeringen/Create
@@ -47,16 +48,16 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CertificeringenInfraId,Certificering")] CertificeringenInfraModel certificeringenInfraModel)
+        public ActionResult Create([Bind(Include = "Certificering,Naam")] Certificering certificering)
         {
             if (ModelState.IsValid)
             {
-                db.CertificeringenInfras.Add(certificeringenInfraModel);
+                db.Certificeringen.Add(certificering);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(certificeringenInfraModel);
+            return View(certificering);
         }
 
         // GET: Certificeringen/Edit/5
@@ -66,12 +67,12 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CertificeringenInfraModel certificeringenInfraModel = db.CertificeringenInfras.Find(id);
-            if (certificeringenInfraModel == null)
+            Certificering certificering = db.Certificeringen.Find(id);
+            if (certificering == null)
             {
                 return HttpNotFound();
             }
-            return View(certificeringenInfraModel);
+            return View(certificering);
         }
 
         // POST: Certificeringen/Edit/5
@@ -79,15 +80,15 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CertificeringenInfraId,Certificering")] CertificeringenInfraModel certificeringenInfraModel)
+        public ActionResult Edit([Bind(Include = "CertificeringId,Naam")] Certificering certificering)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(certificeringenInfraModel).State = EntityState.Modified;
+                db.Entry(certificering).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(certificeringenInfraModel);
+            return View(certificering);
         }
 
         // GET: Certificeringen/Delete/5
@@ -97,12 +98,12 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CertificeringenInfraModel certificeringenInfraModel = db.CertificeringenInfras.Find(id);
-            if (certificeringenInfraModel == null)
+            Certificering certificering = db.Certificeringen.Find(id);
+            if (certificering == null)
             {
                 return HttpNotFound();
             }
-            return View(certificeringenInfraModel);
+            return View(certificering);
         }
 
         // POST: Certificeringen/Delete/5
@@ -110,8 +111,8 @@ namespace StudentenVolgSysteem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            CertificeringenInfraModel certificeringenInfraModel = db.CertificeringenInfras.Find(id);
-            db.CertificeringenInfras.Remove(certificeringenInfraModel);
+            Certificering certificering = db.Certificeringen.Find(id);
+            db.Certificeringen.Remove(certificering);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

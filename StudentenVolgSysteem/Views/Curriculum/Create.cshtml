@@ -1,4 +1,4 @@
-﻿@model StudentenVolgSysteem.Models.CUCuriculumModel
+﻿@model StudentenVolgSysteem.Models.CUCurriculum
 
 @{
     ViewBag.Title = "Create";
@@ -32,25 +32,25 @@
     @Html.AntiForgeryToken()
 
 <div class="form-horizontal">
-    <h4>CuriculumModel</h4>
+    <h4>Curriculum</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.CuriculumId)
-    @Html.HiddenFor(model => model.StudentIdInt)
+    @Html.HiddenFor(model => model.CurriculumId)
     @Html.HiddenFor(model => model.StudentId)
+    @Html.HiddenFor(model => model.Student)
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Naam, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Naam, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Naam, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
         @Html.LabelFor(model => model.Topics, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownListFor(model => model.allTopicIds, new MultiSelectList(Model.AllTopics, "TopicId", "NameCode", Model.AllTopics.Select(c => c.TopicId)), new { @class = "multiSelect", @multiple = "multiple" })
+            @Html.DropDownListFor(model => model.alleTopicIds, new MultiSelectList(Model.AlleTopics, "TopicId", "NameCode", Model.AlleTopics.Select(c => c.TopicId)), new { @class = "multiSelect", @multiple = "multiple" })
             @Html.ValidationMessageFor(model => model.Topics, "", new { @class = "text-danger" })
         </div>
     </div>

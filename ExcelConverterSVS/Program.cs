@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StudentenVolgSysteem.Models;
+using StudentenVolgSysteem.DAL;
 
 namespace ExcelConverterSVS
 {
@@ -32,7 +33,7 @@ namespace ExcelConverterSVS
             }
         }
 
-        public static void GetExcelData(MyDbContext db)
+        public static void GetExcelData(SVSContext db)
         {
 
             #region Sheet 2
@@ -130,7 +131,7 @@ namespace ExcelConverterSVS
                     }
                 }
 
-                TopicModel topicModel = new TopicModel();
+                Topic topicModel = new Topic();
                 int counter = 0;
                 foreach (var splitTopicEntry in splitLine)
                 {
@@ -226,13 +227,13 @@ namespace ExcelConverterSVS
             Console.ReadLine();
         }
 
-        private static bool MakeCert(string item, MyDbContext db)
+        private static bool MakeCert(string item, SVSContext db)
         {
             bool success = false;
-            if(db.CertificeringenInfras.Find(item) == null) {
+            if(db.Certificeringen.Find(item) == null) {
                 try
                 {
-                    db.CertificeringenInfras.Add(new CertificeringenInfraModel { Certificering = item });
+                    db.Certificeringen.Add(new Certificering { Naam = item });
                     db.SaveChanges();
                     success = true;
                 }
@@ -241,14 +242,14 @@ namespace ExcelConverterSVS
             return success;
         }
 
-        private static bool MakeTag(string item, MyDbContext db)
+        private static bool MakeTag(string item, SVSContext db)
         {
             bool success = false;
             if (db.Tags.Find(item) == null)
             {
                 try
                 {
-                    db.Tags.Add(new TagModel { Naam = item });
+                    db.Tags.Add(new Tag { Naam = item });
                     db.SaveChanges();
                     success = true;
                 }
@@ -257,14 +258,14 @@ namespace ExcelConverterSVS
             return success;
         }
 
-        private static bool MakeDuur(string item, MyDbContext db)
+        private static bool MakeDuur(string item, SVSContext db)
         {
             bool success = false;
-            if (db.TijdsDuren.Find(item) == null)
+            if (db.Tijdsduren.Find(item) == null)
             {
                 try
                 {
-                    db.TijdsDuren.Add(new TijdsDuurModel { Eenheid = item });
+                    db.Tijdsduren.Add(new Tijdsduur { Eenheid = item });
                     db.SaveChanges();
                     success = true;
                 }
@@ -273,14 +274,14 @@ namespace ExcelConverterSVS
             return success;
         }
 
-        private static bool MakeWerkvorm(string item, MyDbContext db)
+        private static bool MakeWerkvorm(string item, SVSContext db)
         {
             bool success = false;
             if (db.Werkvormen.Find(item) == null)
             {
                 try
                 {
-                    db.Werkvormen.Add(new WerkvormModel { Werkvorm = item });
+                    db.Werkvormen.Add(new Werkvorm { Naam = item });
                     db.SaveChanges();
                     success = true;
                 }
@@ -289,14 +290,14 @@ namespace ExcelConverterSVS
             return success;
         }
 
-        private static bool MakeNiveau(string item, MyDbContext db)
+        private static bool MakeNiveau(string item, SVSContext db)
         {
             bool success = false;
             if (db.Niveaus.Find(item) == null)
             {
                 try
                 {
-                    db.Niveaus.Add(new NiveauModel { Niveau = item });
+                    db.Niveaus.Add(new Niveau { Naam = item });
                     db.SaveChanges();
                     success = true;
                 }
@@ -305,7 +306,7 @@ namespace ExcelConverterSVS
             return success;
         }
 
-        private static NiveauModel FindNiveau(string splitTopicEntry, MyDbContext db)
+        private static Niveau FindNiveau(string splitTopicEntry, SVSContext db)
         {
             return db.Niveaus.Find(splitTopicEntry);
         }
