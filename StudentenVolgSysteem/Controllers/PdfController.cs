@@ -48,7 +48,7 @@ namespace StudentenVolgSysteem.Controllers
             pdfViewModel.NiveauList = GetNiveaus();
             if (ModelState.IsValid)
             {
-                CuriculumModel curriculum = db.Curiculums.Include("StudentId").Where(m => m.CuriculumId == pdfViewModel.curriculumId).FirstOrDefault();
+                Curriculum curriculum = db.Curricula.Include("Student").Where(m => m.CurriculumId == pdfViewModel.curriculumId).FirstOrDefault();
 
                 PDF.Create(pdfViewModel, curriculum);
             }
@@ -71,7 +71,7 @@ namespace StudentenVolgSysteem.Controllers
 
             foreach (var item in db.Studenten)
             {
-                listStudents.Add(new SelectListItem { Text = item.WholeName, Value = item.StudentId.ToString() });
+                listStudents.Add(new SelectListItem { Text = item.VolledigeNaam, Value = item.StudentId.ToString() });
             }
             return listStudents;
         }
@@ -84,7 +84,7 @@ namespace StudentenVolgSysteem.Controllers
 
             foreach (var item in db.Niveaus)
             {
-                listNiveaus.Add(new SelectListItem { Text = item.Niveau, Value = item.NiveauId.ToString() });
+                listNiveaus.Add(new SelectListItem { Text = item.Naam, Value = item.NiveauId.ToString() });
             }
             return listNiveaus;
         }
@@ -92,13 +92,13 @@ namespace StudentenVolgSysteem.Controllers
         [NonAction]
         public List<SelectListItem> GetCurricula(int studentId)
         {
-            StudentModel student = db.Studenten.Find(studentId);
+            Student student = db.Studenten.Find(studentId);
             List<SelectListItem> curricula = new List<SelectListItem>();
             curricula.Add(new SelectListItem { Text = "Select", Value = "0" });
 
-            foreach (var curriculum in student.Curiculums)
+            foreach (var curriculum in student.Curricula)
             {
-                curricula.Add(new SelectListItem { Text = curriculum.Name, Value = curriculum.CuriculumId.ToString() });
+                curricula.Add(new SelectListItem { Text = curriculum.Naam, Value = curriculum.CurriculumId.ToString() });
             }
 
             return curricula;

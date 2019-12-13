@@ -190,12 +190,13 @@
     <Compile Include="Controllers\TopicsController.cs" />
     <Compile Include="Controllers\WerkvormController.cs" />
     <Compile Include="DAL\SVSContext.cs" />
+    <Compile Include="Documents\PDF.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\MyDbContext\201912131042173_UpdateAllModels.cs" />
-    <Compile Include="Migrations\MyDbContext\201912131042173_UpdateAllModels.Designer.cs">
-      <DependentUpon>201912131042173_UpdateAllModels.cs</DependentUpon>
+    <Compile Include="Migrations\MyDbContext\201912131345512_Init.cs" />
+    <Compile Include="Migrations\MyDbContext\201912131345512_Init.Designer.cs">
+      <DependentUpon>201912131345512_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MyDbContext\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -358,8 +359,8 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\MyDbContext\201912131042173_UpdateAllModels.resx">
-      <DependentUpon>201912131042173_UpdateAllModels.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\MyDbContext\201912131345512_Init.resx">
+      <DependentUpon>201912131345512_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

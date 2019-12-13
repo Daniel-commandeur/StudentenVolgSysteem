@@ -12,19 +12,19 @@ namespace StudentenVolgSysteem.Documents
     public static class PDF
     {
 
-        public static void Create(PdfViewModel pdfvm, CuriculumModel curriculum)
+        public static void Create(PdfViewModel pdfvm, Curriculum curriculum)
         {
             // CuriculumModel curriculum = db.Curiculums.Include("StudentId").Where(m => m.CuriculumId == pdfvm.curriculumId).FirstOrDefault();
-            StudentModel student = curriculum.StudentId;
+            Student student = curriculum.Student;
 
             // TODO sort topics by first cert and display them grouped like that
-            SortedDictionary<string, List<TopicModel>> groupedTopics = new SortedDictionary<string, List<TopicModel>>();
+            SortedDictionary<string, List<Topic>> groupedTopics = new SortedDictionary<string, List<Topic>>();
             foreach (var topic in curriculum.Topics)
             {
-                string first = topic.Certificeringen.First().Certificering;
+                string first = topic.Certificeringen.First().Naam;
                 if (!groupedTopics.ContainsKey(first))
                 {
-                    groupedTopics.Add(first, new List<TopicModel>());
+                    groupedTopics.Add(first, new List<Topic>());
                     groupedTopics[first].Add(topic);
                 }
                 else
@@ -70,7 +70,7 @@ namespace StudentenVolgSysteem.Documents
             int row1 = 60; int row2 = 80; int row3 = 100;
 
             DrawLabel("Naam:", col1x, row1, colwidth, rowheight, gfx);
-            DrawLabel(student.WholeName, col2x, row1, colwidth, rowheight, gfx);
+            DrawLabel(student.VolledigeNaam, col2x, row1, colwidth, rowheight, gfx);
 
             DrawLabel("Geboortedatum:", col1x, row2, colwidth, rowheight, gfx);
             DrawLabel(pdfvm.DoB.ToShortDateString(), col2x, row2, colwidth, rowheight, gfx);
@@ -107,17 +107,17 @@ namespace StudentenVolgSysteem.Documents
             }
             YPointer += rowheight;
 
-            List<TopicModel> topics = curriculum.Topics.ToList();
+            List<Topic> topics = curriculum.Topics.ToList();
             for (int i = 0; i < curriculum.Topics.Count; i++)
             {
                 List<DrawStringListItem> drawList = new List<DrawStringListItem>();
 
                 //Update YPointer;
                 YPointer += 4;
-                TopicModel topic = topics[i];
+                Topic topic = topics[i];
 
                 //measure topic
-                XSize topicSize = gfx.MeasureString(topic.NameCode, certFont);
+                XSize topicSize = gfx.MeasureString(topic.NaamCode, certFont);
                 //make rect
                 int rectWidth = topicColumnWidth;
                 double rectRows = 1;
@@ -139,7 +139,7 @@ namespace StudentenVolgSysteem.Documents
                 //Make topicrect
                 XRect topicRect = new XRect(topicColumn1, 0, rectWidth, rowheight * rectRows);
                 //Add string to drawlist
-                drawList.Add(new DrawStringListItem(topic.NameCode, certFont, XBrushes.Black, topicRect));
+                drawList.Add(new DrawStringListItem(topic.NaamCode, certFont, XBrushes.Black, topicRect));
 
                 if (pdfvm.Leerdoel)
                 {
@@ -167,11 +167,11 @@ namespace StudentenVolgSysteem.Documents
 
                 if (pdfvm.Certificeringen)
                 {
-                    List<CertificeringenInfraModel> certs = topic.Certificeringen.ToList();
+                    List<Certificering> certs = topic.Certificeringen.ToList();
                     for (int j = 0; j < certs.Count; j++)
                     {
                         //measure each cert
-                        XSize certSize = gfx.MeasureString(certs[j].Certificering, certFont);
+                        XSize certSize = gfx.MeasureString(certs[j].Naam, certFont);
                         //make rect for each cert
                         double certRows = 1;
                         if (certSize.Width / topicColumnWidth > certRows)
@@ -185,7 +185,7 @@ namespace StudentenVolgSysteem.Documents
                         }
                         XRect certRect = new XRect(topicColumn3, CertYPointer, rectWidth, rowheight * certRows);
                         //Add each cert to drawlist
-                        drawList.Add(new DrawStringListItem(certs[j].Certificering, certFont, XBrushes.Black, certRect));
+                        drawList.Add(new DrawStringListItem(certs[j].Naam, certFont, XBrushes.Black, certRect));
                         //update CertYPointer for the next cert
                         CertYPointer += rowheight * (int)certRows;
                     }
