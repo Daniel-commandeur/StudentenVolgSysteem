@@ -101,7 +101,7 @@ namespace StudentenVolgSysteem.Controllers
 
         private void MakePdf(PdfViewModel pdfvm)
         {
-            Curriculum curriculum = db.Curricula.Include("StudentId").Where(m => m.CurriculumId == pdfvm.curriculumId).FirstOrDefault();
+            Curriculum curriculum = db.Curricula.Include("Student").Where(m => m.CurriculumId == pdfvm.curriculumId).FirstOrDefault();
             Student student = curriculum.Student;
 
             // TODO sort topics by first cert and display them grouped like that

@@ -4,7 +4,7 @@
     <div>
         <h4>
             @Html.DisplayFor(model => model.Naam) |
-            @Html.ActionLink("Edit", "Edit", "Curiculum", new { id = Model.CurriculumId }, null) |
+            @Html.ActionLink("Edit", "Edit", "Curriculum", new { id = Model.CurriculumId }, null) |
             @Html.ActionLink("PDF", "CreatePDF", "Pdf", new { curriculumId = Model.CurriculumId }, null)
         </h4>
         <hr />
@@ -17,7 +17,7 @@
                     @Html.DisplayNameFor(model => model.Topics.FirstOrDefault().Niveau)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Topics.FirstOrDefault().Name)
+                    @Html.DisplayNameFor(model => model.Topics.FirstOrDefault().Naam)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Topics.FirstOrDefault().Duur)
@@ -51,7 +51,7 @@
                 <td>
                     @foreach (var cert in topic.Certificeringen)
                     {
-                        @Html.DisplayFor(modelItem => cert.Certificering)
+                        @Html.DisplayFor(modelItem => cert.Naam)
                     }
                 </td>
                 <td>
