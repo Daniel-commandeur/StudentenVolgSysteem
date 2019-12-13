@@ -19,7 +19,7 @@ namespace StudentenVolgSysteem.Models
 
         private static string GetBase()
         {
-            string ret = "name=TheMatrix2_0-Live";
+            string ret = "name=LiveConnection";
 #if (DEBUG)
             ret = "name=DefaultConnection";
 #endif
