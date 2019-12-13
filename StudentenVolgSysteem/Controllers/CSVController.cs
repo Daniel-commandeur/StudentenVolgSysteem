@@ -13,7 +13,7 @@ namespace StudentenVolgSysteem.Controllers
     public class CSVController : Controller
     {
         //Linefeed character to insert after readlines so we can preserve multi-line cells
-        private const char LF = '\n';  
+        private const char LF = '\n'; // Environment.NewLine 
         private MyDbContext db = new MyDbContext();
 
         // GET: CSV
