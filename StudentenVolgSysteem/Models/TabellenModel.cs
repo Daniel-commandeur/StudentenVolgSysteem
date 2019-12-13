@@ -11,10 +11,19 @@ namespace StudentenVolgSysteem.Models
     public class MyDbContext : DbContext
     {
 
-        public MyDbContext() : base("DefaultConnection")
+        public MyDbContext() : base(GetBase())
         {
             //Database.SetInitializer(new DropCreateDatabaseAlways<MyDbContext>());
             //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<MyDbContext>());
+        }
+
+        private static string GetBase()
+        {
+            string ret = "name=TheMatrix2_0-Live";
+#if (DEBUG)
+            ret = "name=TheMatrix2_0";
+#endif
+            return (ret);
         }
 
         public DbSet<WerkvormModel> Werkvormen { get; set; }
