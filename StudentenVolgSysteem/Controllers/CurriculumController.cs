@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using StudentenVolgSysteem.Models;
 using StudentenVolgSysteem.DAL;
+using StudentenVolgSysteem.Models.ViewModels;
 
 namespace StudentenVolgSysteem.Controllers
 {
@@ -41,9 +42,13 @@ namespace StudentenVolgSysteem.Controllers
         public ActionResult Create(int? id)
         {
             List<Topic> theTopics = db.Topics.ToList();
+            CurriculumViewModels cvm = new CurriculumViewModels { AlleTopics = theTopics };
             CUCurriculum cuc = new CUCurriculum() { AlleTopics = theTopics };
             if(id != null)
             {
+                cvm.StudentId = db.Studenten.Find(id).StudentId;
+                //cvm.Curriculum = db.Curricula.Where(c => c.Student.StudentId == cvm.StudentId).First();
+
                 cuc.StudentId = db.Studenten.Find(id).StudentId;
                 cuc.Student = db.Studenten.Find(id);
             }
