@@ -1,8 +1,14 @@
 ﻿@model IEnumerable<StudentenVolgSysteem.Models.FrontEndApplicationUser>
 
-<p>
+
+@{
+    ViewBag.Title = "Users";
+}
+    <h2>Users</h2>
+
     @Html.ActionLink("Create New", "Create")
-</p>
+
+
 <table class="table">
     <tr>
         <th>
@@ -41,53 +47,54 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApplicationUser.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApplicationUser.EmailConfirmed)
-        </td>
-        <td>
-            @*@Html.DisplayFor(modelItem => item.PasswordHash)*@
-            @Html.ActionLink("Reset", "ResetPasswordForUser", "Admin", new { id = item.ApplicationUser.Id }, "")
-        </td>
-        <td>
-            @*@Html.DisplayFor(modelItem => item.SecurityStamp)*@
-            @foreach (var role in item.RoleNames)
-            {
-                @Html.DisplayFor(modelItem => role)<br />
-            }
-            @Html.ActionLink("Edit Roles", "EditRolesForUser", "Admin", new { id = item.ApplicationUser.Id }, "")
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApplicationUser.PhoneNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApplicationUser.PhoneNumberConfirmed)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApplicationUser.TwoFactorEnabled)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApplicationUser.LockoutEndDateUtc)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApplicationUser.LockoutEnabled)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApplicationUser.AccessFailedCount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApplicationUser.UserName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ApplicationUser.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ApplicationUser.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ApplicationUser.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationUser.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationUser.EmailConfirmed)
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.PasswordHash)*@
+                @Html.ActionLink("Reset", "ResetPasswordForUser", "Admin", new { id = item.ApplicationUser.Id }, "")
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.SecurityStamp)*@
+                @foreach (var role in item.RoleNames)
+                {
+                    @Html.DisplayFor(modelItem => role)<br />
+                }
+                @Html.ActionLink("Edit Roles", "EditRolesForUser", "Admin", new { id = item.ApplicationUser.Id }, "")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationUser.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationUser.PhoneNumberConfirmed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationUser.TwoFactorEnabled)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationUser.LockoutEndDateUtc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationUser.LockoutEnabled)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationUser.AccessFailedCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationUser.UserName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ApplicationUser.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ApplicationUser.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ApplicationUser.Id })
+            </td>
+        </tr>
+    }
 
 </table>

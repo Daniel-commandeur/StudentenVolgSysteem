@@ -18,7 +18,7 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Curiculum
         public ActionResult Index()
         {
-            return View(db.Curiculums.ToList());
+            return View(db.Curiculums.Include("StudentId").ToList());
         }
 
         // GET: Curiculum/Details/5

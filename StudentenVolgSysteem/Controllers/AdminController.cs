@@ -17,12 +17,17 @@ namespace StudentenVolgSysteem.Controllers
     {
         MyDbContext db = new MyDbContext();
 
+
+
+        #region Actions
+
         // GET: Admin
         public ActionResult Index()
         {
             return View();
         }
 
+        // GET: Admin/Users
         public ActionResult Users()
         {
             List<FrontEndApplicationUser> frontEndApplicationUsers = new List<FrontEndApplicationUser>();
@@ -43,10 +48,13 @@ namespace StudentenVolgSysteem.Controllers
             //TODO: make front-end-safe user model without pwdHash and securityStamp
         }
 
+        // GET: Admin/Roles
         public ActionResult Roles()
         {
             return View(RoleManager.Roles.ToList());
         }
+
+        #region unusedcode
 
         // GET: Admin/Details/5
         //public ActionResult Details(int id)
@@ -120,36 +128,9 @@ namespace StudentenVolgSysteem.Controllers
         //    }
         //}
 
-        [NonAction]
-        public List<SelectListItem> getUsers()
-        {
-            List<SelectListItem> listUsers = new List<SelectListItem>();
-            listUsers.Add(new SelectListItem { Text = "Select", Value = "0" });
+        #endregion
 
-            foreach (var item in UserManager.Users)
-            {
-                listUsers.Add(new SelectListItem { Text = item.UserName, Value = item.Id });
-            }
-
-            return listUsers;
-        }
-
-        [NonAction]
-        public List<SelectListItem> getRoles()
-        {
-            List<SelectListItem> listRoles = new List<SelectListItem>();
-            listRoles.Add(new SelectListItem { Text = "Select", Value = "0" });
-
-            var roles = RoleManager.Roles;
-
-            foreach (var item in roles)
-            {
-                listRoles.Add(new SelectListItem { Text = item.Name, Value = item.Id });
-            }
-
-            return listRoles;
-        }
-
+        // GET: Admin/AssignRolesToUsersAsync
         [HttpGet]
         public ActionResult AssignRolesToUsersAsync()
         {
@@ -159,19 +140,7 @@ namespace StudentenVolgSysteem.Controllers
             return View(assignRoles);
         }
 
-        public bool UserHasRole(string userId, string roleName)
-        {
-            var roleNames = UserManager.GetRoles(userId);
-            foreach (var name in roleNames)
-            {
-                if (roleName == name)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
+        // POST: Admin/AssignRolesToUserAsync
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async System.Threading.Tasks.Task<ActionResult> AssignRolesToUsersAsync(AssignRole assignRole)
@@ -204,22 +173,23 @@ namespace StudentenVolgSysteem.Controllers
                         ViewBag.ResultMessage = "User was not added to role!";
                     }
                 }
-                assignRole.UserRolesList = getRoles();
-                assignRole.UserList = getUsers();
+                
             }
-            else
-            {
-                assignRole.UserRolesList = getRoles();
-                assignRole.UserList = getUsers();
-            }
+            
+            assignRole.UserRolesList = getRoles();
+            assignRole.UserList = getUsers();
+            
             return View(assignRole);
         }
 
+        // TODO
         public void ResetPasswordForUser(int id)
         {
             throw new NotImplementedException();
         }
 
+        // GET: Admin/EditRolesForUser
+        
         [HttpGet]
         public ActionResult EditRolesForUser(string id)
         {
@@ -238,6 +208,7 @@ namespace StudentenVolgSysteem.Controllers
             urm.UserRolesList = RoleManager.Roles.ToList();
             IList<string> userRoleNames = UserManager.GetRoles(urm.UserId);
             urm.CurrentRoles = new List<IdentityRole>();
+            // Add identity roles to a new list and return view
             foreach (var role in RoleManager.Roles)
             {
                 foreach (string userRoleName in userRoleNames)
@@ -251,6 +222,11 @@ namespace StudentenVolgSysteem.Controllers
             return View(urm);
         }
 
+        /// <summary>
+        /// Post for editting user roles
+        /// </summary>
+        /// <param name="urm"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditRolesForUser([Bind(Include = "UserId,UserName,UserRolesList,RoleNames")] UserRolesModel urm)
@@ -314,5 +290,73 @@ namespace StudentenVolgSysteem.Controllers
             }
             return View(urm);
         }
+
+        #endregion
+
+        #region Helperss
+
+        /// <summary>
+        /// Returns list of users
+        /// </summary>
+        /// <returns>User List</returns>
+        [NonAction]
+        public List<SelectListItem> getUsers()
+        {
+            List<SelectListItem> listUsers = new List<SelectListItem>();
+            listUsers.Add(new SelectListItem { Text = "Select", Value = "0" });
+
+            foreach (var item in UserManager.Users)
+            {
+                listUsers.Add(new SelectListItem { Text = item.UserName, Value = item.Id });
+            }
+
+            return listUsers;
+        } 
+
+        /// <summary>
+        /// Returns a list of roles
+        /// </summary>
+        /// <returns>Role List</returns>
+        [NonAction]
+        public List<SelectListItem> getRoles()
+        {
+            List<SelectListItem> listRoles = new List<SelectListItem>();
+            listRoles.Add(new SelectListItem { Text = "Select", Value = "0" });
+
+            var roles = RoleManager.Roles;
+
+            foreach (var item in roles)
+            {
+                listRoles.Add(new SelectListItem { Text = item.Name, Value = item.Id });
+            }
+
+            return listRoles;
+        }
+
+
+        /// <summary>
+        /// Check if user has role
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="roleName"></param>
+        /// <returns>bool</returns>
+        [NonAction]
+        public bool UserHasRole(string userId, string roleName)
+        {
+            var roleNames = UserManager.GetRoles(userId);
+            foreach (var name in roleNames)
+            {
+                if (roleName == name)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        #endregion
     }
+
+
+
 }
