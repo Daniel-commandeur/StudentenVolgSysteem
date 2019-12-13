@@ -10,13 +10,14 @@ using System.Net;
 using System.Web.Mvc;
 using SelectListItem = System.Web.WebPages.Html.SelectListItem;
 using System.Collections;
+using StudentenVolgSysteem.DAL;
 
 namespace StudentenVolgSysteem.Controllers
 {
     [Authorize(Roles ="Administrator, Docent")]
     public class PdfController : Controller
     {
-        MyDbContext db = new MyDbContext();
+        SVSContext db = new SVSContext();
 
         [NonAction]
         private List<SelectListItem> GetCourses()
@@ -32,7 +33,7 @@ namespace StudentenVolgSysteem.Controllers
 
             foreach (var item in db.Studenten)
             {
-                listStudents.Add(new SelectListItem { Text = item.WholeName, Value = item.StudentId.ToString() });
+                listStudents.Add(new SelectListItem { Text = item.VolledigeNaam, Value = item.StudentId.ToString() });
             }
             return listStudents;
         }
@@ -45,7 +46,7 @@ namespace StudentenVolgSysteem.Controllers
 
             foreach (var item in db.Niveaus)
             {
-                listNiveaus.Add(new SelectListItem { Text = item.Niveau, Value = item.NiveauId.ToString() });
+                listNiveaus.Add(new SelectListItem { Text = item.Naam, Value = item.NiveauId.ToString() });
             }
             return listNiveaus;
         }
@@ -53,13 +54,13 @@ namespace StudentenVolgSysteem.Controllers
         [NonAction]
         public List<SelectListItem> GetCurricula(int studentId)
         {
-            StudentModel student = db.Studenten.Find(studentId);
+            Student student = db.Studenten.Find(studentId);
             List<SelectListItem> curricula = new List<SelectListItem>();
             curricula.Add(new SelectListItem { Text = "Select", Value = "0" });
 
-            foreach (var curriculum in student.Curiculums)
+            foreach (var curriculum in student.Curricula)
             {
-                curricula.Add(new SelectListItem { Text = curriculum.Name, Value = curriculum.CuriculumId.ToString() });
+                curricula.Add(new SelectListItem { Text = curriculum.Naam, Value = curriculum.CurriculumId.ToString() });
             }
 
             return curricula;
@@ -72,7 +73,7 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CuriculumModel curiculum = db.Curiculums.Include("StudentId").Where(m => m.CuriculumId == curriculumId).FirstOrDefault();
+            Curriculum curiculum = db.Curricula.Include("Student").Where(m => m.CurriculumId == curriculumId).FirstOrDefault();
             if (curiculum == null)
             {
                 return HttpNotFound();
@@ -80,7 +81,7 @@ namespace StudentenVolgSysteem.Controllers
 
             PdfViewModel pdfViewModel = new PdfViewModel();
 
-            pdfViewModel.Student = db.Studenten.Find(curiculum.StudentId.StudentId).WholeName;
+            pdfViewModel.Student = db.Studenten.Find(curiculum.Student.StudentId).VolledigeNaam;
             pdfViewModel.curriculumId = (int)curriculumId;
             pdfViewModel.NiveauList = GetNiveaus();
 
@@ -100,17 +101,17 @@ namespace StudentenVolgSysteem.Controllers
 
         private void MakePdf(PdfViewModel pdfvm)
         {
-            CuriculumModel curriculum = db.Curiculums.Include("StudentId").Where(m => m.CuriculumId == pdfvm.curriculumId).FirstOrDefault();
-            StudentModel student = curriculum.StudentId;
+            Curriculum curriculum = db.Curricula.Include("StudentId").Where(m => m.CurriculumId == pdfvm.curriculumId).FirstOrDefault();
+            Student student = curriculum.Student;
 
             // TODO sort topics by first cert and display them grouped like that
-            SortedDictionary<string, List<TopicModel>> groupedTopics = new SortedDictionary<string, List<TopicModel>>();
+            SortedDictionary<string, List<Topic>> groupedTopics = new SortedDictionary<string, List<Topic>>();
             foreach (var topic in curriculum.Topics)
             {
-                string first = topic.Certificeringen.First().Certificering;
+                string first = topic.Certificeringen.First().Naam;
                 if (!groupedTopics.ContainsKey(first))
                 {
-                    groupedTopics.Add(first, new List<TopicModel>());
+                    groupedTopics.Add(first, new List<Topic>());
                     groupedTopics[first].Add(topic);
                 }
                 else
@@ -153,7 +154,7 @@ namespace StudentenVolgSysteem.Controllers
             int row1 = 60; int row2 = 80; int row3 = 100;
 
             DrawLabel("Naam:", col1x, row1, colwidth, rowheight, gfx);
-            DrawLabel(student.WholeName, col2x, row1, colwidth, rowheight, gfx);
+            DrawLabel(student.VolledigeNaam, col2x, row1, colwidth, rowheight, gfx);
 
             DrawLabel("Geboortedatum:", col1x, row2, colwidth, rowheight, gfx);
             DrawLabel(pdfvm.DoB.ToShortDateString(), col2x, row2, colwidth, rowheight, gfx);
@@ -190,17 +191,17 @@ namespace StudentenVolgSysteem.Controllers
             }
             YPointer += rowheight;
 
-            List<TopicModel> topics = curriculum.Topics.ToList();
+            List<Topic> topics = curriculum.Topics.ToList();
             for (int i = 0; i < curriculum.Topics.Count; i++)
             {
                 List<DrawStringListItem> drawList = new List<DrawStringListItem>();
 
                 //Update YPointer;
                 YPointer += 4;
-                TopicModel topic = topics[i];
+                Topic topic = topics[i];
 
                 //measure topic
-                XSize topicSize = gfx.MeasureString(topic.NameCode, certFont);
+                XSize topicSize = gfx.MeasureString(topic.NaamCode, certFont);
                 //make rect
                 int rectWidth = topicColumnWidth;
                 double rectRows = 1;
@@ -222,7 +223,7 @@ namespace StudentenVolgSysteem.Controllers
                 //Make topicrect
                 XRect topicRect = new XRect(topicColumn1, 0, rectWidth, rowheight * rectRows);
                 //Add string to drawlist
-                drawList.Add(new DrawStringListItem(topic.NameCode, certFont, XBrushes.Black, topicRect));
+                drawList.Add(new DrawStringListItem(topic.NaamCode, certFont, XBrushes.Black, topicRect));
 
                 if (pdfvm.Leerdoel)
                 {
@@ -250,11 +251,11 @@ namespace StudentenVolgSysteem.Controllers
 
                 if (pdfvm.Certificeringen)
                 {
-                    List<CertificeringenInfraModel> certs = topic.Certificeringen.ToList();
+                    List<Certificering> certs = topic.Certificeringen.ToList();
                     for (int j = 0; j < certs.Count; j++)
                     {
                         //measure each cert
-                        XSize certSize = gfx.MeasureString(certs[j].Certificering, certFont);
+                        XSize certSize = gfx.MeasureString(certs[j].Naam, certFont);
                         //make rect for each cert
                         double certRows = 1;
                         if (certSize.Width / topicColumnWidth > certRows)
@@ -268,7 +269,7 @@ namespace StudentenVolgSysteem.Controllers
                         }
                         XRect certRect = new XRect(topicColumn3, CertYPointer, rectWidth, rowheight * certRows);
                         //Add each cert to drawlist
-                        drawList.Add(new DrawStringListItem(certs[j].Certificering, certFont, XBrushes.Black, certRect));
+                        drawList.Add(new DrawStringListItem(certs[j].Naam, certFont, XBrushes.Black, certRect));
                         //update CertYPointer for the next cert
                         CertYPointer += rowheight * (int)certRows;
                     }

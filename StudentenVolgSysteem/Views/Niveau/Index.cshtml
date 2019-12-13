@@ -1,4 +1,4 @@
-﻿@model IEnumerable<StudentenVolgSysteem.Models.NiveauModel>
+﻿@model IEnumerable<StudentenVolgSysteem.Models.Niveau>
 
 @{
     ViewBag.Title = "Index";
@@ -12,7 +12,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Niveau)
+            @Html.DisplayNameFor(model => model.Naam)
         </th>
         <th></th>
     </tr>
@@ -20,7 +20,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Niveau)
+            @Html.DisplayFor(modelItem => item.Naam)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.NiveauId }) |

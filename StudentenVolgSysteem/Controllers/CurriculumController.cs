@@ -7,104 +7,105 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using StudentenVolgSysteem.Models;
+using StudentenVolgSysteem.DAL;
 
 namespace StudentenVolgSysteem.Controllers
 {
     [Authorize(Roles = "Administrator, Docent")]
-    public class CuriculumController : Controller
+    public class CurriculumController : Controller
     {
-        private MyDbContext db = new MyDbContext();
+        private SVSContext db = new SVSContext();
 
-        // GET: Curiculum
+        // GET: Curriculum
         public ActionResult Index()
         {
-            return View(db.Curiculums.Include("StudentId").ToList());
+            return View(db.Curricula.Include("Student").ToList());
         }
 
-        // GET: Curiculum/Details/5
+        // GET: Curriculum/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CuriculumModel curiculumModel = db.Curiculums.Find(id);
-            if (curiculumModel == null)
+            Curriculum curriculum = db.Curricula.Find(id);
+            if (curriculum == null)
             {
                 return HttpNotFound();
             }
-            return View(curiculumModel);
+            return View(curriculum);
         }
 
-        // GET: Curiculum/Create
+        // GET: Curriculum/Create
         public ActionResult Create(int? id)
         {
-            List<TopicModel> theTopics = db.Topics.ToList();
-            CUCuriculumModel cuc = new CUCuriculumModel() { AllTopics = theTopics };
+            List<Topic> theTopics = db.Topics.ToList();
+            CUCurriculum cuc = new CUCurriculum() { AlleTopics = theTopics };
             if(id != null)
             {
-                cuc.StudentIdInt = db.Studenten.Find(id).StudentId;
-                cuc.StudentId = db.Studenten.Find(id);
+                cuc.StudentId = db.Studenten.Find(id).StudentId;
+                cuc.Student = db.Studenten.Find(id);
             }
             return View(cuc);
         }
 
-        // POST: Curiculum/Create
+        // POST: Curriculum/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CuriculumId,StudentIdInt,Topics,allTopicIds,Name")] CUCuriculumModel curiculumModel)
+        public ActionResult Create([Bind(Include = "CurriculumId,StudentId,Topics,alleTopicIds,Naam")] CUCurriculum cuc)
         {
             if (ModelState.IsValid)
             {
-                CuriculumModel cm = new CuriculumModel();
-                cm.Name = curiculumModel.Name;
-                cm.StudentId = db.Studenten.Find(curiculumModel.StudentIdInt);
-                foreach (var topic in curiculumModel.allTopicIds)
+                Curriculum cm = new Curriculum();
+                cm.Naam = cuc.Naam;
+                cm.Student = db.Studenten.Find(cuc.StudentId);
+                foreach (var topic in cuc.alleTopicIds)
                 {
                     cm.Topics.Add(db.Topics.Where(a => a.TopicId.ToString() == topic).FirstOrDefault());
                 }
-                db.Curiculums.Add(cm);
+                db.Curricula.Add(cm);
                 db.SaveChanges();
-                if (curiculumModel.StudentIdInt != 0)
+                if (cuc.StudentId != 0)
                 {
-                    return RedirectToAction("Details", "Student", new { id = curiculumModel.StudentIdInt });
+                    return RedirectToAction("Details", "Student", new { id = cuc.StudentId });
                 }
                 return RedirectToAction("Index");
             }
-            curiculumModel.AllTopics = db.Topics.ToList();
-            return View(curiculumModel);
+            cuc.AlleTopics = db.Topics.ToList();
+            return View(cuc);
         }
 
-        // GET: Curiculum/Edit/5
+        // GET: Curriculum/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CuriculumModel curiculumModel = db.Curiculums.Include(c => c.Topics).Where(c => c.CuriculumId == id).FirstOrDefault();
-            if (curiculumModel == null)
+            Curriculum curriculum = db.Curricula.Include(c => c.Topics).Where(c => c.CurriculumId == id).FirstOrDefault();
+            if (curriculum == null)
             {
                 return HttpNotFound();
             }
-            CUCuriculumModel cuc = new CUCuriculumModel(curiculumModel);
-            cuc.AllTopics = db.Topics.ToList();
+            CUCurriculum cuc = new CUCurriculum(curriculum);
+            cuc.AlleTopics = db.Topics.ToList();
             return View(cuc);
         }
 
-        // POST: Curiculum/Edit/5
+        // POST: Curriculum/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CuriculumId,StudentId,Topics,Name,allTopicIds")] CUCuriculumModel curiculumModel)
+        public ActionResult Edit([Bind(Include = "CurriculumId,StudentId,Topics,Naam,alleTopicIds")] CUCurriculum cuc)
         {
             if (ModelState.IsValid)
             {
-                CuriculumModel cm = db.Curiculums.Find(curiculumModel.CuriculumId);
-                foreach (var topic in curiculumModel.allTopicIds)
+                Curriculum cm = db.Curricula.Find(cuc.CurriculumId);
+                foreach (var topic in cuc.alleTopicIds)
                 {
                     cm.Topics.Add(db.Topics.Where(a => a.TopicId.ToString() == topic).FirstOrDefault());
                 }
@@ -112,32 +113,32 @@ namespace StudentenVolgSysteem.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            curiculumModel.AllTopics = db.Topics.ToList();
-            return View(curiculumModel);
+            cuc.AlleTopics = db.Topics.ToList();
+            return View(cuc);
         }
 
-        // GET: Curiculum/Delete/5
+        // GET: Curriculum/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CuriculumModel curiculumModel = db.Curiculums.Find(id);
-            if (curiculumModel == null)
+            Curriculum curriculum = db.Curricula.Find(id);
+            if (curriculum == null)
             {
                 return HttpNotFound();
             }
-            return View(curiculumModel);
+            return View(curriculum);
         }
 
-        // POST: Curiculum/Delete/5
+        // POST: Curriculum/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            CuriculumModel curiculumModel = db.Curiculums.Find(id);
-            db.Curiculums.Remove(curiculumModel);
+            Curriculum curriculum = db.Curricula.Find(id);
+            db.Curricula.Remove(curriculum);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -145,7 +146,7 @@ namespace StudentenVolgSysteem.Controllers
         [HttpPost]
         public ActionResult GetPartialDisplayCurriculum(int id)
         {
-            CuriculumModel curriculum = db.Curiculums.Find(id);
+            Curriculum curriculum = db.Curricula.Find(id);
             return PartialView("PartialDisplayCurriculum", curriculum);
         }
 

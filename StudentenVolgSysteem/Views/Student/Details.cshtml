@@ -1,4 +1,4 @@
-﻿@model StudentenVolgSysteem.Models.StudentModel
+﻿@model StudentenVolgSysteem.Models.Student
 
 @{
     ViewBag.Title = "Details";
@@ -7,32 +7,32 @@
 <h2>Details</h2>
 
 <div>
-    <h4>StudentModel</h4>
+    <h4>Student</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
+            @Html.DisplayNameFor(model => model.Voornaam)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.FirstName)
+            @Html.DisplayFor(model => model.Voornaam)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.LastName)
+            @Html.DisplayNameFor(model => model.Achternaam)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.LastName)
+            @Html.DisplayFor(model => model.Achternaam)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Curiculums)
+            @Html.DisplayNameFor(model => model.Curricula)
         </dt>
 
         <dd></dd>
 
-        @foreach (var Curriculum in Model.Curiculums)
+        @foreach (var Curriculum in Model.Curricula)
         {
             @Html.Partial("PartialDisplayCurriculum", Curriculum)
         }

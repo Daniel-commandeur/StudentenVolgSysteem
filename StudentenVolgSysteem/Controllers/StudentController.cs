@@ -7,18 +7,19 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using StudentenVolgSysteem.Models;
+using StudentenVolgSysteem.DAL;
 
 namespace StudentenVolgSysteem.Controllers
 {
     [Authorize(Roles = "Administrator, Docent")]
     public class StudentController : Controller
     {
-        private MyDbContext db = new MyDbContext();
+        private SVSContext db = new SVSContext();
 
         // GET: Student
         public ActionResult Index()
         {
-            return View(db.Studenten.Include(a => a.Curiculums).ToList());
+            return View(db.Studenten.Include(a => a.Curricula).ToList());
         }
 
         // GET: Student/Details/5
@@ -30,19 +31,19 @@ namespace StudentenVolgSysteem.Controllers
             }
             //Every relation that is handled with a link-table isn't automatically
             //included and needs to be included explicitly
-            StudentModel studentModel = db.Studenten
-                                        .Include(a => a.Curiculums)
-                                        .Include(a => a.Curiculums.Select(b => b.Topics.Select(c => c.Duur)))
-                                        .Include(a => a.Curiculums.Select(b => b.Topics.Select(c => c.Benodigdheden)))
-                                        .Include(a => a.Curiculums.Select(b => b.Topics.Select(c => c.Werkvorm)))
-                                        .Include(a => a.Curiculums.Select(b => b.Topics.Select(c => c.Niveau)))
+            Student student = db.Studenten
+                                        .Include(a => a.Curricula)
+                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Duur)))
+                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Benodigdheden)))
+                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Werkvorm)))
+                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Niveau)))
                                         .Where(a => a.StudentId == id)
                                         .FirstOrDefault();
-            if (studentModel == null)
+            if (student == null)
             {
                 return HttpNotFound();
             }
-            return View(studentModel);
+            return View(student);
         }
 
         // GET: Student/Create
@@ -56,16 +57,16 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "StudentId,FirstName,LastName")] StudentModel studentModel)
+        public ActionResult Create([Bind(Include = "StudentId,Voornaam,Achternaam")] Student student)
         {
             if (ModelState.IsValid)
             {
-                db.Studenten.Add(studentModel);
+                db.Studenten.Add(student);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(studentModel);
+            return View(student);
         }
 
         // GET: Student/Edit/5
@@ -75,12 +76,12 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StudentModel studentModel = db.Studenten.Find(id);
-            if (studentModel == null)
+            Student student = db.Studenten.Find(id);
+            if (student == null)
             {
                 return HttpNotFound();
             }
-            return View(studentModel);
+            return View(student);
         }
 
         // POST: Student/Edit/5
@@ -88,15 +89,15 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "StudentId,FirstName,LastName")] StudentModel studentModel)
+        public ActionResult Edit([Bind(Include = "StudentId,Voornaam,Achternaam")] Student student)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(studentModel).State = EntityState.Modified;
+                db.Entry(student).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(studentModel);
+            return View(student);
         }
 
         // GET: Student/Delete/5
@@ -106,12 +107,12 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StudentModel studentModel = db.Studenten.Find(id);
-            if (studentModel == null)
+            Student student = db.Studenten.Find(id);
+            if (student == null)
             {
                 return HttpNotFound();
             }
-            return View(studentModel);
+            return View(student);
         }
 
         // POST: Student/Delete/5
@@ -119,8 +120,8 @@ namespace StudentenVolgSysteem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            StudentModel studentModel = db.Studenten.Find(id);
-            db.Studenten.Remove(studentModel);
+            Student student = db.Studenten.Find(id);
+            db.Studenten.Remove(student);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

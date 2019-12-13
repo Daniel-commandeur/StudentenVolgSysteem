@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using StudentenVolgSysteem.DAL;
 using SelectListItem = System.Web.WebPages.Html.SelectListItem;
 
 
@@ -15,7 +16,7 @@ namespace StudentenVolgSysteem.Controllers
     [Authorize(Roles = "Administrator")]
     public class AdminController : BaseController
     {
-        MyDbContext db = new MyDbContext();
+        SVSContext db = new SVSContext();
 
 
 
@@ -54,7 +55,7 @@ namespace StudentenVolgSysteem.Controllers
             return View(RoleManager.Roles.ToList());
         }
 
-        #region unusedcode
+        #region Unused code
 
         // GET: Admin/Details/5
         //public ActionResult Details(int id)
@@ -293,7 +294,7 @@ namespace StudentenVolgSysteem.Controllers
 
         #endregion
 
-        #region Helperss
+        #region Helpers
 
         /// <summary>
         /// Returns list of users

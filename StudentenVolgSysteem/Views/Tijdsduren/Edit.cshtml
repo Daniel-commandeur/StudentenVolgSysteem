@@ -1,4 +1,4 @@
-﻿@model StudentenVolgSysteem.Models.TijdsDuurModel
+﻿@model StudentenVolgSysteem.Models.Tijdsduur
 
 @{
     ViewBag.Title = "Edit";
@@ -11,10 +11,10 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>TijdsDuurModel</h4>
+        <h4>Tijdsduur</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.TijdsDuurId)
+        @Html.HiddenFor(model => model.TijdsduurId)
 
         <div class="form-group">
             @Html.LabelFor(model => model.Eenheid, htmlAttributes: new { @class = "control-label col-md-2" })

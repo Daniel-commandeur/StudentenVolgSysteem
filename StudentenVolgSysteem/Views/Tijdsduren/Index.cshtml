@@ -1,4 +1,4 @@
-﻿@model IEnumerable<StudentenVolgSysteem.Models.TijdsDuurModel>
+﻿@model IEnumerable<StudentenVolgSysteem.Models.Tijdsduur>
 
 @{
     ViewBag.Title = "Index";
@@ -23,9 +23,9 @@
             @Html.DisplayFor(modelItem => item.Eenheid)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.TijdsDuurId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.TijdsDuurId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.TijdsDuurId })
+            @Html.ActionLink("Edit", "Edit", new { id=item.TijdsduurId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.TijdsduurId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.TijdsduurId })
         </td>
     </tr>
 }

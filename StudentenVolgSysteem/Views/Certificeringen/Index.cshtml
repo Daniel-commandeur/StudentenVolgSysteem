@@ -1,4 +1,4 @@
-﻿@model IEnumerable<StudentenVolgSysteem.Models.CertificeringenInfraModel>
+﻿@model IEnumerable<StudentenVolgSysteem.Models.Certificering>
 
 @{
     ViewBag.Title = "Index";
@@ -12,7 +12,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Certificering)
+            @Html.DisplayNameFor(model => model.Naam)
         </th>
         <th></th>
     </tr>
@@ -20,12 +20,12 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Certificering)
+            @Html.DisplayFor(modelItem => item.Naam)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CertificeringenInfraId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CertificeringenInfraId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CertificeringenInfraId })
+            @Html.ActionLink("Edit", "Edit", new { id=item.CertificeringId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.CertificeringId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.CertificeringId })
         </td>
     </tr>
 }

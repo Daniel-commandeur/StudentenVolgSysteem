@@ -1,4 +1,4 @@
-﻿@model IEnumerable<StudentenVolgSysteem.Models.TopicModel>
+﻿@model IEnumerable<StudentenVolgSysteem.Models.Topic>
 
 @{
     ViewBag.Title = "Index";
@@ -17,7 +17,7 @@
                 @Html.DisplayNameFor(model => model.Niveau)
             </th>
             <th id="name">
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.Naam)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Duur)
@@ -38,21 +38,21 @@
                     @Html.DisplayFor(modelItem => item.Code)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Niveau.Niveau)
+                    @Html.DisplayFor(modelItem => item.Niveau.Naam)
                 </td>
                 <td id="name">
-                    @Html.DisplayFor(modelItem => item.NameCode)
+                    @Html.DisplayFor(modelItem => item.NaamCode)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Duur.Eenheid)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Werkvorm.Werkvorm)
+                    @Html.DisplayFor(modelItem => item.Werkvorm.Naam)
                 </td>
                 <td id="name">
                     @foreach (var cert in item.Certificeringen)
                     {
-                        @Html.DisplayFor(modelItem => cert.Certificering)
+                        @Html.DisplayFor(modelItem => cert.Naam)
                     }
                 </td>
 

@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using StudentenVolgSysteem.DAL;
 
 namespace StudentenVolgSysteem.Controllers
 {
@@ -14,7 +15,7 @@ namespace StudentenVolgSysteem.Controllers
     {
         //Linefeed character to insert after readlines so we can preserve multi-line cells
         private const char LF = '\n';  
-        private MyDbContext db = new MyDbContext();
+        private SVSContext db = new SVSContext();
 
         // GET: CSV
         public ActionResult Index()
@@ -170,7 +171,7 @@ namespace StudentenVolgSysteem.Controllers
                 }
 
                 //Make a new topicmodel to add to the database with the data from the splitline
-                TopicModel topicModel = new TopicModel();
+                Topic topicModel = new Topic();
                 int counter = 0;
                 foreach (var splitTopicEntry in splitLine)
                 {
@@ -192,7 +193,7 @@ namespace StudentenVolgSysteem.Controllers
                                 topicModel.Niveau = FindNiveau(splitTopicEntry);
                                 break;
                             case "Topic":
-                                topicModel.Name = splitTopicEntry;
+                                topicModel.Naam = splitTopicEntry;
                                 break;
                             case "Duur":
                                 topicModel.Duur = FindDuration(splitTopicEntry);
@@ -243,15 +244,15 @@ namespace StudentenVolgSysteem.Controllers
         /// <param name="topicsString">Een string met daarin de codes van TopicModels die met LineFeeds gescheiden zijn</param>
         /// <param name="db">De database context om de TopicModels in te vinden</param>
         /// <returns>De HashSet van TopicModels die gevonden zijn</returns>
-        private HashSet<TopicModel> FindVoorkennis(string topicsString)
+        private HashSet<Topic> FindVoorkennis(string topicsString)
         {
             //split the cell on newline and find all links that match, 
             //make new entries for anythign that doesn't match and add it.
-            HashSet<TopicModel> voorkennis = new HashSet<TopicModel>();
+            HashSet<Topic> voorkennis = new HashSet<Topic>();
             var entries = topicsString.Split('\n').ToList();
             foreach (var item in entries)
             {
-                TopicModel tpm;
+                Topic tpm;
                 if ((tpm = db.Topics.Where(a => a.Code == item).FirstOrDefault()) == null)
                 {
                     Debug.WriteLine(item + " could not be found, is the topic list Hierarchical?");
@@ -268,15 +269,15 @@ namespace StudentenVolgSysteem.Controllers
         /// <param name="links">Een string met links die door LineFeeds gescheiden zijn</param>
         /// <param name="db">De database context om de PercipiolinkModels in aan te maken</param>
         /// <returns>De HashSet van PercipiolinkModels die gevonden of gemaakt zijn</returns>
-        private HashSet<PercipiolinkModel> FindLinks(string links)
+        private HashSet<PercipioLink> FindLinks(string links)
         {
             //split the cell on newline and find all links with that match, 
             //make new entries for anything that doesn't match and add them
-            HashSet<PercipiolinkModel> percipiolinks = new HashSet<PercipiolinkModel>();
+            HashSet<PercipioLink> percipiolinks = new HashSet<PercipioLink>();
             var entries = links.Split('\n').ToList();
             foreach (var item in entries)
             {
-                PercipiolinkModel plm;
+                PercipioLink plm;
                 if((plm = db.PercipioLinks.Where(a => a.Link == item).FirstOrDefault()) == null)
                 {
                     plm = MakePercipioLink(item);
@@ -292,13 +293,13 @@ namespace StudentenVolgSysteem.Controllers
         /// <param name="link">De link die in het model moet komen</param>
         /// <param name="db">De database context om het PercipiolinkModel in aan te maken</param>
         /// <returns>Het gemaakte PercipiolinkModel</returns>
-        private PercipiolinkModel MakePercipioLink(string link)
+        private PercipioLink MakePercipioLink(string link)
         {
             if (db.PercipioLinks.Where(a => a.Link == link).FirstOrDefault() == null)
             {
                 try
                 {
-                    db.PercipioLinks.Add(new PercipiolinkModel { Link = link });
+                    db.PercipioLinks.Add(new PercipioLink { Link = link });
                     db.SaveChanges();
                 }
                 catch { }
@@ -313,16 +314,16 @@ namespace StudentenVolgSysteem.Controllers
         /// <param name="benodigdhedenString">Een string met benodigdheden die door LineFeeds gescheiden zijn</param>
         /// <param name="db">De database context om de benodigdheden in te vinden</param>
         /// <returns>De HashSet van BenodigdheidModel met daarin de gevonden of gemaakte modellen</returns>
-        private HashSet<BenodigdheidModel> FindBenodigdheden(string benodigdhedenString)
+        private HashSet<Benodigdheid> FindBenodigdheden(string benodigdhedenString)
         {
             //split the cell on newline and find all links that match, 
             //make new entries for anythign that doesn't match and add it.
-            HashSet<BenodigdheidModel> benodigdheden = new HashSet<BenodigdheidModel>();
+            HashSet<Benodigdheid> benodigdheden = new HashSet<Benodigdheid>();
             var entries = benodigdhedenString.Split('\n').ToList();
             foreach (var item in entries)
             {
-                BenodigdheidModel bhm;
-                if ((bhm = db.Benodigdheden.Where(a => a.Content == item).FirstOrDefault()) == null)
+                Benodigdheid bhm;
+                if ((bhm = db.Benodigdheden.Where(a => a.Naam == item).FirstOrDefault()) == null)
                 {
                     bhm = MakeBenodigdheid(item);
                 }
@@ -332,23 +333,23 @@ namespace StudentenVolgSysteem.Controllers
         }
 
         /// <summary>
-        /// Maakt een BenodigdheidModel aan met content
+        /// Maakt een Benodigdheid aan met content
         /// </summary>
-        /// <param name="content">De content van het BenodigdheidModel</param>
+        /// <param name="naam">De content van het BenodigdheidModel</param>
         /// <param name="db">De database om het BenodigdheidModel in aan te maken</param>
         /// <returns>Het aangemaakte BenodigdheidModel</returns>
-        private BenodigdheidModel MakeBenodigdheid(string content)
+        private Benodigdheid MakeBenodigdheid(string naam)
         {
-            if (db.Benodigdheden.Where(a => a.Content == content).FirstOrDefault() == null)
+            if (db.Benodigdheden.Where(a => a.Naam == naam).FirstOrDefault() == null)
             {
                 try
                 {
-                    db.Benodigdheden.Add(new BenodigdheidModel { Content = content });
+                    db.Benodigdheden.Add(new Benodigdheid { Naam = naam });
                     db.SaveChanges();
                 }
                 catch { }
             }
-            return db.Benodigdheden.Where(a => a.Content == content).FirstOrDefault();
+            return db.Benodigdheden.Where(a => a.Naam == naam).FirstOrDefault();
         }
 
         /// <summary>
@@ -358,16 +359,16 @@ namespace StudentenVolgSysteem.Controllers
         /// <param name="certifications">Een string met certificaties die door LineFeeds gescheiden zijn</param>
         /// <param name="db">De database context om de certificeringen in te vinden</param>
         /// <returns>De HashSet van CertificeringenInfraModel met daarin de gevonden of gemaakte modellen</returns>
-        private HashSet<CertificeringenInfraModel> FindCerts(string certifications)
+        private HashSet<Certificering> FindCerts(string certifications)
         {
             //split the cell on newline and find all links that match, 
             //make new entries for anythign that doesn't match and add it.
-            HashSet<CertificeringenInfraModel> certs = new HashSet<CertificeringenInfraModel>();
+            HashSet<Certificering> certs = new HashSet<Certificering>();
             var entries = certifications.Split('\n').ToList();
             foreach (var item in entries)
             {
-                CertificeringenInfraModel cim;
-                if((cim = db.CertificeringenInfras.Where(a => a.Certificering == item).FirstOrDefault()) == null)
+                Certificering cim;
+                if((cim = db.Certificeringen.Where(a => a.Naam == item).FirstOrDefault()) == null)
                 {
                     cim = MakeCert(item);
                 }
@@ -382,30 +383,30 @@ namespace StudentenVolgSysteem.Controllers
         /// <param name="certificering">De certificering om aan te maken</param>
         /// <param name="db">De database context om de certificering in aan te maken</param>
         /// <returns>Het aangemaakte CertificeringenInfraModel</returns>
-        private CertificeringenInfraModel MakeCert(string certificering)
+        private Certificering MakeCert(string certificering)
         {
-            if (db.CertificeringenInfras.Where(a => a.Certificering == certificering).FirstOrDefault() == null)
+            if (db.Certificeringen.Where(a => a.Naam == certificering).FirstOrDefault() == null)
             {
                 try
                 {
-                    db.CertificeringenInfras.Add(new CertificeringenInfraModel { Certificering = certificering });
+                    db.Certificeringen.Add(new Certificering { Naam = certificering });
                     db.SaveChanges();
                 }
                 catch { }
             }
-            return db.CertificeringenInfras.Where(a => a.Certificering == certificering).FirstOrDefault();
+            return db.Certificeringen.Where(a => a.Naam == certificering).FirstOrDefault();
         }
 
         /// <summary>
-        /// Vindt het TagModel dat bij tag hoort.
-        /// Maakt een nieuw TagModel aan in de database als deze niet gevonden kan worden.
+        /// Vind het Tag dat bij tag hoort.
+        /// Maakt een nieuwe Tag aan in de database als deze niet gevonden kan worden.
         /// </summary>
         /// <param name="tag">De tag om te vinden</param>
         /// <param name="db">De database om de tag in te vinden</param>
         /// <returns>Het gevonden of gemaakte TagModel</returns>
-        private TagModel FindTag(string tag)
+        private Tag FindTag(string tag)
         {
-            TagModel tmd;
+            Tag tmd;
             if ((tmd = db.Tags.Where(a => a.Naam == tag).FirstOrDefault()) == null)
             {
                 tmd = MakeTag(tag);
@@ -419,13 +420,13 @@ namespace StudentenVolgSysteem.Controllers
         /// <param name="tag">De tag om een TagModel van te maken</param>
         /// <param name="db">De database context om het TagModel in aan te maken</param>
         /// <returns>Het aangemaakte TagModel</returns>
-        private TagModel MakeTag(string tag)
+        private Tag MakeTag(string tag)
         {
             if (db.Tags.Where(a => a.Naam == tag).FirstOrDefault() == null)
             {
                 try
                 {
-                    db.Tags.Add(new TagModel { Naam = tag });
+                    db.Tags.Add(new Tag { Naam = tag });
                     db.SaveChanges();
                 }
                 catch { }
@@ -440,10 +441,10 @@ namespace StudentenVolgSysteem.Controllers
         /// <param name="werkvorm">De werkvorm om te vinden</param>
         /// <param name="db">De database context om de werkvorm in te vinden</param>
         /// <returns>Het gevonden of gemaakte WerkvormModel</returns>
-        private WerkvormModel FindWerkvorm(string werkvorm)
+        private Werkvorm FindWerkvorm(string werkvorm)
         {
-            WerkvormModel wvm;
-            if ((wvm = db.Werkvormen.Where(a => a.Werkvorm == werkvorm).FirstOrDefault()) == null)
+            Werkvorm wvm;
+            if ((wvm = db.Werkvormen.Where(a => a.Naam == werkvorm).FirstOrDefault()) == null)
             {
                 wvm = MakeWerkvorm(werkvorm);
             }
@@ -456,18 +457,18 @@ namespace StudentenVolgSysteem.Controllers
         /// <param name="werkvorm">De werkvorm om een WerkvormModel van te maken</param>
         /// <param name="db">De database context om het WerkvormModel in aan te maken</param>
         /// <returns>Het aangemaakte WerkvormModel</returns>
-        private WerkvormModel MakeWerkvorm(string werkvorm)
+        private Werkvorm MakeWerkvorm(string werkvorm)
         {
-            if (db.Werkvormen.Where(a => a.Werkvorm == werkvorm).FirstOrDefault() == null)
+            if (db.Werkvormen.Where(a => a.Naam == werkvorm).FirstOrDefault() == null)
             {
                 try
                 {
-                    db.Werkvormen.Add(new WerkvormModel { Werkvorm = werkvorm });
+                    db.Werkvormen.Add(new Werkvorm { Naam = werkvorm });
                     db.SaveChanges();
                 }
                 catch { }
             }
-            return db.Werkvormen.Where(a => a.Werkvorm == werkvorm).FirstOrDefault();
+            return db.Werkvormen.Where(a => a.Naam == werkvorm).FirstOrDefault();
         }
 
         /// <summary>
@@ -477,10 +478,10 @@ namespace StudentenVolgSysteem.Controllers
         /// <param name="tijdsduur">De tijdsduur om te vinden</param>
         /// <param name="db">De database context om de tijdsduur in te vinden</param>
         /// <returns>Het gevonden of gemaakte TijdsDuurModel</returns>
-        private TijdsDuurModel FindDuration(string tijdsduur)
+        private Tijdsduur FindDuration(string tijdsduur)
         {
-            TijdsDuurModel tdm;
-            if((tdm = db.TijdsDuren.Where(a => a.Eenheid == tijdsduur).FirstOrDefault()) == null)
+            Tijdsduur tdm;
+            if((tdm = db.Tijdsduren.Where(a => a.Eenheid == tijdsduur).FirstOrDefault()) == null)
             {
                 tdm = MakeDuur(tijdsduur);
             }
@@ -493,18 +494,18 @@ namespace StudentenVolgSysteem.Controllers
         /// <param name="tijdsduur">De tijdsduur om een TijdsDuurModel van te maken</param>
         /// <param name="db">De database context om het TijdsDuurModel in aan te maken</param>
         /// <returns>Het aangemaakte TijdsDuurModel</returns>
-        private TijdsDuurModel MakeDuur(string tijdsduur)
+        private Tijdsduur MakeDuur(string tijdsduur)
         {
-            if (db.TijdsDuren.Where(a => a.Eenheid == tijdsduur).FirstOrDefault() == null)
+            if (db.Tijdsduren.Where(a => a.Eenheid == tijdsduur).FirstOrDefault() == null)
             {
                 try
                 {
-                    db.TijdsDuren.Add(new TijdsDuurModel { Eenheid = tijdsduur });
+                    db.Tijdsduren.Add(new Tijdsduur { Eenheid = tijdsduur });
                     db.SaveChanges();
                 }
                 catch { }
             }
-            return db.TijdsDuren.Where(a => a.Eenheid == tijdsduur).FirstOrDefault();
+            return db.Tijdsduren.Where(a => a.Eenheid == tijdsduur).FirstOrDefault();
         }
 
         /// <summary>
@@ -514,10 +515,10 @@ namespace StudentenVolgSysteem.Controllers
         /// <param name="niveau">Het niveau om te vinden</param>
         /// <param name="db">De database context om het niveau in te vinden</param>
         /// <returns>Het gevonden of gemaakte NiveauModel</returns>
-        private NiveauModel FindNiveau(string niveau)
+        private Niveau FindNiveau(string niveau)
         {
-            NiveauModel nvm;
-            if((nvm = db.Niveaus.Where(a => a.Niveau == niveau).FirstOrDefault()) == null)
+            Niveau nvm;
+            if((nvm = db.Niveaus.Where(a => a.Naam == niveau).FirstOrDefault()) == null)
             {
                 nvm = MakeNiveau(niveau);
             }
@@ -530,13 +531,13 @@ namespace StudentenVolgSysteem.Controllers
         /// <param name="niveau">Het Niveau</param>
         /// <param name="db">De database context om het NiveauModel in aan te maken</param>
         /// <returns>Het aangemaakte NiveauModel</returns>
-        private NiveauModel MakeNiveau(string niveau)
+        private Niveau MakeNiveau(string niveau)
         {
-            if (db.Niveaus.Where(a => a.Niveau == niveau).FirstOrDefault() == null)
+            if (db.Niveaus.Where(a => a.Naam == niveau).FirstOrDefault() == null)
             {
                 try
                 {
-                    db.Niveaus.Add(new NiveauModel { Niveau = niveau });
+                    db.Niveaus.Add(new Niveau { Naam = niveau });
                     db.SaveChanges();
                 }
                 catch (Exception e)
@@ -544,8 +545,7 @@ namespace StudentenVolgSysteem.Controllers
                     Debug.WriteLine(e.Message.ToString());
                 }
             }
-            return db.Niveaus.Where(a => a.Niveau == niveau).FirstOrDefault();
+            return db.Niveaus.Where(a => a.Naam == niveau).FirstOrDefault();
         }
-
     }
 }

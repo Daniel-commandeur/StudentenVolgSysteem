@@ -1,5 +1,4 @@
-﻿@model StudentenVolgSysteem.Models.TagModel
-
+﻿@model StudentenVolgSysteem.Models.Tag
 @{
     ViewBag.Title = "Create";
 }
@@ -11,7 +10,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>TagModel</h4>
+        <h4>Tag</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">

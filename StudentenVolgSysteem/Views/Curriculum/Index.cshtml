@@ -1,4 +1,4 @@
-﻿@model IEnumerable<StudentenVolgSysteem.Models.CuriculumModel>
+﻿@model IEnumerable<StudentenVolgSysteem.Models.Curriculum>
 
 @{
     ViewBag.Title = "Index";
@@ -10,13 +10,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Naam)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.StudentId.FirstName)
+            @Html.DisplayNameFor(model => model.Student.Voornaam)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.StudentId.LastName)
+            @Html.DisplayNameFor(model => model.Student.Achternaam)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Topics)
@@ -27,18 +27,18 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.Naam)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StudentId.FirstName)
+                @Html.DisplayFor(modelItem => item.Student.Voornaam)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StudentId.LastName)
+                @Html.DisplayFor(modelItem => item.Student.Achternaam)
             </td>
             <td>
                 @foreach (var topic in item.Topics)
                 {
-                    @Html.DisplayFor(modelItem => topic.NameCode)
+                    @Html.DisplayFor(modelItem => topic.NaamCode)
                     if (topic != item.Topics.Last())
                     {
                         @Html.Raw(" <strong>|</strong> ")
@@ -46,9 +46,9 @@
                 }
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.CuriculumId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.CuriculumId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.CuriculumId })
+                @Html.ActionLink("Edit", "Edit", new { id = item.CurriculumId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.CurriculumId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.CurriculumId })
             </td>
         </tr>
     }

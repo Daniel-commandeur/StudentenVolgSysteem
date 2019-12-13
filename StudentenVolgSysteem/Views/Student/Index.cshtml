@@ -1,4 +1,4 @@
-﻿@model IEnumerable<StudentenVolgSysteem.Models.StudentModel>
+﻿@model IEnumerable<StudentenVolgSysteem.Models.Student>
 
 @{
     ViewBag.Title = "Index";
@@ -10,13 +10,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FirstName)
+            @Html.DisplayNameFor(model => model.Voornaam)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LastName)
+            @Html.DisplayNameFor(model => model.Achternaam)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Curiculums)
+            @Html.DisplayNameFor(model => model.Curricula)
         </th>
         <th></th>
     </tr>
@@ -25,15 +25,15 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
+                @Html.DisplayFor(modelItem => item.Voornaam)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LastName)
+                @Html.DisplayFor(modelItem => item.Achternaam)
             </td>
             <td>
-                @foreach (var Curriculum in item.Curiculums)
+                @foreach (var Curriculum in item.Curricula)
                 {
-                    @Html.DisplayFor(modelItem => Curriculum.Name)<br />
+                    @Html.DisplayFor(modelItem => Curriculum.Naam)<br />
                 }
             </td>
             <td>

@@ -7,13 +7,14 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using StudentenVolgSysteem.Models;
+using StudentenVolgSysteem.DAL;
 
 namespace StudentenVolgSysteem.Controllers
 {
     [Authorize(Roles = "Administrator")]
     public class TagController : Controller
     {
-        private MyDbContext db = new MyDbContext();
+        private SVSContext db = new SVSContext();
 
         // GET: Tag
         public ActionResult Index()
@@ -28,12 +29,12 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TagModel tagModel = db.Tags.Find(id);
-            if (tagModel == null)
+            Tag tag = db.Tags.Find(id);
+            if (tag == null)
             {
                 return HttpNotFound();
             }
-            return View(tagModel);
+            return View(tag);
         }
 
         // GET: Tag/Create
@@ -47,16 +48,16 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TagId,Naam")] TagModel tagModel)
+        public ActionResult Create([Bind(Include = "TagId,Naam")] Tag tag)
         {
             if (ModelState.IsValid)
             {
-                db.Tags.Add(tagModel);
+                db.Tags.Add(tag);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(tagModel);
+            return View(tag);
         }
 
         // GET: Tag/Edit/5
@@ -66,12 +67,12 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TagModel tagModel = db.Tags.Find(id);
-            if (tagModel == null)
+            Tag tag = db.Tags.Find(id);
+            if (tag == null)
             {
                 return HttpNotFound();
             }
-            return View(tagModel);
+            return View(tag);
         }
 
         // POST: Tag/Edit/5
@@ -79,15 +80,15 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "TagId,Naam")] TagModel tagModel)
+        public ActionResult Edit([Bind(Include = "TagId,Naam")] Tag tag)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(tagModel).State = EntityState.Modified;
+                db.Entry(tag).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(tagModel);
+            return View(tag);
         }
 
         // GET: Tag/Delete/5
@@ -97,12 +98,12 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TagModel tagModel = db.Tags.Find(id);
-            if (tagModel == null)
+            Tag tag = db.Tags.Find(id);
+            if (tag == null)
             {
                 return HttpNotFound();
             }
-            return View(tagModel);
+            return View(tag);
         }
 
         // POST: Tag/Delete/5
@@ -110,8 +111,8 @@ namespace StudentenVolgSysteem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            TagModel tagModel = db.Tags.Find(id);
-            db.Tags.Remove(tagModel);
+            Tag tag = db.Tags.Find(id);
+            db.Tags.Remove(tag);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
