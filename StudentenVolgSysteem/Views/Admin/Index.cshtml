@@ -1,5 +1,11 @@
-﻿<h2>Administrator tools</h2>
+﻿@{
+    ViewBag.Title = "Administrator tools";
+}
+
+<h2>Administrator tools</h2>
+
 <br />
+
 <a class="btn btn-primary" style="margin: 5px; background: #00a7be; border-color: black;" href="@Url.Action("Users", "Admin")" role="button">Users</a>
 @*<a class="btn btn-primary" style="margin: 5px; background: #00a7be; border-color: black;" href="@Url.Action("AssignRolesToUsersAsync", "Admin")" role="button">Users</a>*@
 <a class="btn btn-primary" style="margin: 5px; background: #00a7be; border-color: black;" href="@Url.Action("Index", "CSV")" role="button">CSV importer</a>
