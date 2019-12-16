@@ -30,8 +30,8 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Curriculum curriculum = db.GetFromDatabase<Curriculum>(id);
-            if (curriculum == null)
+            Curriculum curriculum = db.Curricula.Where(c => !c.IsDeleted).Include("Student").Where(c => c.CurriculumId == id).FirstOrDefault();
+            if (curriculum == null || curriculum.IsDeleted)
             {
                 return HttpNotFound();
             }

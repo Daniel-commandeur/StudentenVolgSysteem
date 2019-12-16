@@ -23,12 +23,13 @@ namespace StudentenVolgSysteem.DAL
         private static string GetBase()
         {
             string ret = "name=LiveConnection";
-#if (DEBUG)
-            ret = "name=DefaultConnection";
-#endif
+            #if (DEBUG)
+                // Debug connection string
+                ret = "name=DefaultConnection";
+            #endif
             return (ret);
         }
-        
+
         public DbSet<Werkvorm> Werkvormen { get; set; }
         public DbSet<Niveau> Niveaus { get; set; }
         public DbSet<Tijdsduur> Tijdsduren { get; set; }
@@ -46,15 +47,20 @@ namespace StudentenVolgSysteem.DAL
             modelBuilder.Entity<Topic>().HasMany(m => m.Voorkennis).WithMany();
         }
 
+        /// <summary>
+        /// Generic function to retrieve specific data from context, returns default if IsDeleted or null
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public T GetFromDatabase<T>(int? id) where T : class, IDeletable
-        {       
-                    DbSet<T> dbSet = this.Set<T>();
-                    if (id == null) return null;
-                    var a = dbSet.Find(id);
-                    if (a == null || a.IsDeleted) return null;
-                    
-                    return dbSet.FirstOrDefault();
+        {
+            DbSet<T> dbSet = this.Set<T>();
+            if (id == null) return default;
+            var result = dbSet.Find(id);
+            if (result == null || result.IsDeleted) return default;
 
+            return result;
         }
 
         /// <summary>
@@ -83,6 +89,9 @@ namespace StudentenVolgSysteem.DAL
         }
     }
 
+    /// <summary>
+    /// Standard Interface for softDeletes
+    /// </summary>
     public interface IDeletable
     {
         bool IsDeleted { get; set; }

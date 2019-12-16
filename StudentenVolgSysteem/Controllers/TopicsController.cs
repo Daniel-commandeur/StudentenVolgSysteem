@@ -81,7 +81,6 @@ namespace StudentenVolgSysteem.Controllers
                 return RedirectToAction("Index");
             }
 
-
             cuTopic.CUNiveaus = db.Niveaus.ToList();
             cuTopic.CUTijdsduren = db.Tijdsduren.ToList();
             cuTopic.CUWerkvormen = db.Werkvormen.ToList();

@@ -20,7 +20,10 @@ namespace StudentenVolgSysteem.Documents
             SortedDictionary<string, List<Topic>> groupedTopics = new SortedDictionary<string, List<Topic>>();
             foreach (var topic in curriculum.Topics)
             {
-                string first = topic.Certificeringen.First().Naam;
+                string first = String.Empty;
+                if(topic.Certificeringen.Count != 0)
+                first = topic.Certificeringen.First().Naam;
+
                 if (!groupedTopics.ContainsKey(first))
                 {
                     groupedTopics.Add(first, new List<Topic>());
@@ -266,4 +269,4 @@ namespace StudentenVolgSysteem.Documents
         public XRect Rect { get; set; }
     }
 }
-    
+
