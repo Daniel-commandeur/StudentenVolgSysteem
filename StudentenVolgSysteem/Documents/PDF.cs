@@ -11,7 +11,6 @@ namespace StudentenVolgSysteem.Documents
 {
     public static class PDF
     {
-
         public static void Create(PdfViewModel pdfvm, Curriculum curriculum)
         {
             // CuriculumModel curriculum = db.Curiculums.Include("StudentId").Where(m => m.CuriculumId == pdfvm.curriculumId).FirstOrDefault();

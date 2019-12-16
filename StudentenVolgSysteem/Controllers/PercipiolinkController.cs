@@ -19,7 +19,7 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Percipiolink
         public ActionResult Index()
         {
-            return View(db.PercipioLinks.ToList());
+            return View(db.PercipioLinks.Where(p => !p.IsDeleted).ToList());
         }
 
         // GET: Percipiolink/Details/5
@@ -29,7 +29,7 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PercipioLink percipioLink = db.PercipioLinks.Find(id);
+            PercipioLink percipioLink = db.GetFromDatabase<PercipioLink>(id);
             if (percipioLink == null)
             {
                 return HttpNotFound();
@@ -67,7 +67,7 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PercipioLink percipioLink = db.PercipioLinks.Find(id);
+            PercipioLink percipioLink = db.GetFromDatabase<PercipioLink>(id);
             if (percipioLink == null)
             {
                 return HttpNotFound();
@@ -98,7 +98,7 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PercipioLink percipioLink = db.PercipioLinks.Find(id);
+            PercipioLink percipioLink = db.GetFromDatabase<PercipioLink>(id);
             if (percipioLink == null)
             {
                 return HttpNotFound();
@@ -111,7 +111,7 @@ namespace StudentenVolgSysteem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            PercipioLink percipioLink = db.PercipioLinks.Find(id);
+            PercipioLink percipioLink = db.GetFromDatabase<PercipioLink>(id);
             db.PercipioLinks.Remove(percipioLink);
             db.SaveChanges();
             return RedirectToAction("Index");

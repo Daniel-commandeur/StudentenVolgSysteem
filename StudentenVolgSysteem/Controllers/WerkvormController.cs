@@ -19,7 +19,7 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Werkvorm
         public ActionResult Index()
         {
-            return View(db.Werkvormen.ToList());
+            return View(db.Werkvormen.Where(w => !w.IsDeleted).ToList());
         }
 
         // GET: Werkvorm/Details/5
@@ -29,7 +29,7 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Werkvorm werkvorm = db.Werkvormen.Find(id);
+            Werkvorm werkvorm = db.GetFromDatabase<Werkvorm>(id);
             if (werkvorm == null)
             {
                 return HttpNotFound();
@@ -67,7 +67,7 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Werkvorm werkvorm = db.Werkvormen.Find(id);
+            Werkvorm werkvorm = db.GetFromDatabase<Werkvorm>(id);
             if (werkvorm == null)
             {
                 return HttpNotFound();
@@ -98,7 +98,7 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Werkvorm werkvorm = db.Werkvormen.Find(id);
+            Werkvorm werkvorm = db.GetFromDatabase<Werkvorm>(id);
             if (werkvorm == null)
             {
                 return HttpNotFound();
@@ -111,7 +111,7 @@ namespace StudentenVolgSysteem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Werkvorm werkvorm = db.Werkvormen.Find(id);
+            Werkvorm werkvorm = db.GetFromDatabase<Werkvorm>(id);
             db.Werkvormen.Remove(werkvorm);
             db.SaveChanges();
             return RedirectToAction("Index");

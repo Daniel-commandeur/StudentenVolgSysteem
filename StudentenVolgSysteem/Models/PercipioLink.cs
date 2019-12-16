@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudentenVolgSysteem.DAL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,7 +9,7 @@ using System.Web;
 namespace StudentenVolgSysteem.Models
 {
     [Table(name: "PercipioLinks")]
-    public class PercipioLink
+    public class PercipioLink : IDeletable
     {
         public PercipioLink()
         {
@@ -19,5 +20,6 @@ namespace StudentenVolgSysteem.Models
         public int PercipioLinkId { get; set; }
         public string Link { get; set; }
         public virtual ICollection<Topic> Topics { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudentenVolgSysteem.DAL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,10 +9,11 @@ using System.Web;
 namespace StudentenVolgSysteem.Models
 {
     [Table(name: "Tijdsduren")]
-    public class Tijdsduur
+    public class Tijdsduur : IDeletable
     {
         [Key]
         public int TijdsduurId { get; set; }
         public string Eenheid { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

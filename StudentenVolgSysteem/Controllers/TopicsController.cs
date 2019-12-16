@@ -19,7 +19,7 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Topics
         public ActionResult Index()
         {
-            var tm = db.Topics
+            var tm = db.Topics.Where(t => !t.IsDeleted)
                 .Include("Niveau")
                 .Include("Duur")
                 .Include("Werkvorm")
@@ -80,6 +80,8 @@ namespace StudentenVolgSysteem.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
+
             cuTopic.CUNiveaus = db.Niveaus.ToList();
             cuTopic.CUTijdsduren = db.Tijdsduren.ToList();
             cuTopic.CUWerkvormen = db.Werkvormen.ToList();
@@ -99,13 +101,14 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Topic topicModel = db.Topics.Include(t => t.Duur)
+            Topic topicModel = db.Topics.Where(t => !t.IsDeleted)
+                                             .Include(t => t.Duur)
                                              .Include(t => t.Niveau)
                                              .Include(t => t.PercipioLinks)
                                              .Include(t => t.Werkvorm)
                                              .FirstOrDefault(t => t.TopicId == id);
 
-            if (topicModel == null)
+            if (topicModel == null || topicModel.IsDeleted)
             {
                 return HttpNotFound();
             }
@@ -231,7 +234,7 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Topic topicModel = db.Topics.Find(id);
+            Topic topicModel = db.GetFromDatabase<Topic>(id);
             if (topicModel == null)
             {
                 return HttpNotFound();
@@ -244,7 +247,7 @@ namespace StudentenVolgSysteem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Topic topicModel = db.Topics.Find(id);
+            Topic topicModel = db.GetFromDatabase<Topic>(id);
             db.Topics.Remove(topicModel);
             db.SaveChanges();
             return RedirectToAction("Index");

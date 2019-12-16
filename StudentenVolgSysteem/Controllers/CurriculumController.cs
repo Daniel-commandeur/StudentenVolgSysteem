@@ -20,7 +20,7 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Curriculum
         public ActionResult Index()
         {
-            return View(db.Curricula.Include("Student").ToList());
+            return View(db.Curricula.Where(c => !c.IsDeleted).Include("Student").ToList());
         }
 
         // GET: Curriculum/Details/5
@@ -30,7 +30,7 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Curriculum curriculum = db.Curricula.Find(id);
+            Curriculum curriculum = db.GetFromDatabase<Curriculum>(id);
             if (curriculum == null)
             {
                 return HttpNotFound();

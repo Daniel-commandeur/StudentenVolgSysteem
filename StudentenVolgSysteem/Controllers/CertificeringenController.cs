@@ -19,7 +19,7 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Certificeringen
         public ActionResult Index()
         {
-            return View(db.Certificeringen.ToList());
+            return View(db.Certificeringen.Where(c => !c.IsDeleted).ToList());
         }
 
         // GET: Certificeringen/Details/5
@@ -29,8 +29,8 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Certificering certificering = db.Certificeringen.Find(id);
-            if (certificering == null)
+            Certificering certificering = db.GetFromDatabase<Certificering>(id);
+            if (certificering == null || certificering.IsDeleted)
             {
                 return HttpNotFound();
             }
@@ -61,13 +61,16 @@ namespace StudentenVolgSysteem.Controllers
         }
 
         // GET: Certificeringen/Edit/5
+        //[EnsureExists]
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Certificering certificering = db.Certificeringen.Find(id);
+
+            Certificering certificering = db.GetFromDatabase<Certificering>(id);
+   
             if (certificering == null)
             {
                 return HttpNotFound();
@@ -98,7 +101,10 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Certificering certificering = db.Certificeringen.Find(id);
+
+            Certificering certificering = db.GetFromDatabase<Certificering>(id);
+
+            //Certificering certificering = db.Certificeringen.Find(id);
             if (certificering == null)
             {
                 return HttpNotFound();
@@ -111,7 +117,7 @@ namespace StudentenVolgSysteem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Certificering certificering = db.Certificeringen.Find(id);
+            Certificering certificering = db.GetFromDatabase<Certificering>(id);
             db.Certificeringen.Remove(certificering);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -126,4 +132,28 @@ namespace StudentenVolgSysteem.Controllers
             base.Dispose(disposing);
         }
     }
+
+    public class EnsureExists : ActionFilterAttribute
+    {
+
+        //public T cert { get; set; }
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            var id = (int)filterContext.ActionParameters["id"];
+                          
+            using (var context = new SVSContext())
+            {
+                Certificering cert = context.Certificeringen.Find(id);
+                
+                if(cert == null || cert.IsDeleted)
+                {
+                    filterContext.Result = new HttpNotFoundResult();
+                }
+            }
+
+            base.OnActionExecuting(filterContext);
+        }
+    }
+
+    
 }

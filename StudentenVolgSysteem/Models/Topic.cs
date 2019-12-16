@@ -8,7 +8,7 @@ using StudentenVolgSysteem.DAL;
 namespace StudentenVolgSysteem.Models
 {
     [Table(name: "Topics")]
-    public class Topic
+    public class Topic : IDeletable
     {
         public Topic()
         {
@@ -34,6 +34,7 @@ namespace StudentenVolgSysteem.Models
         public Werkvorm Werkvorm { get; set; }
         //Leerdoel(en)	
         public string Leerdoel { get; set; }
+        public bool IsDeleted { get; set; }
         //Certificering	
         public virtual ICollection<Certificering> Certificeringen { get; set; }
         //Benodigde voorkennis	

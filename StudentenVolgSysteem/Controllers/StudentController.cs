@@ -19,7 +19,7 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Student
         public ActionResult Index()
         {
-            return View(db.Studenten.Include(a => a.Curricula).ToList());
+            return View(db.Studenten.Where(s => !s.IsDeleted).Include(a => a.Curricula).ToList());
         }
 
         // GET: Student/Details/5
@@ -39,7 +39,7 @@ namespace StudentenVolgSysteem.Controllers
                                         .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Niveau)))
                                         .Where(a => a.StudentId == id)
                                         .FirstOrDefault();
-            if (student == null)
+            if (student == null || student.IsDeleted)
             {
                 return HttpNotFound();
             }
@@ -76,7 +76,7 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = db.Studenten.Find(id);
+            Student student = db.GetFromDatabase<Student>(id);
             if (student == null)
             {
                 return HttpNotFound();
@@ -107,7 +107,7 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = db.Studenten.Find(id);
+            Student student = db.GetFromDatabase<Student>(id); 
             if (student == null)
             {
                 return HttpNotFound();
@@ -120,7 +120,7 @@ namespace StudentenVolgSysteem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Student student = db.Studenten.Find(id);
+            Student student = db.GetFromDatabase<Student>(id); 
             db.Studenten.Remove(student);
             db.SaveChanges();
             return RedirectToAction("Index");

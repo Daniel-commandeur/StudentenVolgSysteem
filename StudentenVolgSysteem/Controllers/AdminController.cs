@@ -18,8 +18,6 @@ namespace StudentenVolgSysteem.Controllers
     {
         SVSContext db = new SVSContext();
 
-
-
         #region Actions
 
         // GET: Admin

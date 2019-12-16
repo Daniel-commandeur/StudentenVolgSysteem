@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudentenVolgSysteem.DAL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,7 +9,7 @@ using System.Web;
 namespace StudentenVolgSysteem.Models
 {
     [Table(name: "Studenten")]
-    public class Student
+    public class Student : IDeletable
     {
         [Key]
         public int StudentId { get; set; }
@@ -19,6 +20,7 @@ namespace StudentenVolgSysteem.Models
         public string VolledigeNaam { get { return $"{Voornaam} {Achternaam}"; } }
 
         public ICollection<Curriculum> Curricula { get; set; }
+        public bool IsDeleted { get; set; }
     }
 
     [NotMapped]

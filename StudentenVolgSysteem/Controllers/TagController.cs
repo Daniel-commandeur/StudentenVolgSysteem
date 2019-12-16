@@ -19,7 +19,7 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Tag
         public ActionResult Index()
         {
-            return View(db.Tags.ToList());
+            return View(db.Tags.Where(t => !t.IsDeleted).ToList());
         }
 
         // GET: Tag/Details/5
@@ -29,7 +29,7 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tag tag = db.Tags.Find(id);
+            Tag tag = db.GetFromDatabase<Tag>(id);
             if (tag == null)
             {
                 return HttpNotFound();
@@ -67,7 +67,7 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tag tag = db.Tags.Find(id);
+            Tag tag = db.GetFromDatabase<Tag>(id);
             if (tag == null)
             {
                 return HttpNotFound();
@@ -111,7 +111,7 @@ namespace StudentenVolgSysteem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Tag tag = db.Tags.Find(id);
+            Tag tag = db.GetFromDatabase<Tag>(id); 
             db.Tags.Remove(tag);
             db.SaveChanges();
             return RedirectToAction("Index");

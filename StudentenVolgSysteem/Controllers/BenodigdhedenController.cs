@@ -19,7 +19,7 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Benodigdheden
         public ActionResult Index()
         {
-            return View(db.Benodigdheden.ToList());
+            return View(db.Benodigdheden.Where(b => !b.IsDeleted).ToList());
         }
 
         // GET: Benodigdheden/Details/5
@@ -29,7 +29,7 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Benodigdheid benodigdheid = db.Benodigdheden.Find(id);
+            Benodigdheid benodigdheid = db.GetFromDatabase<Benodigdheid>(id);
             if (benodigdheid == null)
             {
                 return HttpNotFound();
@@ -67,7 +67,7 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Benodigdheid benodigdheid = db.Benodigdheden.Find(id);
+            Benodigdheid benodigdheid = db.GetFromDatabase<Benodigdheid>(id); 
             if (benodigdheid == null)
             {
                 return HttpNotFound();
@@ -98,7 +98,8 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Benodigdheid benodigdheid = db.Benodigdheden.Find(id);
+
+            Benodigdheid benodigdheid = db.GetFromDatabase<Benodigdheid>(id);
             if (benodigdheid == null)
             {
                 return HttpNotFound();
@@ -111,7 +112,7 @@ namespace StudentenVolgSysteem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Benodigdheid benodigdheid = db.Benodigdheden.Find(id);
+            Benodigdheid benodigdheid = db.GetFromDatabase<Benodigdheid>(id);
             db.Benodigdheden.Remove(benodigdheid);
             db.SaveChanges();
             return RedirectToAction("Index");
