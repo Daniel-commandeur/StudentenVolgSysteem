@@ -1,12 +1,12 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "CSV importer";
 }
 
-<h2>Index</h2>
+<h2>CSV importer</h2>
 
 @using (Html.BeginForm("ToDatabase", "CSV", FormMethod.Post, new { enctype = "multipart/form-data" })) { 
 
     <input type="file" name="csvFile" />
 
-    <input type="submit" value="upload" />
+    <input type="submit" value="Upload" />
 }
