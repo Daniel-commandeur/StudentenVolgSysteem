@@ -34,8 +34,7 @@ namespace StudentenVolgSysteem.Controllers
             if (ModelState.IsValid)
             {
                 string filePath = Path.GetFileName(csvFile.FileName);
-                Console.WriteLine("TEST!!!!");
-                string relativePath = "~/csv_files/" + filePath;
+                //string relativePath = "~/csv_files/" + filePath;
                 filePath = Path.Combine(Server.MapPath("~/csv_files/"), filePath);
                 csvFile.SaveAs(filePath);
 
@@ -547,6 +546,28 @@ namespace StudentenVolgSysteem.Controllers
                 }
             }
             return db.Niveaus.Where(a => a.Naam == niveau).FirstOrDefault();
+        }
+    }
+    public static class JS
+    {
+        static string scriptTag = "<script type=\"\" language=\"\">{0}</script>";
+        public static void ConsoleLog(string message)
+        {
+            string function = "console.log('{0}');";
+            string log = string.Format(GenerateCodeFromFunction(function), message);
+            HttpContext.Current.Response.Write(log);
+        }
+
+        public static void Alert(string message)
+        {
+            string function = "alert('{0}');";
+            string log = string.Format(GenerateCodeFromFunction(function), message);
+            HttpContext.Current.Response.Write(log);
+        }
+
+        static string GenerateCodeFromFunction(string function)
+        {
+            return string.Format(scriptTag, function);
         }
     }
 }
