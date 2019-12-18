@@ -194,21 +194,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\MyDbContext\201912160945421_init.cs" />
-    <Compile Include="Migrations\MyDbContext\201912160945421_init.Designer.cs">
-      <DependentUpon>201912160945421_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\MyDbContext\201912160949034_student.cs" />
-    <Compile Include="Migrations\MyDbContext\201912160949034_student.Designer.cs">
-      <DependentUpon>201912160949034_student.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\MyDbContext\201912161246349_percip.cs" />
-    <Compile Include="Migrations\MyDbContext\201912161246349_percip.Designer.cs">
-      <DependentUpon>201912161246349_percip.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\MyDbContext\201912161319592_adad.cs" />
-    <Compile Include="Migrations\MyDbContext\201912161319592_adad.Designer.cs">
-      <DependentUpon>201912161319592_adad.cs</DependentUpon>
+    <Compile Include="Migrations\MyDbContext\201912180937449_init.cs" />
+    <Compile Include="Migrations\MyDbContext\201912180937449_init.Designer.cs">
+      <DependentUpon>201912180937449_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MyDbContext\Configuration.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
@@ -373,17 +361,8 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\MyDbContext\201912160945421_init.resx">
-      <DependentUpon>201912160945421_init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\MyDbContext\201912160949034_student.resx">
-      <DependentUpon>201912160949034_student.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\MyDbContext\201912161246349_percip.resx">
-      <DependentUpon>201912161246349_percip.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\MyDbContext\201912161319592_adad.resx">
-      <DependentUpon>201912161319592_adad.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\MyDbContext\201912180937449_init.resx">
+      <DependentUpon>201912180937449_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

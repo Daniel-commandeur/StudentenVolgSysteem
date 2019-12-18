@@ -10,10 +10,10 @@ namespace StudentenVolgSysteem.DAL
     public class SVSContext : DbContext
     {
 
-        public SVSContext() : base(GetBase())
+        public SVSContext() : base("name=DefaultConnection")
         {
             //Database.SetInitializer(new DropCreateDatabaseAlways<MyDbContext>());
-            //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<MyDbContext>());
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<SVSContext>());
         }
 
         /// <summary>

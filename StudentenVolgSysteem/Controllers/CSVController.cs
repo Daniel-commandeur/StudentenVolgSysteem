@@ -34,6 +34,7 @@ namespace StudentenVolgSysteem.Controllers
             if (ModelState.IsValid)
             {
                 string filePath = Path.GetFileName(csvFile.FileName);
+                Console.WriteLine("TEST!!!!");
                 string relativePath = "~/csv_files/" + filePath;
                 filePath = Path.Combine(Server.MapPath("~/csv_files/"), filePath);
                 csvFile.SaveAs(filePath);
