@@ -15,23 +15,25 @@ namespace StudentenVolgSysteem.Documents
         {
             // CuriculumModel curriculum = db.Curiculums.Include("StudentId").Where(m => m.CuriculumId == pdfvm.curriculumId).FirstOrDefault();
             Student student = curriculum.Student;
+            List<CurriculumTopic> curriculumTopics = curriculum.Topics.ToList();
+
 
             // TODO sort topics by first cert and display them grouped like that
             SortedDictionary<string, List<Topic>> groupedTopics = new SortedDictionary<string, List<Topic>>();
-            foreach (var topic in curriculum.Topics)
+            foreach (var topic in curriculumTopics)
             {
                 string first = String.Empty;
-                if(topic.Certificeringen.Count != 0)
-                first = topic.Certificeringen.First().Naam;
+                if (topic.Topic.Certificeringen.Count != 0)
+                    first = topic.Topic.Certificeringen.First().Naam;
 
                 if (!groupedTopics.ContainsKey(first))
                 {
                     groupedTopics.Add(first, new List<Topic>());
-                    groupedTopics[first].Add(topic);
+                    groupedTopics[first].Add(topic.Topic);
                 }
                 else
                 {
-                    groupedTopics[first].Add(topic);
+                    groupedTopics[first].Add(topic.Topic);
                 }
             }
 
@@ -109,17 +111,18 @@ namespace StudentenVolgSysteem.Documents
             }
             YPointer += rowheight;
 
-            List<Topic> topics = curriculum.Topics.ToList();
+            //List<Topic> topics = curriculum.Topics.ToList();
+            List<CurriculumTopic> topics = curriculum.Topics.ToList();
             for (int i = 0; i < curriculum.Topics.Count; i++)
             {
                 List<DrawStringListItem> drawList = new List<DrawStringListItem>();
 
                 //Update YPointer;
                 YPointer += 4;
-                Topic topic = topics[i];
+                CurriculumTopic topic = topics[i];
 
                 //measure topic
-                XSize topicSize = gfx.MeasureString(topic.NaamCode, certFont);
+                XSize topicSize = gfx.MeasureString(topic.Topic.NaamCode, certFont);
                 //make rect
                 int rectWidth = topicColumnWidth;
                 double rectRows = 1;
@@ -141,12 +144,12 @@ namespace StudentenVolgSysteem.Documents
                 //Make topicrect
                 XRect topicRect = new XRect(topicColumn1, 0, rectWidth, rowheight * rectRows);
                 //Add string to drawlist
-                drawList.Add(new DrawStringListItem(topic.NaamCode, certFont, XBrushes.Black, topicRect));
+                drawList.Add(new DrawStringListItem(topic.Topic.NaamCode, certFont, XBrushes.Black, topicRect));
 
                 if (pdfvm.Leerdoel)
                 {
                     //measure leerdoel
-                    XSize leerdoelSize = gfx.MeasureString(topic.Leerdoel, certFont);
+                    XSize leerdoelSize = gfx.MeasureString(topic.Topic.Leerdoel, certFont);
                     //make rect
                     if (leerdoelSize.Width / topicColumnWidth > rectRows)
                     {
@@ -164,12 +167,12 @@ namespace StudentenVolgSysteem.Documents
                     }
                     XRect leerdoelRect = new XRect(topicColumn2, 0, rectWidth, rowheight * rectRows);
                     //update height and y pointer
-                    drawList.Add(new DrawStringListItem(topic.Leerdoel, certFont, XBrushes.Black, leerdoelRect));
+                    drawList.Add(new DrawStringListItem(topic.Topic.Leerdoel, certFont, XBrushes.Black, leerdoelRect));
                 }
 
                 if (pdfvm.Certificeringen)
                 {
-                    List<Certificering> certs = topic.Certificeringen.ToList();
+                    List<Certificering> certs = topic.Topic.Certificeringen.ToList();
                     for (int j = 0; j < certs.Count; j++)
                     {
                         //measure each cert
@@ -222,8 +225,12 @@ namespace StudentenVolgSysteem.Documents
                 gfx.DrawString("Versie 1.0", footerFont, XBrushes.SlateGray, new XPoint(65, footerY + 20));
                 pageNumber++;
             }
+            
 
-            string filename = $"Hello_{DateTime.Now.Millisecond.ToString()}.pdf";
+            
+            string filename = student.VolledigeNaam + $"{ DateTime.Now.Millisecond.ToString()}.pdf";
+
+            // $"Hello_{DateTime.Now.Millisecond.ToString()}.pdf";
             document.Save(filename);
             Process.Start(filename);
         }

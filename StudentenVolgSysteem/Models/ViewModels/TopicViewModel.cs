@@ -5,7 +5,7 @@ using System.Web;
 
 namespace StudentenVolgSysteem.Models.ViewModels
 {
-    public class TopicViewModels
+    public class TopicViewModel
     { 
         public Topic Topic { get; set; }
         public IEnumerable<Niveau> Niveaus { get; set; }

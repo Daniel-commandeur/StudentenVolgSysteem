@@ -90,7 +90,7 @@ namespace StudentenVolgSysteem.Controllers
             pdfViewModel.NiveauList = GetNiveaus();
             if (ModelState.IsValid)
             {
-                Curriculum curriculum = db.Curricula.Include("Student").Where(m => m.CurriculumId == pdfViewModel.curriculumId).FirstOrDefault();
+                Curriculum curriculum = db.Curricula.Include("Student").Include("Topics.Topic").Where(m => m.CurriculumId == pdfViewModel.curriculumId).FirstOrDefault();
                 PDF.Create(pdfViewModel, curriculum);
                 //MakePdf(pdfViewModel);
             }

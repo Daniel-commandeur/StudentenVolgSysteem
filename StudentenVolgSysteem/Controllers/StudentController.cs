@@ -33,10 +33,10 @@ namespace StudentenVolgSysteem.Controllers
             //included and needs to be included explicitly
             Student student = db.Studenten
                                         .Include(a => a.Curricula)
-                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Duur)))
-                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Benodigdheden)))
-                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Werkvorm)))
-                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Niveau)))
+                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Topic.Duur)))
+                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Topic.Benodigdheden)))
+                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Topic.Werkvorm)))
+                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Topic.Niveau)))
                                         .Where(a => a.StudentId == id)
                                         .FirstOrDefault();
             if (student == null || student.IsDeleted)

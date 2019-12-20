@@ -10,7 +10,7 @@ namespace StudentenVolgSysteem.DAL
     public class SVSContext : DbContext
     {
 
-        public SVSContext() : base("name=DefaultConnection")
+        public SVSContext() : base(GetBase())
         {
             //Database.SetInitializer(new DropCreateDatabaseAlways<MyDbContext>());
             Database.SetInitializer(new DropCreateDatabaseIfModelChanges<SVSContext>());
@@ -40,6 +40,7 @@ namespace StudentenVolgSysteem.DAL
         public DbSet<PercipioLink> PercipioLinks { get; set; }
         public DbSet<Student> Studenten { get; set; }
         public DbSet<Curriculum> Curricula { get; set; }
+        public DbSet<CurriculumTopic> CurriculumTopics { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

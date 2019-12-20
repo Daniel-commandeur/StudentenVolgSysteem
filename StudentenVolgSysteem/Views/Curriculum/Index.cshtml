@@ -36,9 +36,10 @@
                 @Html.DisplayFor(modelItem => item.Student.Achternaam)
             </td>
             <td>
+             
                 @foreach (var topic in item.Topics)
                 {
-                    @Html.DisplayFor(modelItem => topic.NaamCode)
+                    @Html.DisplayFor(modelItem => topic.Topic.NaamCode)
                     if (topic != item.Topics.Last())
                     {
                         @Html.Raw(" <strong>|</strong> ")
