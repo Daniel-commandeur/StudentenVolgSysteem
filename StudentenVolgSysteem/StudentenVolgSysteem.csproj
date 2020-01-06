@@ -194,9 +194,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\MyDbContext\201912200934596_init.cs" />
-    <Compile Include="Migrations\MyDbContext\201912200934596_init.Designer.cs">
-      <DependentUpon>201912200934596_init.cs</DependentUpon>
+    <Compile Include="Migrations\MyDbContext\202001060832241_InitialMigration.cs" />
+    <Compile Include="Migrations\MyDbContext\202001060832241_InitialMigration.Designer.cs">
+      <DependentUpon>202001060832241_InitialMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MyDbContext\Configuration.cs" />
     <Compile Include="Models\CurriculumTopic.cs" />
@@ -221,6 +221,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\aspnet-StudentenVolgSysteem-5402a69a-eb75-4ca8-8374-034abaeed3c2.mdf" />
+    <Content Include="App_Data\aspnet-StudentenVolgSysteem-5402a69a-eb75-4ca8-8374-034abaeed3c2_log.ldf">
+      <DependentUpon>aspnet-StudentenVolgSysteem-5402a69a-eb75-4ca8-8374-034abaeed3c2.mdf</DependentUpon>
+    </Content>
     <Content Include="App_Data\logo_itvitae_learning_liggend.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -362,8 +366,8 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\MyDbContext\201912200934596_init.resx">
-      <DependentUpon>201912200934596_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\MyDbContext\202001060832241_InitialMigration.resx">
+      <DependentUpon>202001060832241_InitialMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

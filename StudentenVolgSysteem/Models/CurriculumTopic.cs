@@ -16,6 +16,7 @@ namespace StudentenVolgSysteem.Models
         [Key, Column(Order = 2)]
         public int TopicId { get; set; }
         public Topic Topic { get; set; }
+
         public Voortgang TopicVoortgang { get; set; }
         public bool Akkoord { get; set; }
     }
