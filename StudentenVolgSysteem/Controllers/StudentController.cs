@@ -120,9 +120,13 @@ namespace StudentenVolgSysteem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Student student = db.GetFromDatabase<Student>(id); 
+            //Student student = db.GetFromDatabase<Student>(id);
+
+            // Remove selected student, and also remove this student from related Curricula
+            Student student = db.Studenten.Include("Curricula").Where(s => s.StudentId == id).FirstOrDefault();
             db.Studenten.Remove(student);
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 
