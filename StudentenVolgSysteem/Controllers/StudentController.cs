@@ -120,7 +120,8 @@ namespace StudentenVolgSysteem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            //Student student = db.GetFromDatabase<Student>(id);
+            // If we want soft-delete to automatically cascade, we cannot use this
+            // Student student = db.GetFromDatabase<Student>(id);
 
             // Remove selected student, and also remove this student from related Curricula
             Student student = db.Studenten.Include("Curricula").Where(s => s.StudentId == id).FirstOrDefault();
