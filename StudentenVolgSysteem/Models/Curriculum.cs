@@ -18,6 +18,8 @@ namespace StudentenVolgSysteem.Models
 
         [Key]
         public int CurriculumId { get; set; }
+
+        public int StudentId { get; set; }
         public Student Student { get; set; }
         public string Naam { get; set; }
         public string NotitieDocent { get; set; }

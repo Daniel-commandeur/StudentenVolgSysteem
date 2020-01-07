@@ -194,6 +194,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\MyDbContext\202001070928491_InitialMigration.cs" />
+    <Compile Include="Migrations\MyDbContext\202001070928491_InitialMigration.Designer.cs">
+      <DependentUpon>202001070928491_InitialMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MyDbContext\202001070957005_MakeStudentIdInCurriculumNotNullable.cs" />
+    <Compile Include="Migrations\MyDbContext\202001070957005_MakeStudentIdInCurriculumNotNullable.Designer.cs">
+      <DependentUpon>202001070957005_MakeStudentIdInCurriculumNotNullable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\MyDbContext\Configuration.cs" />
     <Compile Include="Models\CurriculumTopic.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
@@ -360,6 +368,14 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\MyDbContext\202001070928491_InitialMigration.resx">
+      <DependentUpon>202001070928491_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MyDbContext\202001070957005_MakeStudentIdInCurriculumNotNullable.resx">
+      <DependentUpon>202001070957005_MakeStudentIdInCurriculumNotNullable.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
