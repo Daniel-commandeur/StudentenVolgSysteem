@@ -128,9 +128,9 @@ namespace StudentenVolgSysteem.Controllers
                 Curriculum cm = db.Curricula.Find(cvm.Curriculum.CurriculumId);
                 List<CurriculumTopic> cts = db.CurriculumTopics.Where(ct => ct.CurriculumId == cm.CurriculumId).ToList();       
                 
-                foreach (int topic in cvm.TopicIds)
+                foreach (int topicId in cvm.TopicIds)
                 {                                      
-                    CurriculumTopic ct = cts.Where(c => c.CurriculumId == topic).FirstOrDefault();
+                    CurriculumTopic ct = cts.Where(c => c.TopicId == topicId).FirstOrDefault();
                         //new CurriculumTopic { TopicId = topic, Topic = t, Curriculum = cm, CurriculumId = cm.CurriculumId };
                     db.Entry(ct).State = EntityState.Modified;
                     cm.Topics.Add(ct);
