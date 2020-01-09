@@ -140,7 +140,7 @@ namespace StudentenVolgSysteem.Controllers
                         cm.Topics.Add(ct);
                     }
 
-                    // Remove any CTs that are not selected anymore.
+                    // TODO: Remove any CTs that are not selected anymore.
                 }
                 //db.Entry(cts).State = EntityState.Modified;
                 //db.Entry(cm).State = EntityState.Modified;
