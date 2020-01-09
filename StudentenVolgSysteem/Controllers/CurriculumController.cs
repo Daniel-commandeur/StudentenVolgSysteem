@@ -73,9 +73,8 @@ namespace StudentenVolgSysteem.Controllers
         {
             if (ModelState.IsValid)
             {
-                Curriculum cm = new Curriculum();
-                cm = cvm.Curriculum;
-                //cm.CurrNaam = cvm.Naam;
+                Curriculum cm = cvm.Curriculum;
+
                 cm.Student = db.Studenten.Find(cvm.StudentId);             
 
                 foreach(int topic in cvm.TopicIds)
@@ -87,8 +86,8 @@ namespace StudentenVolgSysteem.Controllers
                 }
 
                 db.Curricula.Add(cm);
-                
                 db.SaveChanges();
+
                 if (cvm.StudentId != 0)
                 {
                     return RedirectToAction("Details", "Student", new { id = cvm.StudentId });
