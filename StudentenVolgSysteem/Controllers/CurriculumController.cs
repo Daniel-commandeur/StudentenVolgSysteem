@@ -126,17 +126,24 @@ namespace StudentenVolgSysteem.Controllers
             if (ModelState.IsValid)
             {
                 Curriculum cm = db.Curricula.Find(cvm.Curriculum.CurriculumId);
-                List<CurriculumTopic> cts = db.CurriculumTopics.Where(ct => ct.CurriculumId == cm.CurriculumId).ToList();       
-                
-                foreach (int topicId in cvm.TopicIds)
-                {                                      
-                    CurriculumTopic ct = cts.Where(c => c.TopicId == topicId).FirstOrDefault();
-                        //new CurriculumTopic { TopicId = topic, Topic = t, Curriculum = cm, CurriculumId = cm.CurriculumId };
-                    db.Entry(ct).State = EntityState.Modified;
-                    cm.Topics.Add(ct);
+                List<CurriculumTopic> cts = db.CurriculumTopics.Where(ct => ct.CurriculumId == cm.CurriculumId).ToList();
+
+                foreach (int topic in cvm.TopicIds)
+                {
+                    Topic t = db.Topics.Find(topic);
+                    CurriculumTopic ct = new CurriculumTopic { TopicId = topic, Topic = t, Curriculum = cm, CurriculumId = cm.CurriculumId };
+                    
+                    // Check if CT exists, add if it does not.
+                    if (db.CurriculumTopics.Find(ct.CurriculumId, ct.TopicId) == null)
+                    {
+                        db.CurriculumTopics.Add(ct);
+                        cm.Topics.Add(ct);
+                    }
+
+                    // Remove any CTs that are not selected anymore.
                 }
-                db.Entry(cts).State = EntityState.Modified;
-                db.Entry(cm).State = EntityState.Modified;
+                //db.Entry(cts).State = EntityState.Modified;
+                //db.Entry(cm).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
