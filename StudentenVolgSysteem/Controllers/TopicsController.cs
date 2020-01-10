@@ -42,7 +42,7 @@ namespace StudentenVolgSysteem.Controllers
             }
             Topic topic = db.Topics.Include(m => m.Duur).Where(m => m.TopicId == id).FirstOrDefault();
 
-            if (topic == null)
+            if (topic == null || topic.IsDeleted)
             {
                 return HttpNotFound();
             }
