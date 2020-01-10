@@ -70,9 +70,10 @@ namespace StudentenVolgSysteem.Controllers
             if (ModelState.IsValid)
             {
                 Topic topic = ViewModelToTopic(tvm);
-                
+
                 db.Topics.Add(topic);
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 
@@ -89,21 +90,22 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Topic topicModel = db.Topics.Where(t => !t.IsDeleted)
-                                             .Include(t => t.Duur)
-                                             .Include(t => t.Niveau)
-                                             .Include(t => t.PercipioLinks)
-                                             .Include(t => t.Werkvorm)
-                                             .FirstOrDefault(t => t.TopicId == id);
+            Topic topic = db.Topics.Where(t => !t.IsDeleted)
+                                   .Include(t => t.Duur)
+                                   .Include(t => t.Niveau)
+                                   .Include(t => t.PercipioLinks)
+                                   .Include(t => t.Werkvorm)
+                                   .FirstOrDefault(t => t.TopicId == id);
 
-            if (topicModel == null || topicModel.IsDeleted)
+            if (topic == null || topic.IsDeleted)
             {
                 return HttpNotFound();
             }
 
-            CUTopic cuTopicModel = new CUTopic(topicModel);
+            TopicViewModel tvm = TopicToViewModel(topic);
+            FillTopicViewModelLists(tvm);
 
-            return View(cuTopicModel);
+            return View(tvm);
         }
 
         // POST: Topics/Edit/5
@@ -111,108 +113,24 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "TopicId,Code,NiveauId,Naam,TijdsduurId,WerkvormId,Leerdoel,CertificeringIds,VoorkennisIds,Inhoud,BenodigdhedenIds,PercipioLinkIds,TagIds")] CUTopic cuTopic)
+        public ActionResult Edit(TopicViewModel tvm)
         {
             if (ModelState.IsValid)
             {
-                Topic topicModel = db.Topics.Find(cuTopic.TopicId);
-                topicModel.CopyCUTopicToTopic(cuTopic, db);
-                
-                ////Make changes to the topicModel here, we have to get all the models from side-tables from the dbcontext by reference.
-                ////Otherwise EF will think these are new objects
-                //topicModel.Code = cuTopicModel.Code;
-                //topicModel.Niveau = db.Niveaus.FirstOrDefault(n => n.NiveauId.ToString() == cuTopicModel.NiveauId);
-                //topicModel.Name = cuTopicModel.Name;
-                //topicModel.Duur = db.TijdsDuren.FirstOrDefault(d => d.TijdsDuurId.ToString() == cuTopicModel.TijdsDuurId);
-                //topicModel.Werkvorm = db.Werkvormen.FirstOrDefault(w => w.WerkvormId.ToString() == cuTopicModel.WerkvormId);
-                //topicModel.Leerdoel = cuTopicModel.Leerdoel;
-                //topicModel.Inhoud = cuTopicModel.Inhoud;
-
-                ////Certs
-                //topicModel.Certificeringen.Clear();
-                //try
-                //{
-                //    foreach (var certId in cuTopicModel.CertificeringIds)
-                //    {
-                //        topicModel.Certificeringen.Add(db.CertificeringenInfras.Where(c => c.CertificeringenInfraId.ToString() == certId).FirstOrDefault());
-                //    }
-                //}
-                //catch (NullReferenceException e)
-                //{
-
-                //}
-
-                ////Voorkennis
-                //topicModel.Voorkennis.Clear();
-                //try
-                //{
-                //    foreach (var voorkennisId in cuTopicModel.VoorkennisIds)
-                //    {
-                //        topicModel.Voorkennis.Add(db.Topics.Where(t => t.TopicId.ToString() == voorkennisId).FirstOrDefault());
-                //    }
-                //}
-                //catch (NullReferenceException e)
-                //{
-
-                //}
-
-                ////Benodigdheden
-                //topicModel.Benodigdheden.Clear();
-                //try
-                //{
-                //    foreach (var benodigdheidsId in cuTopicModel.BenodigdhedenIds)
-                //    {
-                //        topicModel.Benodigdheden.Add(db.Benodigdheden.Where(b => b.BenodigdheidId.ToString() == benodigdheidsId).FirstOrDefault());
-                //    }
-                //}
-                //catch (NullReferenceException e)
-                //{
-
-                //}
-
-                ////Percipiolinks
-                //topicModel.PercipioLinks.Clear();
-                //try
-                //{
-                //    foreach (var percipioId in cuTopicModel.PercipiolinkIds)
-                //    {
-                //        topicModel.PercipioLinks.Add(db.PercipioLinks.Where(p => p.PercipiolinkId.ToString() == percipioId).FirstOrDefault());
-                //    }
-                //}
-                //catch (NullReferenceException e)
-                //{
-
-                //}
-
-                ////Tags
-                //topicModel.Tags.Clear();
-                //try
-                //{
-                //    foreach (var tagId in cuTopicModel.TagIds)
-                //    {
-                //        topicModel.Tags.Add(db.Tags.Where(t => t.TagId.ToString() == tagId).FirstOrDefault());
-                //    }
-                //}
-                //catch (NullReferenceException e)
-                //{
-
-                //}
+                Topic topic = db.Topics.Find(tvm.TopicId);
+                topic = ViewModelToTopic(tvm);
 
                 //Tell the context the topicModel has changed and save changes
-                db.Entry(topicModel).State = EntityState.Modified;
+                db.Entry(topic).State = EntityState.Modified;
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
-            //If the model is not valid we need to re-do all the things that were filtered out by the bind
-            cuTopic.CUNiveaus = db.Niveaus.ToList();
-            cuTopic.CUTijdsduren = db.Tijdsduren.ToList();
-            cuTopic.CUWerkvormen = db.Werkvormen.ToList();
-            cuTopic.CUCertificeringen = db.Certificeringen.ToList();
-            cuTopic.CUTags = db.Tags.ToList();
-            cuTopic.CUBenodigdheden = db.Benodigdheden.ToList();
-            cuTopic.CUPercipioLinks = db.PercipioLinks.ToList();
-            cuTopic.CUVoorkennis = db.Topics.ToList();
-            return View(cuTopic);
+
+            // If the model is not valid, we need to refill the lists that were filtered by the bind.
+            FillTopicViewModelLists(tvm);
+
+            return View(tvm);
         }
 
         // GET: Topics/Delete/5
@@ -297,28 +215,40 @@ namespace StudentenVolgSysteem.Controllers
             tvm.Leerdoel = t.Leerdoel;
             tvm.Inhoud = t.Inhoud;
 
-            tvm.Niveau = db.Niveaus.Find(t.Niveau.NiveauId);
-            tvm.Duur = db.Tijdsduren.Find(t.Duur.TijdsduurId);
-            tvm.Werkvorm = db.Werkvormen.Find(t.Werkvorm.WerkvormId);
+            tvm.TopicId = t.TopicId;
+            tvm.Niveau = t.Niveau.NiveauId;
+            tvm.Duur = t.Duur.TijdsduurId;
+            tvm.Werkvorm = t.Werkvorm.WerkvormId;
 
+            tvm.Certificeringen = new List<int>();
             foreach (Certificering c in t.Certificeringen)
             {
-                tvm.Certificeringen.Add(db.Certificeringen.Find(c.CertificeringId));
+                tvm.Certificeringen.Add(c.CertificeringId);
             }
-            foreach (Topic v in t.Voorkennis)
+
+            tvm.Voorkennis = new List<int>();
+            foreach (Topic c in t.Voorkennis)
             {
-                tvm.Voorkennis.Add(db.Topics.Find(v.TopicId));
+                tvm.Voorkennis.Add(c.TopicId);
             }
-            foreach (Benodigdheid b in t.Benodigdheden)
+
+            tvm.Benodigdheden = new List<int>();
+            foreach (Benodigdheid c in t.Benodigdheden)
             {
-                tvm.Benodigdheden.Add(db.Benodigdheden.Find(b.BenodigdheidId));
+                tvm.Benodigdheden.Add(c.BenodigdheidId);
             }
-            foreach (PercipioLink p in t.PercipioLinks)
+
+            tvm.PercipioLinks = new List<int>();
+            foreach (PercipioLink c in t.PercipioLinks)
             {
-                tvm.PercipioLinks.Add(db.PercipioLinks.Find(p.PercipioLinkId));
+                tvm.PercipioLinks.Add(c.PercipioLinkId);
             }
-            tvm.Tags = t.Tags;
-            tvm.Curricula = t.Curricula;
+
+            tvm.Tags = new List<int>();
+            foreach (Tag c in t.Tags)
+            {
+                tvm.Tags.Add(c.TagId);
+            }
 
             return tvm;
         }
@@ -332,19 +262,59 @@ namespace StudentenVolgSysteem.Controllers
         {
             Topic t = new Topic();
 
+            if (db.Topics.Find(tvm.TopicId) != null)
+            {
+                t = db.Topics.Find(tvm.TopicId);
+            }
+            
             t.Code = tvm.Code;
-            t.Niveau = tvm.Niveau;
             t.Naam = tvm.Naam;
-            t.Duur = tvm.Duur;
-            t.Werkvorm = tvm.Werkvorm;
             t.Leerdoel = tvm.Leerdoel;
-            t.Certificeringen = tvm.Certificeringen;
-            t.Voorkennis = tvm.Voorkennis;
             t.Inhoud = tvm.Inhoud;
-            t.Benodigdheden = tvm.Benodigdheden;
-            t.PercipioLinks = tvm.PercipioLinks;
-            t.Tags = tvm.Tags;
-            t.Curricula = tvm.Curricula;
+
+            t.Niveau = db.Niveaus.Find(tvm.Niveau);
+            t.Duur = db.Tijdsduren.Find(tvm.Duur);
+            t.Werkvorm = db.Werkvormen.Find(tvm.Werkvorm);
+
+            if (tvm.Certificeringen != null && tvm.Certificeringen.Count() != 0)
+            {
+                foreach (int c in tvm.Certificeringen)
+                {
+                    t.Certificeringen.Add(db.Certificeringen.Find(c));
+                }
+            }
+
+            if (tvm.Voorkennis != null && tvm.Voorkennis.Count() != 0)
+            {
+                foreach (int v in tvm.Voorkennis)
+                {
+                    t.Voorkennis.Add(db.Topics.Find(v));
+                }
+            }
+
+            if (tvm.Benodigdheden != null && tvm.Benodigdheden.Count() != 0)
+            {
+                foreach (int b in tvm.Benodigdheden)
+                {
+                    t.Benodigdheden.Add(db.Benodigdheden.Find(b));
+                }
+            }
+
+            if (tvm.PercipioLinks != null && tvm.PercipioLinks.Count() != 0)
+            {
+                foreach (int p in tvm.PercipioLinks)
+                {
+                    t.PercipioLinks.Add(db.PercipioLinks.Find(p));
+                }
+            }
+
+            if (tvm.Tags != null && tvm.Tags.Count() != 0)
+            {
+                foreach (int tag in tvm.Tags)
+                {
+                    t.Tags.Add(db.Tags.Find(tag));
+                }
+            }
 
             return t;
         }
