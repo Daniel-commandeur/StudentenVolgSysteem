@@ -52,15 +52,6 @@ namespace StudentenVolgSysteem.Controllers
                 cvm.Student = db.Studenten.Find(id);
             } 
 
-            //Cur cuc = new CUCurriculum() { AlleTopics = theTopics };
-            //if(id != null)
-            //{
-            //    cvm.StudentId = db.Studenten.Find(id).StudentId;
-            //    //cvm.Curriculum = db.Curricula.Where(c => c.Student.StudentId == cvm.StudentId).First();
-
-            //    cuc.StudentId = db.Studenten.Find(id).StudentId;
-            //    cuc.Student = db.Studenten.Find(id);
-            //}
             return View(cvm);
         }
 

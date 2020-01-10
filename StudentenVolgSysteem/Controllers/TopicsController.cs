@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using StudentenVolgSysteem.Models;
+using StudentenVolgSysteem.Models.ViewModels;
 using StudentenVolgSysteem.DAL;
 
 namespace StudentenVolgSysteem.Controllers
@@ -19,7 +20,7 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Topics
         public ActionResult Index()
         {
-            var tm = db.Topics.Where(t => !t.IsDeleted)
+            var topics = db.Topics.Where(t => !t.IsDeleted)
                 .Include("Niveau")
                 .Include("Duur")
                 .Include("Werkvorm")
@@ -29,7 +30,7 @@ namespace StudentenVolgSysteem.Controllers
                 .Include("PercipioLinks")
                 .Include("Tags")
                 .ToList();
-            return View(tm);
+            return View(topics);
         }
 
         // GET: Topics/Details/5
@@ -52,16 +53,11 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Topics/Create
         public ActionResult Create()
         {
-            CUTopic cuTopic = new CUTopic();
-            cuTopic.CUNiveaus = db.Niveaus.ToList();
-            cuTopic.CUTijdsduren = db.Tijdsduren.ToList();
-            cuTopic.CUWerkvormen = db.Werkvormen.ToList();
-            cuTopic.CUCertificeringen = db.Certificeringen.ToList();
-            cuTopic.CUTags = db.Tags.ToList();
-            cuTopic.CUBenodigdheden = db.Benodigdheden.ToList();
-            cuTopic.CUPercipioLinks = db.PercipioLinks.ToList();
-            cuTopic.CUVoorkennis = db.Topics.ToList();
-            return View(cuTopic);
+            TopicViewModel tvm = new TopicViewModel();
+
+            FillTopicViewModelLists(tvm);
+
+            return View(tvm);
         }
 
         // POST: Topics/Create
@@ -69,27 +65,20 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TopicId,Code,NiveauId,Naam,TijdsduurId,WerkvormId,Leerdoel,CertificeringIds,VoorkennisIds,Inhoud,BenodigdhedenIds,PercipioLinkIds")] CUTopic cuTopic)
+        public ActionResult Create(TopicViewModel tvm)
         {
             if (ModelState.IsValid)
             {
-                Topic topic = new Topic();
-                topic.CopyCUTopicToTopic(cuTopic, db);
-
+                Topic topic = ViewModelToTopic(tvm);
+                
                 db.Topics.Add(topic);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            cuTopic.CUNiveaus = db.Niveaus.ToList();
-            cuTopic.CUTijdsduren = db.Tijdsduren.ToList();
-            cuTopic.CUWerkvormen = db.Werkvormen.ToList();
-            cuTopic.CUCertificeringen = db.Certificeringen.ToList();
-            cuTopic.CUTags = db.Tags.ToList();
-            cuTopic.CUBenodigdheden = db.Benodigdheden.ToList();
-            cuTopic.CUPercipioLinks = db.PercipioLinks.ToList();
-            cuTopic.CUVoorkennis = db.Topics.ToList();
-            return View(cuTopic);
+            FillTopicViewModelLists(tvm);
+
+            return View(tvm);
         }
 
         // GET: Topics/Edit/5
@@ -273,7 +262,91 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return RedirectToAction("Index");
             }
-            
+        }
+
+        /// <summary>
+        /// Fills the lists in the TopicViewModel that populate dropdowns in the Topic/Create View.
+        /// </summary>
+        /// <param name="tvm">TopicViewModel</param>
+        /// <returns>TopicViewModel with filled Lists</returns>
+        public TopicViewModel FillTopicViewModelLists(TopicViewModel tvm)
+        {
+            tvm.AlleNiveaus = db.Niveaus.ToList();
+            tvm.AlleTijdsduren = db.Tijdsduren.Where(item => !item.IsDeleted).ToList();
+            tvm.AlleWerkvormen = db.Werkvormen.Where(item => !item.IsDeleted).ToList();
+            tvm.AlleCertificeringen = db.Certificeringen.Where(item => !item.IsDeleted).ToList();
+            tvm.AlleTags = db.Tags.Where(item => !item.IsDeleted).ToList();
+            tvm.AlleBenodigdheden = db.Benodigdheden.Where(item => !item.IsDeleted).ToList();
+            tvm.AllePercipioLinks = db.PercipioLinks.Where(item => !item.IsDeleted).ToList();
+            tvm.AlleVoorkennis = db.Topics.Where(item => !item.IsDeleted).ToList();
+
+            return tvm;
+        }
+
+        /// <summary>
+        /// Converts a Topic to a TopicViewModel.
+        /// </summary>
+        /// <param name="t">Topic to convert</param>
+        /// <returns>A TopicViewModel</returns>
+        public TopicViewModel TopicToViewModel(Topic t)
+        {
+            TopicViewModel tvm = new TopicViewModel();
+
+            tvm.Code = t.Code;
+            tvm.Naam = t.Naam;
+            tvm.Leerdoel = t.Leerdoel;
+            tvm.Inhoud = t.Inhoud;
+
+            tvm.Niveau = db.Niveaus.Find(t.Niveau.NiveauId);
+            tvm.Duur = db.Tijdsduren.Find(t.Duur.TijdsduurId);
+            tvm.Werkvorm = db.Werkvormen.Find(t.Werkvorm.WerkvormId);
+
+            foreach (Certificering c in t.Certificeringen)
+            {
+                tvm.Certificeringen.Add(db.Certificeringen.Find(c.CertificeringId));
+            }
+            foreach (Topic v in t.Voorkennis)
+            {
+                tvm.Voorkennis.Add(db.Topics.Find(v.TopicId));
+            }
+            foreach (Benodigdheid b in t.Benodigdheden)
+            {
+                tvm.Benodigdheden.Add(db.Benodigdheden.Find(b.BenodigdheidId));
+            }
+            foreach (PercipioLink p in t.PercipioLinks)
+            {
+                tvm.PercipioLinks.Add(db.PercipioLinks.Find(p.PercipioLinkId));
+            }
+            tvm.Tags = t.Tags;
+            tvm.Curricula = t.Curricula;
+
+            return tvm;
+        }
+
+        /// <summary>
+        /// Converts a TopicViewModel back into a Topic.
+        /// </summary>
+        /// <param name="tvm">The TopicViewModel to convert</param>
+        /// <returns>A Topic object</returns>
+        public Topic ViewModelToTopic(TopicViewModel tvm)
+        {
+            Topic t = new Topic();
+
+            t.Code = tvm.Code;
+            t.Niveau = tvm.Niveau;
+            t.Naam = tvm.Naam;
+            t.Duur = tvm.Duur;
+            t.Werkvorm = tvm.Werkvorm;
+            t.Leerdoel = tvm.Leerdoel;
+            t.Certificeringen = tvm.Certificeringen;
+            t.Voorkennis = tvm.Voorkennis;
+            t.Inhoud = tvm.Inhoud;
+            t.Benodigdheden = tvm.Benodigdheden;
+            t.PercipioLinks = tvm.PercipioLinks;
+            t.Tags = tvm.Tags;
+            t.Curricula = tvm.Curricula;
+
+            return t;
         }
     }
 }
