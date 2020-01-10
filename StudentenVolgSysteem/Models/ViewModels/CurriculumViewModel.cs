@@ -9,12 +9,14 @@ namespace StudentenVolgSysteem.Models.ViewModels
     {
         public Curriculum Curriculum { get; set; }
         public List<Topic> AlleTopics { get; set; }
-        public List<Topic> CurriculumTopics { get; set; }
         public List<Student> AlleStudenten { get; set; }
         public int[] TopicIds { get; set; }
         public int StudentId { get; set; }
         public int[] StudentIds { get; set; }
         public Student Student { get; set; }
-        public List<Voortgang> voortgang { get; set; }
+
+        // What is this for? 0 references
+        //public List<Topic> CurriculumTopics { get; set; }
+        //public List<Voortgang> Voortgang { get; set; }
     }
 }

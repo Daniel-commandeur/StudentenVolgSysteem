@@ -52,15 +52,6 @@ namespace StudentenVolgSysteem.Controllers
                 cvm.Student = db.Studenten.Find(id);
             } 
 
-            //Cur cuc = new CUCurriculum() { AlleTopics = theTopics };
-            //if(id != null)
-            //{
-            //    //cvm.Curriculum = db.Curricula.Where(c => c.Student.StudentId == cvm.StudentId).First();
-            //    cvm.StudentId = db.Studenten.Find(id).StudentId;
-
-            //    cuc.StudentId = db.Studenten.Find(id).StudentId;
-            //    cuc.Student = db.Studenten.Find(id);
-            //}
             return View(cvm);
         }
 
@@ -73,9 +64,8 @@ namespace StudentenVolgSysteem.Controllers
         {
             if (ModelState.IsValid)
             {
-                Curriculum cm = new Curriculum();
-                cm = cvm.Curriculum;
-                //cm.CurrNaam = cvm.Naam;
+                Curriculum cm = cvm.Curriculum;
+
                 cm.Student = db.Studenten.Find(cvm.StudentId);             
 
                 foreach(int topic in cvm.TopicIds)
@@ -87,8 +77,8 @@ namespace StudentenVolgSysteem.Controllers
                 }
 
                 db.Curricula.Add(cm);
-                
                 db.SaveChanges();
+
                 if (cvm.StudentId != 0)
                 {
                     return RedirectToAction("Details", "Student", new { id = cvm.StudentId });
@@ -126,17 +116,25 @@ namespace StudentenVolgSysteem.Controllers
             if (ModelState.IsValid)
             {
                 Curriculum cm = db.Curricula.Find(cvm.Curriculum.CurriculumId);
-                List<CurriculumTopic> cts = db.CurriculumTopics.Where(ct => ct.CurriculumId == cm.CurriculumId).ToList();       
-                
+                List<CurriculumTopic> cts = db.CurriculumTopics.Where(ct => ct.CurriculumId == cm.CurriculumId).ToList();
+
                 foreach (int topic in cvm.TopicIds)
-                {                                      
-                    CurriculumTopic ct = cts.Where(c => c.TopicId == topic).FirstOrDefault();
-                        //new CurriculumTopic { TopicId = topic, Topic = t, Curriculum = cm, CurriculumId = cm.CurriculumId };
-                    db.Entry(ct).State = EntityState.Modified;
-                    cm.Topics.Add(ct);
+                {
+                    Topic t = db.Topics.Find(topic);
+                    CurriculumTopic ct = new CurriculumTopic { TopicId = topic, Topic = t, Curriculum = cm, CurriculumId = cm.CurriculumId };
+                    
+                    // Check if CT exists, add if it does not.
+                    if (db.CurriculumTopics.Find(ct.CurriculumId, ct.TopicId) == null)
+                    {
+                        db.CurriculumTopics.Add(ct);
+                        cm.Topics.Add(ct);
+                    }
+
+                    // TODO: Remove any CTs that are not selected anymore
+                    // Compare lists, then delete CurriculumTopics that are no longer in the list
                 }
-                db.Entry(cts).State = EntityState.Modified;
-                db.Entry(cm).State = EntityState.Modified;
+                //db.Entry(cts).State = EntityState.Modified;
+                //db.Entry(cm).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
