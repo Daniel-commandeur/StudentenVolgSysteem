@@ -194,9 +194,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\MyDbContext\202001100857510_Init.cs" />
-    <Compile Include="Migrations\MyDbContext\202001100857510_Init.Designer.cs">
-      <DependentUpon>202001100857510_Init.cs</DependentUpon>
+    <Compile Include="Migrations\MyDbContext\202001101328168_Initial.cs" />
+    <Compile Include="Migrations\MyDbContext\202001101328168_Initial.Designer.cs">
+      <DependentUpon>202001101328168_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MyDbContext\Configuration.cs" />
     <Compile Include="Models\CurriculumTopic.cs" />
@@ -366,8 +366,8 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\MyDbContext\202001100857510_Init.resx">
-      <DependentUpon>202001100857510_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\MyDbContext\202001101328168_Initial.resx">
+      <DependentUpon>202001101328168_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
