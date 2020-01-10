@@ -131,7 +131,7 @@ namespace StudentenVolgSysteem.Controllers
             // If we want soft-delete to automatically cascade, we cannot use this
             // Student student = db.GetFromDatabase<Student>(id);
 
-            // Remove selected student, and also remove this student from related Curricula
+            // Remove selected student, and also remove related Curricula
             Student student = db.Studenten.Include("Curricula").Where(s => s.StudentId == id).FirstOrDefault();
             db.Studenten.Remove(student);
             db.SaveChanges();

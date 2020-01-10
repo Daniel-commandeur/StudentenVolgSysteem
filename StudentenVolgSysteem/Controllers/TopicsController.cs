@@ -153,7 +153,7 @@ namespace StudentenVolgSysteem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Topic topicModel = db.Topics.Include("Curricula").Where(t => t.TopicId == id).FirstOrDefault();
+            Topic topicModel = db.Topics.Include("Curricula").Include("Voorkennis").Where(t => t.TopicId == id).FirstOrDefault();
             db.Topics.Remove(topicModel);
             db.SaveChanges();
             return RedirectToAction("Index");
