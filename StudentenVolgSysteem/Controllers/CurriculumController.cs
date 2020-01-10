@@ -130,7 +130,8 @@ namespace StudentenVolgSysteem.Controllers
                         cm.Topics.Add(ct);
                     }
 
-                    // TODO: Remove any CTs that are not selected anymore.
+                    // TODO: Remove any CTs that are not selected anymore
+                    // Compare lists, then delete CurriculumTopics that are no longer in the list
                 }
                 //db.Entry(cts).State = EntityState.Modified;
                 //db.Entry(cm).State = EntityState.Modified;

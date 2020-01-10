@@ -18,7 +18,7 @@ namespace StudentenVolgSysteem.Documents
             List<CurriculumTopic> curriculumTopics = curriculum.Topics.ToList();
 
 
-            // TODO sort topics by first cert and display them grouped like that
+            // TODO: Sort and group topics by first Certification
             SortedDictionary<string, List<Topic>> groupedTopics = new SortedDictionary<string, List<Topic>>();
             foreach (var topic in curriculumTopics)
             {
