@@ -96,6 +96,5 @@ namespace StudentenVolgSysteem.Controllers
             }
             return View(pdfViewModel);
         }
-
     }
 }

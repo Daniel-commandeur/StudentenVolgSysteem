@@ -19,7 +19,8 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Tijdsduren
         public ActionResult Index()
         {
-            return View(db.Tijdsduren.ToList());
+            //return View(db.Tijdsduren.ToList()); 
+            return View(db.Tijdsduren.Where(td => !td.IsDeleted).ToList());
         }
 
         // GET: Tijdsduren/Details/5

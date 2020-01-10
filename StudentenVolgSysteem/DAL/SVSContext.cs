@@ -84,6 +84,8 @@ namespace StudentenVolgSysteem.DAL
                     item.State = EntityState.Unchanged;
                     // Only update IsDeleted flag.
                     entity.IsDeleted = true;
+                    //
+                    
                 }
             }
             return base.SaveChanges();

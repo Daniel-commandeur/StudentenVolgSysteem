@@ -19,7 +19,15 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Student
         public ActionResult Index()
         {
-            return View(db.Studenten.Where(s => !s.IsDeleted).Include(a => a.Curricula).ToList());
+            //TODO: Refactor this mess!
+            var studenten = db.Studenten.Where(s => !s.IsDeleted)
+                                        .Include(c => c.Curricula)
+                                        .ToList();
+            foreach (var student in studenten)
+            {
+                student.Curricula = student.Curricula.Where(c => !c.IsDeleted).ToList();
+            }
+            return View(studenten);
         }
 
         // GET: Student/Details/5
@@ -77,7 +85,7 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Student student = db.GetFromDatabase<Student>(id);
-            if (student == null)
+            if (student == null || student.IsDeleted)
             {
                 return HttpNotFound();
             }
@@ -108,7 +116,7 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Student student = db.GetFromDatabase<Student>(id); 
-            if (student == null)
+            if (student == null || student.IsDeleted)
             {
                 return HttpNotFound();
             }

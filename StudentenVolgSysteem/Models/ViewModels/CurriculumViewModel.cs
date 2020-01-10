@@ -13,6 +13,7 @@ namespace StudentenVolgSysteem.Models.ViewModels
         public List<Student> AlleStudenten { get; set; }
         public int[] TopicIds { get; set; }
         public int StudentId { get; set; }
+        public int[] StudentIds { get; set; }
         public Student Student { get; set; }
         public List<Voortgang> voortgang { get; set; }
     }

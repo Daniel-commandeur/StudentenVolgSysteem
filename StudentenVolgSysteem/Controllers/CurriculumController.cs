@@ -19,7 +19,7 @@ namespace StudentenVolgSysteem.Controllers
 
         // GET: Curriculum
         public ActionResult Index()
-        {        
+        {
             return View(db.Curricula.Where(c => !c.IsDeleted).Include("Student").Include("Topics.Topic").ToList());
         }
 
@@ -42,8 +42,8 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Curriculum/Create
         public ActionResult Create(int? id)
         {
-            List<Topic> theTopics = db.Topics.ToList();
-            List<Student> studenten = db.Studenten.ToList();
+            List<Topic> theTopics = db.Topics.Where(t => !t.IsDeleted).ToList();
+            List<Student> studenten = db.Studenten.Where(s => !s.IsDeleted).ToList();
             CurriculumViewModel cvm = new CurriculumViewModel { AlleTopics = theTopics, AlleStudenten = studenten };          
 
             if(id != null)
@@ -55,8 +55,8 @@ namespace StudentenVolgSysteem.Controllers
             //Cur cuc = new CUCurriculum() { AlleTopics = theTopics };
             //if(id != null)
             //{
-            //    cvm.StudentId = db.Studenten.Find(id).StudentId;
             //    //cvm.Curriculum = db.Curricula.Where(c => c.Student.StudentId == cvm.StudentId).First();
+            //    cvm.StudentId = db.Studenten.Find(id).StudentId;
 
             //    cuc.StudentId = db.Studenten.Find(id).StudentId;
             //    cuc.Student = db.Studenten.Find(id);
@@ -107,7 +107,7 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Curriculum curriculum = db.Curricula.Include(c => c.Topics).Where(c => c.CurriculumId == id).FirstOrDefault();
-            if (curriculum == null)
+            if (curriculum == null || curriculum.IsDeleted)
             {
                 return HttpNotFound();
             }
@@ -121,7 +121,7 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit( CurriculumViewModel cvm)
+        public ActionResult Edit(CurriculumViewModel cvm)
         {
             if (ModelState.IsValid)
             {
@@ -130,7 +130,7 @@ namespace StudentenVolgSysteem.Controllers
                 
                 foreach (int topic in cvm.TopicIds)
                 {                                      
-                    CurriculumTopic ct = cts.Where(c => c.CurriculumId == topic).FirstOrDefault();
+                    CurriculumTopic ct = cts.Where(c => c.TopicId == topic).FirstOrDefault();
                         //new CurriculumTopic { TopicId = topic, Topic = t, Curriculum = cm, CurriculumId = cm.CurriculumId };
                     db.Entry(ct).State = EntityState.Modified;
                     cm.Topics.Add(ct);
@@ -152,7 +152,7 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Curriculum curriculum = db.Curricula.Include("Student").Include("Topics.Topic").Where(c => c.CurriculumId == id).FirstOrDefault();
-            if (curriculum == null)
+            if (curriculum == null || curriculum.IsDeleted)
             {
                 return HttpNotFound();
             }
