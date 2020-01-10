@@ -141,7 +141,7 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Topic topicModel = db.GetFromDatabase<Topic>(id);
-            if (topicModel == null)
+            if (topicModel == null || topicModel.IsDeleted)
             {
                 return HttpNotFound();
             }
@@ -153,7 +153,7 @@ namespace StudentenVolgSysteem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Topic topicModel = db.GetFromDatabase<Topic>(id);
+            Topic topicModel = db.Topics.Include("CurriculumTopics").Include("Curricula").Where(t => t.TopicId == id).FirstOrDefault();
             db.Topics.Remove(topicModel);
             db.SaveChanges();
             return RedirectToAction("Index");
