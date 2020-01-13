@@ -8,7 +8,7 @@ using System.Web;
 
 namespace StudentenVolgSysteem.Models
 {
-    public class CurriculumTopic : IDeletable
+    public class CurriculumTopic // : IDeletable
     {
         [Key, Column(Order= 1)]
         public int CurriculumId { get; set; }
@@ -21,7 +21,7 @@ namespace StudentenVolgSysteem.Models
         public Voortgang TopicVoortgang { get; set; }
         public bool Akkoord { get; set; }
 
-        public bool IsDeleted { get; set; }
+        //public bool IsDeleted { get; set; }
     }
 
     public enum Voortgang
