@@ -9,11 +9,10 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-
 </head>
 
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -25,6 +24,7 @@
                     <div class="imagecontainer"></div>
                 </a>
             </div>
+
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("SVS", "Index", "Topics")</li>
@@ -35,8 +35,6 @@
                         <li class="dropdown">
                             <a href="@Url.Action("Index", "Admin")" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li>@Html.ActionLink("Admin tools", "Index", "Admin")</li>
-                                <li class="divider"></li>
                                 <li>@Html.ActionLink("Users", "Users", "Admin")</li>
                                 <li>@Html.ActionLink("CSV", "Index", "CSV")</li>
                                 <li>@Html.ActionLink("Topics", "Index", "Topics")</li>
@@ -54,8 +52,9 @@
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
-    </div>
-    @*Old menu*@
+    </nav>
+
+    <!--#region Old Menu  -->
     @*<div class="body-center">
             <div class="navbar navbar-inverse navbar-fixed-top">
                 <a href='@Url.Action("Index", "Topics")'>
@@ -90,10 +89,9 @@
                 </div>
             </div>
         </div>*@
-
+    <!--#endregion-->
 
     <div class="my-body-content">
-        @*style="background-color: aqua">*@
         @RenderBody()
         <hr />
         <footer>

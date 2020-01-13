@@ -71,7 +71,7 @@ namespace StudentenVolgSysteem.Controllers
 
             Certificering certificering = db.GetFromDatabase<Certificering>(id);
    
-            if (certificering == null)
+            if (certificering == null || certificering.IsDeleted)
             {
                 return HttpNotFound();
             }
@@ -105,7 +105,7 @@ namespace StudentenVolgSysteem.Controllers
             Certificering certificering = db.GetFromDatabase<Certificering>(id);
 
             //Certificering certificering = db.Certificeringen.Find(id);
-            if (certificering == null)
+            if (certificering == null || certificering.IsDeleted)
             {
                 return HttpNotFound();
             }

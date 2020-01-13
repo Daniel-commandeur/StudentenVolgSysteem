@@ -10,7 +10,7 @@ namespace StudentenVolgSysteem.Migrations.MyDbContext
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
             MigrationsDirectory = @"Migrations\MyDbContext";
         }
 

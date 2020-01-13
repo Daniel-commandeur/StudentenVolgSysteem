@@ -30,7 +30,7 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Benodigdheid benodigdheid = db.GetFromDatabase<Benodigdheid>(id);
-            if (benodigdheid == null)
+            if (benodigdheid == null || benodigdheid.IsDeleted)
             {
                 return HttpNotFound();
             }
@@ -68,7 +68,7 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Benodigdheid benodigdheid = db.GetFromDatabase<Benodigdheid>(id); 
-            if (benodigdheid == null)
+            if (benodigdheid == null || benodigdheid.IsDeleted)
             {
                 return HttpNotFound();
             }
@@ -100,7 +100,7 @@ namespace StudentenVolgSysteem.Controllers
             }
 
             Benodigdheid benodigdheid = db.GetFromDatabase<Benodigdheid>(id);
-            if (benodigdheid == null)
+            if (benodigdheid == null || benodigdheid.IsDeleted)
             {
                 return HttpNotFound();
             }

@@ -13,5 +13,8 @@ namespace StudentenVolgSysteem.Models
         [Key]
         public int NiveauId { get; set; }
         public string Naam { get; set; }
+
+        // just added
+        public bool IsDeleted { get; set; }
     }
 }

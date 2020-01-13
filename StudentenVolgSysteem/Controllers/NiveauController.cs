@@ -19,7 +19,7 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Niveau
         public ActionResult Index()
         {
-            return View(db.Niveaus.ToList());
+            return View(db.Niveaus.Where(n => !n.IsDeleted).ToList());
         }
 
         // GET: Niveau/Details/5
@@ -30,7 +30,7 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Niveau niveau = db.Niveaus.Find(id);
-            if (niveau == null)
+            if (niveau == null || niveau.IsDeleted)
             {
                 return HttpNotFound();
             }
@@ -68,7 +68,7 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Niveau niveau = db.Niveaus.Find(id);
-            if (niveau == null)
+            if (niveau == null || niveau.IsDeleted)
             {
                 return HttpNotFound();
             }

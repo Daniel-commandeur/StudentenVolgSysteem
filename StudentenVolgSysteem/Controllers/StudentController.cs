@@ -19,7 +19,15 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Student
         public ActionResult Index()
         {
-            return View(db.Studenten.Where(s => !s.IsDeleted).Include(a => a.Curricula).ToList());
+            //TODO: Refactor this mess!
+            var studenten = db.Studenten.Where(s => !s.IsDeleted)
+                                        .Include(c => c.Curricula)
+                                        .ToList();
+            foreach (var student in studenten)
+            {
+                student.Curricula = student.Curricula.Where(c => !c.IsDeleted).ToList();
+            }
+            return View(studenten);
         }
 
         // GET: Student/Details/5
@@ -33,10 +41,10 @@ namespace StudentenVolgSysteem.Controllers
             //included and needs to be included explicitly
             Student student = db.Studenten
                                         .Include(a => a.Curricula)
-                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Duur)))
-                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Benodigdheden)))
-                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Werkvorm)))
-                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Niveau)))
+                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Topic.Duur)))
+                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Topic.Benodigdheden)))
+                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Topic.Werkvorm)))
+                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Topic.Niveau)))
                                         .Where(a => a.StudentId == id)
                                         .FirstOrDefault();
             if (student == null || student.IsDeleted)
@@ -77,7 +85,7 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Student student = db.GetFromDatabase<Student>(id);
-            if (student == null)
+            if (student == null || student.IsDeleted)
             {
                 return HttpNotFound();
             }
@@ -108,7 +116,7 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Student student = db.GetFromDatabase<Student>(id); 
-            if (student == null)
+            if (student == null || student.IsDeleted)
             {
                 return HttpNotFound();
             }
@@ -120,9 +128,14 @@ namespace StudentenVolgSysteem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Student student = db.GetFromDatabase<Student>(id); 
+            // If we want soft-delete to automatically cascade, we cannot use this
+            // Student student = db.GetFromDatabase<Student>(id);
+
+            // Remove selected student, and also remove related Curricula
+            Student student = db.Studenten.Include("Curricula").Where(s => s.StudentId == id).FirstOrDefault();
             db.Studenten.Remove(student);
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 

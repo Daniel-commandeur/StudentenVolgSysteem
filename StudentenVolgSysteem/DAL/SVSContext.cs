@@ -13,7 +13,7 @@ namespace StudentenVolgSysteem.DAL
         public SVSContext() : base(GetBase())
         {
             //Database.SetInitializer(new DropCreateDatabaseAlways<MyDbContext>());
-            //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<MyDbContext>());
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<SVSContext>());
         }
 
         /// <summary>
@@ -40,6 +40,7 @@ namespace StudentenVolgSysteem.DAL
         public DbSet<PercipioLink> PercipioLinks { get; set; }
         public DbSet<Student> Studenten { get; set; }
         public DbSet<Curriculum> Curricula { get; set; }
+        public DbSet<CurriculumTopic> CurriculumTopics { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -83,6 +84,8 @@ namespace StudentenVolgSysteem.DAL
                     item.State = EntityState.Unchanged;
                     // Only update IsDeleted flag.
                     entity.IsDeleted = true;
+                    //
+                    
                 }
             }
             return base.SaveChanges();
