@@ -8,7 +8,7 @@
     @Scripts.Render("~/bundles/jqueryval")
 }
 
-<h2>Edit</h2>
+<h2>Wijzig</h2>
 
 
 @using (Html.BeginForm())
@@ -16,7 +16,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Topic</h4>
+        <h4>Onderwerp</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Topic.TopicId)
@@ -129,7 +129,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Terug naar overzicht", "Index")
 </div>
 
 <script>

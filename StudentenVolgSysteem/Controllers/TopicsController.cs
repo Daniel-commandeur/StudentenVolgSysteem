@@ -51,13 +51,21 @@ namespace StudentenVolgSysteem.Controllers
         }
 
         // GET: Topics/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
-            TopicViewModel tvm = new TopicViewModel();
+            TopicViewModel topicViewModel = new TopicViewModel();
 
-            FillTopicViewModelLists(tvm);
+            Topic topic = db.Topics.Where(t => !t.IsDeleted)
+                                   .Include(t => t.Duur)
+                                   .Include(t => t.Niveau)
+                                   .Include(t => t.PercipioLinks)
+                                   .Include(t => t.Werkvorm)
+                                   .Include(t => t.Certificeringen)
+                                   .FirstOrDefault(t => t.TopicId == id);
 
-            return View(tvm);
+            topicViewModel.Topic = topic;
+            FillTopicViewModelLists(topicViewModel);
+            return View(topicViewModel);
         }
 
         // POST: Topics/Create

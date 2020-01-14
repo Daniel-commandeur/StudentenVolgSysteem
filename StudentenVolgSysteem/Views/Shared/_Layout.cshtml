@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Studenten Volg Systeem</title>
+    <title>IT Vitae SVS - @ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
@@ -27,7 +27,7 @@
 
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("SVS", "Index", "Topics")</li>
+                    <li>@Html.ActionLink("Onderwerpen", "Index", "Topics")</li>
                     <li>@Html.ActionLink("Curricula", "Index", "Curriculum")</li>
                     <li>@Html.ActionLink("Studenten", "Index", "Student")</li>
                     @if (true)
@@ -95,7 +95,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Studenten volg systeem</p>
+            <p>&copy; @DateTime.Now.Year - IT Vitae Studievolgsysteem</p>
         </footer>
     </div>
 

@@ -49,11 +49,8 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Curriculum/Create
         public ActionResult Create(int? id)
         {
-            List<Topic> theTopics = db.Topics.Where(t => !t.IsDeleted)
-                                             .ToList();
-
-            List<Student> studenten = db.Studenten.Where(s => !s.IsDeleted)
-                                                  .ToList();
+            List<Topic> theTopics = db.Topics.Where(t => !t.IsDeleted).ToList();
+            List<Student> studenten = db.Studenten.Where(s => !s.IsDeleted).ToList();
             
             CurriculumViewModel curriculumViewModel = new CurriculumViewModel { AlleTopics = theTopics, AlleStudenten = studenten };
 
