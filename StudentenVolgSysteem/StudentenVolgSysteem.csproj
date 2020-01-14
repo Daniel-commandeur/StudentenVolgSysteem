@@ -194,6 +194,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\MyDbContext\202001130944377_init.cs" />
+    <Compile Include="Migrations\MyDbContext\202001130944377_init.Designer.cs">
+      <DependentUpon>202001130944377_init.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\MyDbContext\Configuration.cs" />
     <Compile Include="Models\CurriculumTopic.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
@@ -360,6 +364,11 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\MyDbContext\202001130944377_init.resx">
+      <DependentUpon>202001130944377_init.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

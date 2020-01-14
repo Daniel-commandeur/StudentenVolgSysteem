@@ -69,7 +69,7 @@ namespace StudentenVolgSysteem.Controllers
         {
             if (ModelState.IsValid)
             {
-                Topic topic = ViewModelToTopic(tvm);
+                Topic topic = tvm.Topic;
 
                 db.Topics.Add(topic);
                 db.SaveChanges();
@@ -95,6 +95,7 @@ namespace StudentenVolgSysteem.Controllers
                                    .Include(t => t.Niveau)
                                    .Include(t => t.PercipioLinks)
                                    .Include(t => t.Werkvorm)
+                                   .Include(t => t.Certificeringen)
                                    .FirstOrDefault(t => t.TopicId == id);
 
             if (topic == null || topic.IsDeleted)
@@ -102,8 +103,12 @@ namespace StudentenVolgSysteem.Controllers
                 return HttpNotFound();
             }
 
-            TopicViewModel tvm = TopicToViewModel(topic);
+            TopicViewModel tvm = new TopicViewModel();
+            tvm.Topic = topic;
             FillTopicViewModelLists(tvm);
+
+            //TopicViewModel tvm = TopicToViewModel(topic);
+            //FillTopicViewModelLists(tvm);
 
             return View(tvm);
         }
@@ -117,8 +122,10 @@ namespace StudentenVolgSysteem.Controllers
         {
             if (ModelState.IsValid)
             {
-                Topic topic = db.Topics.Find(tvm.TopicId);
-                topic = ViewModelToTopic(tvm);
+                //Topic topic = db.Topics.Find(tvm.Topic.TopicId);
+                           
+
+                Topic topic = tvm.Topic;
 
                 //Tell the context the topicModel has changed and save changes
                 db.Entry(topic).State = EntityState.Modified;
@@ -201,122 +208,123 @@ namespace StudentenVolgSysteem.Controllers
             return tvm;
         }
 
-        /// <summary>
-        /// Converts a Topic to a TopicViewModel.
-        /// </summary>
-        /// <param name="t">Topic to convert</param>
-        /// <returns>A TopicViewModel</returns>
-        public TopicViewModel TopicToViewModel(Topic t)
-        {
-            TopicViewModel tvm = new TopicViewModel();
+        ///// <summary>
+        ///// Converts a Topic to a TopicViewModel.
+        ///// </summary>
+        ///// <param name="t">Topic to convert</param>
+        ///// <returns>A TopicViewModel</returns>
+        //public TopicViewModel TopicToViewModel(Topic t)
+        //{
+        //    TopicViewModel tvm = new TopicViewModel();
 
-            tvm.Code = t.Code;
-            tvm.Naam = t.Naam;
-            tvm.Leerdoel = t.Leerdoel;
-            tvm.Inhoud = t.Inhoud;
+        //    tvm.Code = t.Code;
+        //    tvm.Naam = t.Naam;
+        //    tvm.Leerdoel = t.Leerdoel;
+        //    tvm.Inhoud = t.Inhoud;
 
-            tvm.TopicId = t.TopicId;
-            tvm.Niveau = t.Niveau.NiveauId;
-            tvm.Duur = t.Duur.TijdsduurId;
-            tvm.Werkvorm = t.Werkvorm.WerkvormId;
+        //    tvm.TopicId = t.TopicId;
+        //    tvm.Niveau = t.Niveau.NiveauId;
+        //    tvm.Duur = t.Duur.TijdsduurId;
+        //    tvm.Werkvorm = t.Werkvorm.WerkvormId;
 
-            tvm.Certificeringen = new List<int>();
-            foreach (Certificering c in t.Certificeringen)
-            {
-                tvm.Certificeringen.Add(c.CertificeringId);
-            }
+        //    tvm.Certificeringen = new List<int>();
+        //    foreach (Certificering c in t.Certificeringen)
+        //    {
+        //        tvm.Certificeringen.Add(c.CertificeringId);
+        //    }
 
-            tvm.Voorkennis = new List<int>();
-            foreach (Topic c in t.Voorkennis)
-            {
-                tvm.Voorkennis.Add(c.TopicId);
-            }
+        //    tvm.Voorkennis = new List<int>();
+        //    foreach (Topic c in t.Voorkennis)
+        //    {
+        //        tvm.Voorkennis.Add(c.TopicId);
+        //    }
 
-            tvm.Benodigdheden = new List<int>();
-            foreach (Benodigdheid c in t.Benodigdheden)
-            {
-                tvm.Benodigdheden.Add(c.BenodigdheidId);
-            }
+        //    tvm.Benodigdheden = new List<int>();
+        //    foreach (Benodigdheid c in t.Benodigdheden)
+        //    {
+        //        tvm.Benodigdheden.Add(c.BenodigdheidId);
+        //    }
 
-            tvm.PercipioLinks = new List<int>();
-            foreach (PercipioLink c in t.PercipioLinks)
-            {
-                tvm.PercipioLinks.Add(c.PercipioLinkId);
-            }
+        //    tvm.PercipioLinks = new List<int>();
+        //    foreach (PercipioLink c in t.PercipioLinks)
+        //    {
+        //        tvm.PercipioLinks.Add(c.PercipioLinkId);
+        //    }
 
-            tvm.Tags = new List<int>();
-            foreach (Tag c in t.Tags)
-            {
-                tvm.Tags.Add(c.TagId);
-            }
+        //    tvm.Tags = new List<int>();
+        //    foreach (Tag c in t.Tags)
+        //    {
+        //        tvm.Tags.Add(c.TagId);
+        //    }
 
-            return tvm;
-        }
+        //    return tvm;
+        //}
 
-        /// <summary>
-        /// Converts a TopicViewModel back into a Topic.
-        /// </summary>
-        /// <param name="tvm">The TopicViewModel to convert</param>
-        /// <returns>A Topic object</returns>
-        public Topic ViewModelToTopic(TopicViewModel tvm)
-        {
-            Topic t = new Topic();
+        ///// <summary>
+        ///// Converts a TopicViewModel back into a Topic.
+        ///// </summary>
+        ///// <param name="tvm">The TopicViewModel to convert</param>
+        ///// <returns>A Topic object</returns>
+        //public Topic ViewModelToTopic(TopicViewModel tvm)
+        //{
+        //    Topic t = new Topic();
 
-            if (db.Topics.Find(tvm.TopicId) != null)
-            {
-                t = db.Topics.Find(tvm.TopicId);
-            }
+        //    if (db.Topics.Find(tvm.TopicId) != null)
+        //    {
+        //        t = db.Topics.Find(tvm.TopicId);
+        //    }
             
-            t.Code = tvm.Code;
-            t.Naam = tvm.Naam;
-            t.Leerdoel = tvm.Leerdoel;
-            t.Inhoud = tvm.Inhoud;
+        //    t.Code = tvm.Code;
+        //    t.Naam = tvm.Naam;
+        //    t.Leerdoel = tvm.Leerdoel;
+        //    t.Inhoud = tvm.Inhoud;
 
-            t.Niveau = db.Niveaus.Find(tvm.Niveau);
-            t.Duur = db.Tijdsduren.Find(tvm.Duur);
-            t.Werkvorm = db.Werkvormen.Find(tvm.Werkvorm);
+        //    t.Niveau = db.Niveaus.Find(tvm.Niveau);
+        //    t.Duur = db.Tijdsduren.Find(tvm.Duur);
+        //    t.Werkvorm = db.Werkvormen.Find(tvm.Werkvorm);
 
-            if (tvm.Certificeringen != null && tvm.Certificeringen.Count() != 0)
-            {
-                foreach (int c in tvm.Certificeringen)
-                {
-                    t.Certificeringen.Add(db.Certificeringen.Find(c));
-                }
-            }
+        //    if (tvm.Certificeringen != null && tvm.Certificeringen.Count() != 0)
+        //    {
+        //        foreach (int c in tvm.Certificeringen)
+        //        {
+        //            t.Certificeringen.Add(db.Certificeringen.Find(c));
+        //        }
+        //    }
 
-            if (tvm.Voorkennis != null && tvm.Voorkennis.Count() != 0)
-            {
-                foreach (int v in tvm.Voorkennis)
-                {
-                    t.Voorkennis.Add(db.Topics.Find(v));
-                }
-            }
+        //    if (tvm.Voorkennis != null && tvm.Voorkennis.Count() != 0)
+        //    {
+        //        foreach (int v in tvm.Voorkennis)
+        //        {
+        //            t.Voorkennis.Add(db.Topics.Find(v));
+        //        }
+        //    }
 
-            if (tvm.Benodigdheden != null && tvm.Benodigdheden.Count() != 0)
-            {
-                foreach (int b in tvm.Benodigdheden)
-                {
-                    t.Benodigdheden.Add(db.Benodigdheden.Find(b));
-                }
-            }
+        //    if (tvm.Benodigdheden != null && tvm.Benodigdheden.Count() != 0)
+        //    {
+        //        foreach (int b in tvm.Benodigdheden)
+        //        {
+        //            t.Benodigdheden.Add(db.Benodigdheden.Find(b));
+        //        }
+        //    }
 
-            if (tvm.PercipioLinks != null && tvm.PercipioLinks.Count() != 0)
-            {
-                foreach (int p in tvm.PercipioLinks)
-                {
-                    t.PercipioLinks.Add(db.PercipioLinks.Find(p));
-                }
-            }
+        //    if (tvm.PercipioLinks != null && tvm.PercipioLinks.Count() != 0)
+        //    {
+        //        foreach (int p in tvm.PercipioLinks)
+        //        {
+        //            t.PercipioLinks.Add(db.PercipioLinks.Find(p));
+        //        }
+        //    }
 
-            if (tvm.Tags != null && tvm.Tags.Count() != 0)
-            {
-                foreach (int tag in tvm.Tags)
-                {
-                    t.Tags.Add(db.Tags.Find(tag));
-                }
-            }
+        //    if (tvm.Tags != null && tvm.Tags.Count() != 0)
+        //    {
+        //        foreach (int tag in tvm.Tags)
+        //        {
+        //            t.Tags.Add(db.Tags.Find(tag));
+        //        }
+        //    }
 
-            return t;
-        }
+        //    return t;
+        //}
+
     }
 }
