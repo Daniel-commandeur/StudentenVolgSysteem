@@ -96,6 +96,7 @@ namespace StudentenVolgSysteem.Controllers
                                    .Include(t => t.PercipioLinks)
                                    .Include(t => t.Werkvorm)
                                    .Include(t => t.Certificeringen)
+                                   .Include(t => t.Benodigdheden)
                                    .FirstOrDefault(t => t.TopicId == id);
 
             if (topic == null || topic.IsDeleted)
@@ -118,23 +119,98 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(TopicViewModel tvm)
+        public ActionResult Edit(Topic topic)
         {
             if (ModelState.IsValid)
             {
-                //Topic topic = db.Topics.Find(tvm.Topic.TopicId);
-                           
+                Topic topic1 = db.Topics.Where(t => !t.IsDeleted)
+                                   .Include(t => t.Duur)
+                                   .Include(t => t.Niveau)
+                                   .Include(t => t.PercipioLinks)
+                                   .Include(t => t.Werkvorm)
+                                   .Include(t => t.Certificeringen)
+                                   .Include(t => t.Benodigdheden)
+                                   .Include(t => t.Voorkennis)                                 
+                                   .FirstOrDefault(t => t.TopicId == topic.TopicId);
 
-                Topic topic = tvm.Topic;
+                topic1.Code = topic.Code;
+                topic1.Naam = topic.Naam;
+                topic1.Werkvorm = db.Werkvormen.Find(topic.Werkvorm.WerkvormId);
+                topic1.Inhoud = topic.Inhoud;
+                topic1.Niveau = db.Niveaus.Find(topic.Niveau.NiveauId);
+                topic1.Werkvorm = db.Werkvormen.Find(topic.Werkvorm.WerkvormId);
+                topic1.Duur = db.Tijdsduren.Find(topic.Duur.TijdsduurId);
+
+                var benodigheden = topic.Benodigdheden;
+
+                if (topic.BenodigdheidIds != null)
+                {
+                    foreach (int benodigheidId in topic.BenodigdheidIds)
+                    {
+                        Benodigdheid benodigdheid = db.Benodigdheden.Where(b => b.BenodigdheidId == benodigheidId).FirstOrDefault();
+                        if (!benodigheden.Contains(benodigdheid))
+                            benodigheden.Add(benodigdheid);
+
+                    }
+                }
+                topic1.Benodigdheden = benodigheden;
+
+                var certificeringen = topic.Certificeringen;
+
+                if (topic.CertificeringenIds != null)
+                {
+                    foreach (int certificeringId in topic.CertificeringenIds)
+                    {
+                        Certificering certificering = db.Certificeringen.Find(certificeringId);
+                        if (!certificeringen.Contains(certificering))
+                        {
+                            certificeringen.Add(certificering);
+                        }
+                    }
+                }
+
+                topic1.Certificeringen = certificeringen;
+
+                var voorkennis = topic.Voorkennis;
+
+                if(topic.VoorkennisIds != null) {
+                    foreach (int voorkennisId in topic.VoorkennisIds)
+                    {
+                        Topic kennis = db.Topics.Find(voorkennisId);
+                        if (!voorkennis.Contains(kennis))
+                        {
+                            voorkennis.Add(kennis);
+                        }
+                    }
+                    }
+
+                topic1.Voorkennis = voorkennis;
+
+                var percipioLinks = topic.PercipioLinks;
+
+                if (topic.PercipioLinkIds != null)
+                {
+                    foreach (int percipioLinkId in topic.PercipioLinkIds)
+                    {
+                        PercipioLink percipioLink = db.PercipioLinks.Find(percipioLinkId);
+                        if (!percipioLinks.Contains(percipioLink))
+                        {
+                            percipioLinks.Add(percipioLink);
+                        }
+                    }
+                }
+
+                topic1.PercipioLinks = percipioLinks;
 
                 //Tell the context the topicModel has changed and save changes
-                db.Entry(topic).State = EntityState.Modified;
+                db.Entry(topic1).State = EntityState.Modified;
                 db.SaveChanges();
 
                 return RedirectToAction("Index");
             }
 
             // If the model is not valid, we need to refill the lists that were filtered by the bind.
+            TopicViewModel tvm = new TopicViewModel { Topic = topic };
             FillTopicViewModelLists(tvm);
 
             return View(tvm);
@@ -187,6 +263,22 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return RedirectToAction("Index");
             }
+        }
+
+        public Topic TopicEdit(Topic topic)
+        {
+            
+
+            foreach (int benodigheidId in topic.BenodigdheidIds)
+            {
+                Benodigdheid benodigdheid = db.Benodigdheden.Find(benodigheidId);
+                if (!topic.Benodigdheden.Contains(benodigdheid))
+                {
+                    topic.Benodigdheden.Add(benodigdheid);
+                }
+            }
+
+            return topic;
         }
 
         /// <summary>
