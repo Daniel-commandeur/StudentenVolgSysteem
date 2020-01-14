@@ -20,7 +20,10 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Curriculum
         public ActionResult Index()
         {
-            return View(db.Curricula.Where(c => !c.IsDeleted).Include("Student").Include("Topics.Topic").ToList());
+            List<Curriculum> curricula = db.Curricula.Where(c => !c.IsDeleted)
+                                                     .Include("Student")
+                                                     .Include("Topics.Topic").ToList();
+            return View(curricula);
         }
 
         // GET: Curriculum/Details/5
@@ -30,7 +33,11 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Curriculum curriculum = db.Curricula.Where(c => !c.IsDeleted).Include("Student").Include("Topics.Topic").Where(c => c.CurriculumId == id).FirstOrDefault();
+            Curriculum curriculum = db.Curricula.Where(c => !c.IsDeleted)
+                                                .Include("Student")
+                                                .Include("Topics.Topic")
+                                                .Where(c => c.CurriculumId == id)
+                                                .FirstOrDefault();
 
             if (curriculum == null || curriculum.IsDeleted)
             {
@@ -42,17 +49,21 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Curriculum/Create
         public ActionResult Create(int? id)
         {
-            List<Topic> theTopics = db.Topics.Where(t => !t.IsDeleted).ToList();
-            List<Student> studenten = db.Studenten.Where(s => !s.IsDeleted).ToList();
-            CurriculumViewModel cvm = new CurriculumViewModel { AlleTopics = theTopics, AlleStudenten = studenten };          
+            List<Topic> theTopics = db.Topics.Where(t => !t.IsDeleted)
+                                             .ToList();
 
-            if(id != null)
+            List<Student> studenten = db.Studenten.Where(s => !s.IsDeleted)
+                                                  .ToList();
+            
+            CurriculumViewModel curriculumViewModel = new CurriculumViewModel { AlleTopics = theTopics, AlleStudenten = studenten };
+
+            if (id != null)
             {
-                cvm.StudentId = db.Studenten.Find(id).StudentId;
-                cvm.Student = db.Studenten.Find(id);
-            } 
+                curriculumViewModel.StudentId = db.Studenten.Find(id).StudentId;
+                curriculumViewModel.Student = db.Studenten.Find(id);
+            }
 
-            return View(cvm);
+            return View(curriculumViewModel);
         }
 
         // POST: Curriculum/Create
@@ -60,33 +71,42 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CurriculumViewModel cvm)
+        public ActionResult Create(CurriculumViewModel curriculumViewModel)
         {
             if (ModelState.IsValid)
             {
-                Curriculum cm = cvm.Curriculum;
+                Curriculum curriculum = curriculumViewModel.Curriculum;
+                curriculum.Student = db.Studenten.Find(curriculumViewModel.StudentId);
 
-                cm.Student = db.Studenten.Find(cvm.StudentId);             
-
-                foreach(int topic in cvm.TopicIds)
+                foreach (int topicId in curriculumViewModel.TopicIds)
                 {
-                    Topic t = db.Topics.Find(topic);
-                    CurriculumTopic ct = new CurriculumTopic { TopicId = topic, Topic = t, Curriculum = cm, CurriculumId = cm.CurriculumId };
-                    db.CurriculumTopics.Add(ct);
-                    cm.Topics.Add(ct);
+                    Topic topic = db.Topics.Find(topicId);
+                    CurriculumTopic curriculumTopic = new CurriculumTopic 
+                    { 
+                        TopicId = topicId, 
+                        Topic = topic, 
+                        Curriculum = curriculum, 
+                        CurriculumId = curriculum.CurriculumId 
+                    };
+                    db.CurriculumTopics.Add(curriculumTopic);
+                    curriculum.Topics.Add(curriculumTopic);
                 }
 
-                db.Curricula.Add(cm);
+                db.Curricula.Add(curriculum);
                 db.SaveChanges();
 
-                if (cvm.StudentId != 0)
+                // COMMENT: This code can probably be removed
+                /*
+                if (curriculumViewModel.StudentId != 0)
                 {
-                    return RedirectToAction("Details", "Student", new { id = cvm.StudentId });
+                    return RedirectToAction("Details", "Student", new { id = curriculumViewModel.StudentId });
                 }
+                */
+
                 return RedirectToAction("Index");
             }
-            cvm.AlleTopics = db.Topics.ToList();
-            return View(cvm);
+            curriculumViewModel.AlleTopics = db.Topics.ToList();
+            return View(curriculumViewModel);
         }
 
         // GET: Curriculum/Edit/5
@@ -96,13 +116,19 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Curriculum curriculum = db.Curricula.Include(c => c.Topics).Where(c => c.CurriculumId == id).FirstOrDefault();
+            Curriculum curriculum = db.Curricula.Include(c => c.Topics)
+                                                .Where(c => c.CurriculumId == id)
+                                                .FirstOrDefault();
+
             if (curriculum == null || curriculum.IsDeleted)
             {
                 return HttpNotFound();
             }
-            CurriculumViewModel cvm = new CurriculumViewModel { Curriculum = curriculum, AlleTopics = db.Topics.ToList() };
-            //cvm.AlleTopics = db.Topics.ToList();
+            CurriculumViewModel cvm = new CurriculumViewModel 
+            { 
+                Curriculum = curriculum, 
+                AlleTopics = db.Topics.ToList() 
+            };
             return View(cvm);
         }
 
@@ -111,35 +137,54 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(CurriculumViewModel cvm)
+        public ActionResult Edit(CurriculumViewModel curriculumViewModel)
         {
             if (ModelState.IsValid)
             {
-                Curriculum cm = db.Curricula.Find(cvm.Curriculum.CurriculumId);
-                List<CurriculumTopic> cts = db.CurriculumTopics.Where(ct => ct.CurriculumId == cm.CurriculumId).ToList();
+                // Determine curriculum, with topics
+                Curriculum curriculum = db.Curricula.Include("Topics")
+                                                    .First(c => c.CurriculumId == curriculumViewModel.Curriculum.CurriculumId);
 
-                foreach (int topic in cvm.TopicIds)
+                // Add topic id's to list
+                List<int> topicIds = new List<int>();
+                foreach (var topic in curriculum.Topics)
                 {
-                    Topic t = db.Topics.Find(topic);
-                    CurriculumTopic ct = new CurriculumTopic { TopicId = topic, Topic = t, Curriculum = cm, CurriculumId = cm.CurriculumId };
-                    
-                    // Check if CT exists, add if it does not.
-                    if (db.CurriculumTopics.Find(ct.CurriculumId, ct.TopicId) == null)
-                    {
-                        db.CurriculumTopics.Add(ct);
-                        cm.Topics.Add(ct);
-                    }
-
-                    // TODO: Remove any CTs that are not selected anymore
-                    // Compare lists, then delete CurriculumTopics that are no longer in the list
+                    topicIds.Add(topic.TopicId);
                 }
-                //db.Entry(cts).State = EntityState.Modified;
-                //db.Entry(cm).State = EntityState.Modified;
+
+                // Remove topics from the curriculum, if topic is not selected in the curriculumViewModel
+                foreach (var topicId in topicIds)
+                {
+                    if (!curriculumViewModel.TopicIds.Contains(topicId))
+                    {
+                        curriculum.Topics.Remove(curriculum.Topics.First(t => t.TopicId == topicId));
+                    }
+                }
+
+                // Add topics to the curriculum, if topic is selected in the curriculumViewModel
+                foreach (int topicId in curriculumViewModel.TopicIds)
+                {
+                    Topic topic = db.Topics.Find(topicId);
+                    CurriculumTopic curriculumTopic = new CurriculumTopic 
+                    { 
+                        TopicId = topicId, 
+                        Topic = topic, 
+                        Curriculum = curriculum, 
+                        CurriculumId = curriculum.CurriculumId 
+                    };
+                     
+                    // Check if curriculum exists, add if it does not.
+                    if (db.CurriculumTopics.Find(curriculumTopic.CurriculumId, curriculumTopic.TopicId) == null)
+                    {
+                        curriculum.Topics.Add(curriculumTopic);
+                    }
+                }
+                db.Entry(curriculum).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            cvm.AlleTopics = db.Topics.ToList();
-            return View(cvm);
+            curriculumViewModel.AlleTopics = db.Topics.ToList();
+            return View(curriculumViewModel);
         }
 
         // GET: Curriculum/Delete/5
@@ -149,7 +194,11 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Curriculum curriculum = db.Curricula.Include("Student").Include("Topics.Topic").Where(c => c.CurriculumId == id).FirstOrDefault();
+            Curriculum curriculum = db.Curricula.Include("Student")
+                                                .Include("Topics.Topic")
+                                                .Where(c => c.CurriculumId == id)
+                                                .FirstOrDefault();
+
             if (curriculum == null || curriculum.IsDeleted)
             {
                 return HttpNotFound();
@@ -163,12 +212,7 @@ namespace StudentenVolgSysteem.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Curriculum curriculum = db.Curricula.Find(id);
-            //db.Curricula.Remove(curriculum);
-            curriculum.IsDeleted = true;
-
-            // Tijdelijke oplossing update Property (studentId raakte verloren).
-            db.Curricula.Attach(curriculum);
-            db.Entry(curriculum).Property(x => x.IsDeleted).IsModified = true;
+            db.Curricula.Remove(curriculum);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
