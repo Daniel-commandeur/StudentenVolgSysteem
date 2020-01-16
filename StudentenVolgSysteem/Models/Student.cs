@@ -13,13 +13,16 @@ namespace StudentenVolgSysteem.Models
     {
         [Key]
         public int StudentId { get; set; }
+        [Required]
         public string Voornaam { get; set; }
+        [Required]
         public string Achternaam { get; set; }
 
         [NotMapped]
         public string VolledigeNaam { get { return $"{Voornaam} {Achternaam}"; } }
 
         public ICollection<Curriculum> Curricula { get; set; }
+
         public bool IsDeleted { get; set; }
     }
 

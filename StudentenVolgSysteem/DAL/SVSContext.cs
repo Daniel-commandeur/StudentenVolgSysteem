@@ -30,17 +30,17 @@ namespace StudentenVolgSysteem.DAL
             return (ret);
         }
 
-        public DbSet<Werkvorm> Werkvormen { get; set; }
+        public DbSet<Topic> Topics { get; set; }
         public DbSet<Niveau> Niveaus { get; set; }
+        public DbSet<Werkvorm> Werkvormen { get; set; }  
         public DbSet<Tijdsduur> Tijdsduren { get; set; }
         public DbSet<Tag> Tags { get; set; }
-        public DbSet<Certificering> Certificeringen { get; set; }
-        public DbSet<Topic> Topics { get; set; }
+        public DbSet<Certificering> Certificeringen { get; set; }  
         public DbSet<Benodigdheid> Benodigdheden { get; set; }
         public DbSet<PercipioLink> PercipioLinks { get; set; }
-        public DbSet<Student> Studenten { get; set; }
         public DbSet<Curriculum> Curricula { get; set; }
         public DbSet<CurriculumTopic> CurriculumTopics { get; set; }
+        public DbSet<Student> Studenten { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

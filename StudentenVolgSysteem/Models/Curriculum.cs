@@ -20,13 +20,18 @@ namespace StudentenVolgSysteem.Models
         public int CurriculumId { get; set; }
 
         public int StudentId { get; set; }
+
+        [Required]
         public Student Student { get; set; }
+
+        [Required]
         public string Naam { get; set; }
         public string NotitieDocent { get; set; }
         public string NotitieStudent { get; set; }
-        public bool IsDeleted { get; set; }
-
+        [Required]
         public virtual ICollection<CurriculumTopic> Topics { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 
     //[NotMapped]

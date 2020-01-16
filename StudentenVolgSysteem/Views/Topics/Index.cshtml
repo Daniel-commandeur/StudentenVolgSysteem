@@ -4,9 +4,9 @@
     ViewBag.Title = "Topics";
 }
 
-<h2>Topics</h2>
+<h2>Onderwerpen</h2>
 
-@Html.ActionLink("Create New", "Create", null, new { type = "button" })
+@Html.ActionLink("Toevoegen", "Create", null, new { type = "button" })
 <body>
     <table class="my-table">
         <tr>
@@ -57,9 +57,9 @@
                 </td>
 
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.TopicId }) |
+                    @Html.ActionLink("Wijzig", "Edit", new { id = item.TopicId }) |
                     @Html.ActionLink("Details", "Details", new { id = item.TopicId, returnUrl = this.Request.RawUrl}) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.TopicId })
+                    @Html.ActionLink("Verwijder", "Delete", new { id = item.TopicId })
                 </td>
             </tr>
         }
