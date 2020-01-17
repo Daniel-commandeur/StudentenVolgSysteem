@@ -55,20 +55,15 @@ namespace StudentenVolgSysteem.DAL
         /// <typeparam name="T"></typeparam>
         /// <param name="id"></param>
         /// <returns></returns>
-        public T GetFromDatabase<T>(int? id, string[] includes = null) where T : class, IDeletable
+        public T GetFromDatabase<T>(int? id) where T : class, IDeletable
         {
-
             DbSet<T> dbSet = this.Set<T>();
-
-            DbQuery<T> query = null;
-
+            var includes = GetIncludes<T>();
+            IQueryable<T> query = dbSet;
             if (includes != null)
             {
-                foreach (string include in includes)
-                {
-                    query = dbSet.Include(include);
-                }
-            }
+                query = includes.Aggregate(query, (current, includedProperty) => current.Include(includedProperty));
+            }           
             
             if (id == null) return default;
             var result = query.Where(t => t.Id == id).FirstOrDefault();
@@ -77,21 +72,42 @@ namespace StudentenVolgSysteem.DAL
             return result;
         }
 
+        public string[] GetIncludes<T>() where T : class,IDeletable
+        {
+            List<string> includes = new List<string>();
+            var props = typeof(T).GetProperties();
+            foreach (var prop in props)
+            {
+                var type = prop.PropertyType;
+
+                if (!type.IsValueType)
+                {
+                    if (type != typeof(string))
+                        includes.Add(prop.Name.ToString());
+                }
+            }
+            return includes.ToArray();
+        }
+
         //public IQueryable<TEntity> Including(params Expression<Func<TEntity, object>>[] _includeProperties)
         //{
         //    IQueryable<TEntity> query = m_context.Set<TEntity>();
         //    return _includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
         //}
 
-        public ICollection<T> GetFromDatabase<T>(string[] includes = null) where T : class, IDeletable {
+            /// <summary>
+            /// Get Collection<T> from database with includes and filtered on IsDeleted
+            /// </summary>
+            /// <typeparam name="T">Input type</typeparam>
+            /// <param name="includes">Includes needed</param>
+            /// <returns>Collection of type T</returns>
+        public ICollection<T> GetFromDatabase<T>() where T : class, IDeletable {
             DbSet<T> dbSet = this.Set<T>();
-            DbQuery<T> query = null;
-            if(includes != null)
+            var includes = GetIncludes<T>();
+            IQueryable<T> query = dbSet;
+            if (includes != null)
             {
-                foreach(string include in includes)
-                {
-                    query = dbSet.Include(include);
-                }                
+                query = includes.Aggregate(query, (current, includedProperty) => current.Include(includedProperty));
             }
             var result = query.Where(t => t.IsDeleted != true);
             return result.ToList();
