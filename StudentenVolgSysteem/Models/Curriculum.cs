@@ -17,7 +17,7 @@ namespace StudentenVolgSysteem.Models
         }
 
         [Key]
-        public int CurriculumId { get; set; }
+        public int Id { get; set; }
 
         public int StudentId { get; set; }
 

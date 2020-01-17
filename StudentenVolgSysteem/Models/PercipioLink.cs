@@ -17,7 +17,7 @@ namespace StudentenVolgSysteem.Models
         }
 
         [Key]
-        public int PercipioLinkId { get; set; }
+        public int Id { get; set; }
         public string Link { get; set; }
         public virtual ICollection<Topic> Topics { get; set; }
         public bool IsDeleted { get; set; }

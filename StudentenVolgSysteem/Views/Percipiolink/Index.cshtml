@@ -16,18 +16,20 @@
         </th>
         <th></th>
     </tr>
+    <a href="~/Views/Percipiolink/Details.cshtml">~/Views/Percipiolink/Details.cshtml</a>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Link)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.PercipioLinkId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.PercipioLinkId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.PercipioLinkId })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Link)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>

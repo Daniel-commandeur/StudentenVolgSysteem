@@ -12,7 +12,7 @@ namespace StudentenVolgSysteem.Models
     public class Student : IDeletable
     {
         [Key]
-        public int StudentId { get; set; }
+        public int Id { get; set; }
         [Required]
         public string Voornaam { get; set; }
         [Required]
@@ -26,20 +26,20 @@ namespace StudentenVolgSysteem.Models
         public bool IsDeleted { get; set; }
     }
 
-    [NotMapped]
-    public class CUStudent : Student
-    {
-        public CUStudent()
-        {
+    //[NotMapped]
+    //public class CUStudent : Student
+    //{
+    //    public CUStudent()
+    //    {
 
-        }
+    //    }
 
-        public CUStudent(Student s)
-        {
-            this.Curricula = s.Curricula;
-            this.StudentId = s.StudentId;
-            this.Voornaam = s.Voornaam;
-            this.Achternaam = s.Achternaam;
-        }
-    }
+    //    public CUStudent(Student s)
+    //    {
+    //        this.Curricula = s.Curricula;
+    //        this.StudentId = s.StudentId;
+    //        this.Voornaam = s.Voornaam;
+    //        this.Achternaam = s.Achternaam;
+    //    }
+    //}
 }

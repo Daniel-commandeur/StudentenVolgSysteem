@@ -12,7 +12,7 @@ namespace StudentenVolgSysteem.Models
     public class Tijdsduur : IDeletable
     {
         [Key]
-        public int TijdsduurId { get; set; }
+        public int Id { get; set; }
         public string Eenheid { get; set; }
         public bool IsDeleted { get; set; }
     }

@@ -20,6 +20,10 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Topics
         public ActionResult Index()
         {
+            string[] includes = new string[] { "Nivea", "Duur", "Werkvorm", "Certificeringen", "Voorkennis", "Benodigheden", "PercipioLinks", "Tags" };
+
+            //var topics = db.GetFromDatabase<Topic>(includes);
+
             var topics = db.Topics.Where(t => !t.IsDeleted)
                 .Include("Niveau")
                 .Include("Duur")
@@ -41,7 +45,10 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Topic topic = db.Topics.Include(m => m.Duur).Where(m => m.TopicId == id).FirstOrDefault();
+            string[] includes = new string[] { "Duur" };
+            Topic topic = db.GetFromDatabase<Topic>(id, includes);
+
+            //Topic topic = db.Topics.Include("Duur").Where(m => m.TopicId == id).FirstOrDefault();
 
             if (topic == null || topic.IsDeleted)
             {
@@ -61,10 +68,10 @@ namespace StudentenVolgSysteem.Controllers
                                    .Include(t => t.PercipioLinks)
                                    .Include(t => t.Werkvorm)
                                    .Include(t => t.Certificeringen)
-                                   .FirstOrDefault(t => t.TopicId == id);
+                                   .FirstOrDefault(t => t.Id == id);
 
             topicViewModel.Topic = topic;
-            FillTopicViewModelLists(topicViewModel);
+            FillTopicViewModelLists(topicViewModel); //
             return View(topicViewModel);
         }
 
@@ -73,17 +80,28 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(TopicViewModel tvm)
+        public ActionResult Create(Topic topic)
         {
             if (ModelState.IsValid)
             {
-                Topic topic = tvm.Topic;
+                Topic topic1 = new Topic
+                {
+                    Code = topic.Code,
+                    Naam = topic.Naam,
+                    Inhoud = topic.Inhoud,
 
-                db.Topics.Add(topic);
+                };
+
+
+
+                db.Topics.Add(topic1);
                 db.SaveChanges();
 
                 return RedirectToAction("Index");
             }
+
+            TopicViewModel tvm = new TopicViewModel();
+            tvm.Topic = topic;
 
             FillTopicViewModelLists(tvm);
 
@@ -105,7 +123,7 @@ namespace StudentenVolgSysteem.Controllers
                                    .Include(t => t.Werkvorm)
                                    .Include(t => t.Certificeringen)
                                    .Include(t => t.Benodigdheden)
-                                   .FirstOrDefault(t => t.TopicId == id);
+                                   .FirstOrDefault(t => t.Id == id);
 
             if (topic == null || topic.IsDeleted)
             {
@@ -127,7 +145,7 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Topic topic)
+        public ActionResult Edit(TopicViewModel topicViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -138,74 +156,52 @@ namespace StudentenVolgSysteem.Controllers
                                    .Include(t => t.Werkvorm)
                                    .Include(t => t.Certificeringen)
                                    .Include(t => t.Benodigdheden)
-                                   .Include(t => t.Voorkennis)                                 
-                                   .FirstOrDefault(t => t.TopicId == topic.TopicId);
+                                   .Include(t => t.Voorkennis)
+                                   .FirstOrDefault(t => t.Id == topicViewModel.Topic.Id);
 
-                topic1.Code = topic.Code;
-                topic1.Naam = topic.Naam;
-                topic1.Werkvorm = db.Werkvormen.Find(topic.Werkvorm.WerkvormId);
-                topic1.Inhoud = topic.Inhoud;
-                topic1.Niveau = db.Niveaus.Find(topic.Niveau.NiveauId);
-                topic1.Werkvorm = db.Werkvormen.Find(topic.Werkvorm.WerkvormId);
-                topic1.Duur = db.Tijdsduren.Find(topic.Duur.TijdsduurId);
 
-                var benodigheden = topic.Benodigdheden;
+                //Topic topic1 = db.Topics.Find(topicViewModel.Topic.TopicId);
+                //topic1 = topicViewModel.Topic.ShallowCopy();
+                topic1.Code = topicViewModel.Topic.Code;
+                topic1.Inhoud = topicViewModel.Topic.Inhoud;
+                topic1.Naam = topicViewModel.Topic.Naam;
+                
 
-                if (topic.BenodigdheidIds != null)
+                topic1.Werkvorm = db.Werkvormen.Find(topicViewModel.Topic.Werkvorm.Id);
+                topic1.Niveau = db.Niveaus.Find(topicViewModel.Topic.Niveau.Id);
+                topic1.Werkvorm = db.Werkvormen.Find(topicViewModel.Topic.Werkvorm.Id);
+                topic1.Duur = db.Tijdsduren.Find(topicViewModel.Topic.Duur.Id);
+
+                var benodigheden = topicViewModel.Topic.Benodigdheden;
+
+                if (topicViewModel.BenodigdheidIds != null)
                 {
-                    foreach (int benodigheidId in topic.BenodigdheidIds)
-                    {
-                        Benodigdheid benodigdheid = db.Benodigdheden.Where(b => b.BenodigdheidId == benodigheidId).FirstOrDefault();
-                        if (!benodigheden.Contains(benodigdheid))
-                            benodigheden.Add(benodigdheid);
-
-                    }
+                    UpdateList(topicViewModel.BenodigdheidIds,ref benodigheden);
                 }
                 topic1.Benodigdheden = benodigheden;
 
-                var certificeringen = topic.Certificeringen;
+                var certificeringen = topicViewModel.Topic.Certificeringen;
 
-                if (topic.CertificeringenIds != null)
+                if (topicViewModel.CertificeringenIds != null)
                 {
-                    foreach (int certificeringId in topic.CertificeringenIds)
-                    {
-                        Certificering certificering = db.Certificeringen.Find(certificeringId);
-                        if (!certificeringen.Contains(certificering))
-                        {
-                            certificeringen.Add(certificering);
-                        }
-                    }
+                    UpdateList(topicViewModel.CertificeringenIds, ref certificeringen);
                 }
 
                 topic1.Certificeringen = certificeringen;
 
-                var voorkennis = topic.Voorkennis;
+                var voorkennis = topicViewModel.Topic.Voorkennis;
 
-                if(topic.VoorkennisIds != null) {
-                    foreach (int voorkennisId in topic.VoorkennisIds)
-                    {
-                        Topic kennis = db.Topics.Find(voorkennisId);
-                        if (!voorkennis.Contains(kennis))
-                        {
-                            voorkennis.Add(kennis);
-                        }
-                    }
-                    }
+                if(topicViewModel.VoorkennisIds != null) {
+                    UpdateList(topicViewModel.VoorkennisIds, ref voorkennis);    
+                }
 
                 topic1.Voorkennis = voorkennis;
 
-                var percipioLinks = topic.PercipioLinks;
+                var percipioLinks = topicViewModel.Topic.PercipioLinks;
 
-                if (topic.PercipioLinkIds != null)
+                if (topicViewModel.PercipioLinkIds != null)
                 {
-                    foreach (int percipioLinkId in topic.PercipioLinkIds)
-                    {
-                        PercipioLink percipioLink = db.PercipioLinks.Find(percipioLinkId);
-                        if (!percipioLinks.Contains(percipioLink))
-                        {
-                            percipioLinks.Add(percipioLink);
-                        }
-                    }
+                    UpdateList(topicViewModel.PercipioLinkIds, ref percipioLinks);
                 }
 
                 topic1.PercipioLinks = percipioLinks;
@@ -218,7 +214,7 @@ namespace StudentenVolgSysteem.Controllers
             }
 
             // If the model is not valid, we need to refill the lists that were filtered by the bind.
-            TopicViewModel tvm = new TopicViewModel { Topic = topic };
+            TopicViewModel tvm = new TopicViewModel { Topic = topicViewModel.Topic };
             FillTopicViewModelLists(tvm);
 
             return View(tvm);
@@ -244,7 +240,7 @@ namespace StudentenVolgSysteem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Topic topicModel = db.Topics.Include("Curricula").Include("Voorkennis").Where(t => t.TopicId == id).FirstOrDefault();
+            Topic topicModel = db.Topics.Include("Curricula").Include("Voorkennis").Where(t => t.Id == id).FirstOrDefault();
             db.Topics.Remove(topicModel);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -273,21 +269,27 @@ namespace StudentenVolgSysteem.Controllers
             }
         }
 
-        public Topic TopicEdit(Topic topic)
-        {
-            
+        public void UpdateList<T>(int[] ids, ref ICollection<T> oldList) where T: class, IDeletable {
 
-            foreach (int benodigheidId in topic.BenodigdheidIds)
+            List<T> newList = new List<T>();
+            foreach (int id in ids)
             {
-                Benodigdheid benodigdheid = db.Benodigdheden.Find(benodigheidId);
-                if (!topic.Benodigdheden.Contains(benodigdheid))
+                T item =  db.GetFromDatabase<T>(id);
+                if(item != null)
                 {
-                    topic.Benodigdheden.Add(benodigdheid);
+                    if(!oldList.Contains(item))
+                    {
+                        newList.Add(item);
+                    }                   
                 }
             }
-
-            return topic;
+            oldList = newList;
+            
         }
+
+        // topic verwijderd, curriculumtopic niet,
+        
+        // student verwijderd, 
 
         /// <summary>
         /// Fills the lists in the TopicViewModel that populate dropdowns in the Topic/Create View.
@@ -306,6 +308,15 @@ namespace StudentenVolgSysteem.Controllers
             tvm.AlleVoorkennis = db.Topics.Where(item => !item.IsDeleted).ToList();
 
             return tvm;
+        }
+
+        private Topic CreateTopic(Topic topic1 )
+        {
+            Topic topic = new Topic
+            {
+
+            };
+            return topic;
         }
 
         ///// <summary>

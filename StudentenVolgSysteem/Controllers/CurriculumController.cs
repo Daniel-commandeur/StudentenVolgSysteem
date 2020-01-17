@@ -36,7 +36,7 @@ namespace StudentenVolgSysteem.Controllers
             Curriculum curriculum = db.Curricula.Where(c => !c.IsDeleted)
                                                 .Include("Student")
                                                 .Include("Topics.Topic")
-                                                .Where(c => c.CurriculumId == id)
+                                                .Where(c => c.Id == id)
                                                 .FirstOrDefault();
 
             if (curriculum == null || curriculum.IsDeleted)
@@ -56,7 +56,7 @@ namespace StudentenVolgSysteem.Controllers
 
             if (id != null)
             {
-                curriculumViewModel.StudentId = db.Studenten.Find(id).StudentId;
+                curriculumViewModel.StudentId = db.Studenten.Find(id).Id;
                 curriculumViewModel.Student = db.Studenten.Find(id);
             }
 
@@ -83,7 +83,7 @@ namespace StudentenVolgSysteem.Controllers
                         TopicId = topicId, 
                         Topic = topic, 
                         Curriculum = curriculum, 
-                        CurriculumId = curriculum.CurriculumId 
+                        CurriculumId = curriculum.Id 
                     };
                     db.CurriculumTopics.Add(curriculumTopic);
                     curriculum.Topics.Add(curriculumTopic);
@@ -114,7 +114,7 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Curriculum curriculum = db.Curricula.Include(c => c.Topics)
-                                                .Where(c => c.CurriculumId == id)
+                                                .Where(c => c.Id == id)
                                                 .FirstOrDefault();
 
             if (curriculum == null || curriculum.IsDeleted)
@@ -140,7 +140,7 @@ namespace StudentenVolgSysteem.Controllers
             {
                 // Determine curriculum, with topics
                 Curriculum curriculum = db.Curricula.Include("Topics")
-                                                    .First(c => c.CurriculumId == curriculumViewModel.Curriculum.CurriculumId);
+                                                    .First(c => c.Id == curriculumViewModel.Curriculum.Id);
 
                 // Add topic id's to list
                 List<int> topicIds = new List<int>();
@@ -167,7 +167,7 @@ namespace StudentenVolgSysteem.Controllers
                         TopicId = topicId, 
                         Topic = topic, 
                         Curriculum = curriculum, 
-                        CurriculumId = curriculum.CurriculumId 
+                        CurriculumId = curriculum.Id 
                     };
                      
                     // Check if curriculum exists, add if it does not.
@@ -193,7 +193,7 @@ namespace StudentenVolgSysteem.Controllers
             }
             Curriculum curriculum = db.Curricula.Include("Student")
                                                 .Include("Topics.Topic")
-                                                .Where(c => c.CurriculumId == id)
+                                                .Where(c => c.Id == id)
                                                 .FirstOrDefault();
 
             if (curriculum == null || curriculum.IsDeleted)

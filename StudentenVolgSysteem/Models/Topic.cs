@@ -24,7 +24,7 @@ namespace StudentenVolgSysteem.Models
         // Required Status cannot be set yet, because TopicDataInfra.csv contains empty fields.
         // This leads to a problem with loading the csv file.
         [Key]
-        public int TopicId { get; set; }
+        public int Id { get; set; }
         //[Required]
         public string Code { get; set; }
         //[Required]
@@ -40,18 +40,14 @@ namespace StudentenVolgSysteem.Models
 
         public bool IsDeleted { get; set; }
 
-        public int[] CertificeringenIds { get; set; }
         public virtual ICollection<Certificering> Certificeringen { get; set; }
         
-        public int[] VoorkennisIds { get; set; }  
         public virtual ICollection<Topic> Voorkennis { get; set; }
         
         public string Inhoud { get; set; }
-
-        public int[] BenodigdheidIds { get; set; }
+        
         public virtual ICollection<Benodigdheid> Benodigdheden { get; set; }
     
-        public int[] PercipioLinkIds { get; set; }
         public virtual ICollection<PercipioLink> PercipioLinks { get; set; }
         
 
@@ -74,6 +70,11 @@ namespace StudentenVolgSysteem.Models
                 }
                 return returnString;
             }
-        }   
+        }
+
+        public Topic ShallowCopy()
+        {
+            return (Topic)this.MemberwiseClone();
+        }
     } 
 }

@@ -45,7 +45,7 @@ namespace StudentenVolgSysteem.Controllers
                                         .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Topic.Benodigdheden)))
                                         .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Topic.Werkvorm)))
                                         .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Topic.Niveau)))
-                                        .Where(a => a.StudentId == id)
+                                        .Where(a => a.Id == id)
                                         .FirstOrDefault();
             if (student == null || student.IsDeleted)
             {
@@ -132,7 +132,7 @@ namespace StudentenVolgSysteem.Controllers
             // Student student = db.GetFromDatabase<Student>(id);
 
             // Remove selected student, and also remove related Curricula
-            Student student = db.Studenten.Include("Curricula").Where(s => s.StudentId == id).FirstOrDefault();
+            Student student = db.Studenten.Include("Curricula").Where(s => s.Id == id).FirstOrDefault();
             db.Studenten.Remove(student);
             db.SaveChanges();
 

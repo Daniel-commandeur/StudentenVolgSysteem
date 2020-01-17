@@ -8,7 +8,7 @@ namespace StudentenVolgSysteem.Models
     public class Werkvorm : IDeletable
     {
         [Key]
-        public int WerkvormId { get; set; }
+        public int Id { get; set; }
         public string Naam { get; set; }
         public bool IsDeleted { get; set; }
     }

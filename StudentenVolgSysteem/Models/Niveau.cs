@@ -11,7 +11,7 @@ namespace StudentenVolgSysteem.Models
     public class Niveau
     {
         [Key]
-        public int NiveauId { get; set; }
+        public int Id { get; set; }
         public string Naam { get; set; }
 
         // just added

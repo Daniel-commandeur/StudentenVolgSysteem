@@ -17,7 +17,7 @@ namespace StudentenVolgSysteem.Models
         }
 
         [Key]
-        public int BenodigdheidId { get; set; }
+        public int Id { get; set; }
         public string Naam { get; set; }
         public virtual ICollection<Topic> Topics { get; set; }
         public bool IsDeleted { get; set; }

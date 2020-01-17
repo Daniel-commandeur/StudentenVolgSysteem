@@ -10,6 +10,11 @@ namespace StudentenVolgSysteem.Models.ViewModels
     {
         public Topic Topic { get; set; }
 
+
+        public int[] BenodigdheidIds { get; set; }
+        public int[] CertificeringenIds { get; set; }
+        public int[] PercipioLinkIds { get; set; }
+        public int[] VoorkennisIds { get; set; }
         // Lists to populate Create and Edit View dropdowns.
         public IEnumerable<Niveau> AlleNiveaus { get; set; }
         public IEnumerable<Tijdsduur> AlleTijdsduren { get; set; }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
 using StudentenVolgSysteem.Models;
@@ -54,14 +55,46 @@ namespace StudentenVolgSysteem.DAL
         /// <typeparam name="T"></typeparam>
         /// <param name="id"></param>
         /// <returns></returns>
-        public T GetFromDatabase<T>(int? id) where T : class, IDeletable
+        public T GetFromDatabase<T>(int? id, string[] includes = null) where T : class, IDeletable
         {
+
             DbSet<T> dbSet = this.Set<T>();
+
+            DbQuery<T> query = null;
+
+            if (includes != null)
+            {
+                foreach (string include in includes)
+                {
+                    query = dbSet.Include(include);
+                }
+            }
+            
             if (id == null) return default;
-            var result = dbSet.Find(id);
+            var result = query.Where(t => t.Id == id).FirstOrDefault();
             if (result == null || result.IsDeleted) return default;
 
             return result;
+        }
+
+        //public IQueryable<TEntity> Including(params Expression<Func<TEntity, object>>[] _includeProperties)
+        //{
+        //    IQueryable<TEntity> query = m_context.Set<TEntity>();
+        //    return _includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
+        //}
+
+        public ICollection<T> GetFromDatabase<T>(string[] includes = null) where T : class, IDeletable {
+            DbSet<T> dbSet = this.Set<T>();
+            DbQuery<T> query = null;
+            if(includes != null)
+            {
+                foreach(string include in includes)
+                {
+                    query = dbSet.Include(include);
+                }                
+            }
+            var result = query.Where(t => t.IsDeleted != true);
+            return result.ToList();
         }
 
         /// <summary>
@@ -86,7 +119,25 @@ namespace StudentenVolgSysteem.DAL
                     entity.IsDeleted = true;
                 }
             }
-            return base.SaveChanges();
+            try
+            {
+                return base.SaveChanges();
+            }
+
+            catch (DbUpdateConcurrencyException ex)
+            {
+                // TODO implement exception handler
+                return default;
+            }
+            catch (DbUpdateException ex)
+            {
+                // TODO implement exception handler
+                return default;
+            }
+
+            
+
+            
         }
     }
 
@@ -95,6 +146,7 @@ namespace StudentenVolgSysteem.DAL
     /// </summary>
     public interface IDeletable
     {
+        int Id { get; set; }
         bool IsDeleted { get; set; }
     }
 }
