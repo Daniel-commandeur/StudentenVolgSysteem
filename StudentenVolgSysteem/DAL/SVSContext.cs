@@ -62,14 +62,14 @@ namespace StudentenVolgSysteem.DAL
 
             DbQuery<T> query = null;
 
-            if (includes != null)
+            if (includes != null) 
             {
                 foreach (string include in includes)
                 {
                     query = dbSet.Include(include);
                 }
             }
-            
+           
             if (id == null) return default;
             var result = query.Where(t => t.Id == id).FirstOrDefault();
             if (result == null || result.IsDeleted) return default;
