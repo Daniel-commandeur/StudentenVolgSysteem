@@ -20,7 +20,7 @@ namespace StudentenVolgSysteem.Controllers
         public ActionResult Index()
         {
             //return View(db.Tijdsduren.ToList()); 
-            return View(db.Tijdsduren.Where(td => !td.IsDeleted).ToList());
+            return View(db.GetFromDatabase<Tijdsduur>());
         }
 
         // GET: Tijdsduren/Details/5
@@ -30,7 +30,7 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tijdsduur tijdsduur = db.Tijdsduren.Find(id);
+            Tijdsduur tijdsduur = db.GetFromDatabase<Tijdsduur>(id);
             if (tijdsduur == null)
             {
                 return HttpNotFound();
@@ -49,7 +49,7 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TijdsduurId,Eenheid")] Tijdsduur tijdsduur)
+        public ActionResult Create([Bind(Include = "Id,Eenheid")] Tijdsduur tijdsduur)
         {
             if (ModelState.IsValid)
             {
@@ -68,7 +68,7 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tijdsduur tijdsduur = db.Tijdsduren.Find(id);
+            Tijdsduur tijdsduur = db.GetFromDatabase<Tijdsduur>(id);
             if (tijdsduur == null)
             {
                 return HttpNotFound();
@@ -81,7 +81,7 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "TijdsduurId,Eenheid")] Tijdsduur tijdsduur)
+        public ActionResult Edit([Bind(Include = "Id,Eenheid")] Tijdsduur tijdsduur)
         {
             if (ModelState.IsValid)
             {
@@ -99,7 +99,7 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tijdsduur tijdsduur = db.Tijdsduren.Find(id);
+            Tijdsduur tijdsduur = db.GetFromDatabase<Tijdsduur>(id);
             if (tijdsduur == null)
             {
                 return HttpNotFound();
@@ -112,7 +112,7 @@ namespace StudentenVolgSysteem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Tijdsduur tijdsduur = db.Tijdsduren.Find(id);
+            Tijdsduur tijdsduur = db.GetFromDatabase<Tijdsduur>(id);
             db.Tijdsduren.Remove(tijdsduur);
             db.SaveChanges();
             return RedirectToAction("Index");

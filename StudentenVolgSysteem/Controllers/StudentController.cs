@@ -19,15 +19,7 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Student
         public ActionResult Index()
         {
-            //TODO: Refactor this mess!
-            var studenten = db.Studenten.Where(s => !s.IsDeleted)
-                                        .Include(c => c.Curricula)
-                                        .ToList();
-            foreach (var student in studenten)
-            {
-                student.Curricula = student.Curricula.Where(c => !c.IsDeleted).ToList();
-            }
-            return View(studenten);
+            return View(db.GetFromDatabase<Student>());
         }
 
         // GET: Student/Details/5
@@ -38,16 +30,8 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             //Every relation that is handled with a link-table isn't automatically
-            //included and needs to be included explicitly
-            Student student = db.Studenten
-                                        .Include(a => a.Curricula)
-                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Topic.Duur)))
-                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Topic.Benodigdheden)))
-                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Topic.Werkvorm)))
-                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Topic.Niveau)))
-                                        .Where(a => a.Id == id)
-                                        .FirstOrDefault();
-            if (student == null || student.IsDeleted)
+            Student student = db.GetFromDatabase<Student>(id);
+            if (student == null)
             {
                 return HttpNotFound();
             }
@@ -65,7 +49,7 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "StudentId,Voornaam,Achternaam")] Student student)
+        public ActionResult Create([Bind(Include = "Id,Voornaam,Achternaam")] Student student)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +69,7 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Student student = db.GetFromDatabase<Student>(id);
-            if (student == null || student.IsDeleted)
+            if (student == null)
             {
                 return HttpNotFound();
             }
@@ -97,7 +81,7 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "StudentId,Voornaam,Achternaam")] Student student)
+        public ActionResult Edit([Bind(Include = "Id,Voornaam,Achternaam")] Student student)
         {
             if (ModelState.IsValid)
             {
@@ -116,7 +100,7 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Student student = db.GetFromDatabase<Student>(id); 
-            if (student == null || student.IsDeleted)
+            if (student == null )
             {
                 return HttpNotFound();
             }

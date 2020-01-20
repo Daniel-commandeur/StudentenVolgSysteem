@@ -147,6 +147,7 @@ namespace StudentenVolgSysteem.DAL
             catch (DbUpdateException ex)
             {
                 // TODO implement exception handler
+                //             ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
                 return default;
             }          
         }

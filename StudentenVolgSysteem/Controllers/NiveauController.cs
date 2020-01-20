@@ -19,7 +19,7 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Niveau
         public ActionResult Index()
         {
-            return View(db.Niveaus.Where(n => !n.IsDeleted).ToList());
+            return View(db.GetFromDatabase<Niveau>());
         }
 
         // GET: Niveau/Details/5
@@ -29,8 +29,8 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Niveau niveau = db.Niveaus.Find(id);
-            if (niveau == null || niveau.IsDeleted)
+            Niveau niveau = db.GetFromDatabase<Niveau>(id);
+            if (niveau == null)
             {
                 return HttpNotFound();
             }
@@ -48,7 +48,7 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "NiveauId,Naam")] Niveau niveau)
+        public ActionResult Create([Bind(Include = "Id,Naam")] Niveau niveau)
         {
             if (ModelState.IsValid)
             {
@@ -67,8 +67,8 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Niveau niveau = db.Niveaus.Find(id);
-            if (niveau == null || niveau.IsDeleted)
+            Niveau niveau = db.GetFromDatabase<Niveau>(id);
+            if (niveau == null)
             {
                 return HttpNotFound();
             }
@@ -80,7 +80,7 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "NiveauId,Naam")] Niveau niveau)
+        public ActionResult Edit([Bind(Include = "Id,Naam")] Niveau niveau)
         {
             if (ModelState.IsValid)
             {
@@ -98,7 +98,7 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Niveau niveau = db.Niveaus.Find(id);
+            Niveau niveau = db.GetFromDatabase<Niveau>(id);
             if (niveau == null)
             {
                 return HttpNotFound();
@@ -111,7 +111,7 @@ namespace StudentenVolgSysteem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Niveau niveau = db.Niveaus.Find(id);
+            Niveau niveau = db.GetFromDatabase<Niveau>(id);
             db.Niveaus.Remove(niveau);
             db.SaveChanges();
             return RedirectToAction("Index");

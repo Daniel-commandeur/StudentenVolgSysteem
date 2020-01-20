@@ -31,7 +31,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Topic.Niveau, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Topic.Niveau.Id, new SelectList(Model.AlleNiveaus, "Id", "Naam"), new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.Topic.Niveau.Id, new SelectList(Model.AlleNiveaus, "Id", "Naam", Model.Topic.Niveau), new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Topic.Niveau.Id, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -47,7 +47,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Topic.Duur, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Topic.Duur, new SelectList(Model.AlleTijdsduren, "Id", "Eenheid"))
+                @Html.DropDownListFor(model => model.Topic.Duur.Id, new SelectList(Model.AlleTijdsduren, "Id", "Eenheid", Model.Topic.Duur))
                 @Html.ValidationMessageFor(model => model.Topic.Duur.Id, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -55,7 +55,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Topic.Werkvorm, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Topic.Werkvorm, new SelectList(Model.AlleWerkvormen, "Id", "Naam"), new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.Topic.Werkvorm.Id, new SelectList(Model.AlleWerkvormen, "Id", "Naam", Model.Topic.Werkvorm), new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Topic.Werkvorm.Id, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -71,7 +71,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Topic.Certificeringen, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Topic.Certificeringen, new MultiSelectList(Model.AlleCertificeringen, "Id", "Naam"), new { @class = "multiSelect", @multiple = "multiple" })
+                @Html.DropDownListFor(model => model.CertificeringenIds, new MultiSelectList(Model.AlleCertificeringen, "Id", "Naam", Model.Topic.Certificeringen.Select(c => c.Id)), new { @class = "multiSelect", @multiple = "multiple" })
                 @Html.ValidationMessageFor(model => model.CertificeringenIds, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -79,7 +79,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Topic.Voorkennis, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Topic.Voorkennis, new MultiSelectList(Model.AlleVoorkennis, "Id", "NaamCode"), new { @class = "multiSelect", @multiple = "multiple", @searchable = "Search here.." })
+                @Html.DropDownListFor(model => model.VoorkennisIds, new MultiSelectList(Model.AlleVoorkennis, "Id", "NaamCode", Model.Topic.Voorkennis.Select(v => v.Id)), new { @class = "multiSelect", @multiple = "multiple", @searchable = "Search here.." })
                 @Html.ValidationMessageFor(model => model.VoorkennisIds, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -95,7 +95,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Topic.Benodigdheden, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Topic.Benodigdheden, new MultiSelectList(Model.AlleBenodigdheden, "Id", "Naam"), new { @class = "multiSelect", @multiple = "multiple", @searchable = "Search here.." })
+                @Html.DropDownListFor(model => model.BenodigdheidIds, new MultiSelectList(Model.AlleBenodigdheden, "Id", "Naam", Model.Topic.Benodigdheden.Select(b => b.Id)), new { @class = "multiSelect", @multiple = "multiple", @searchable = "Search here.." })
                 @Html.ValidationMessageFor(model => model.BenodigdheidIds, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -103,7 +103,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Topic.PercipioLinks, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Topic.PercipioLinks, new MultiSelectList(Model.AllePercipioLinks, "Id", "Link"), new { @class = "multiSelect", @multiple = "multiple", @searchable = "Search here.." })
+                @Html.DropDownListFor(model => model.PercipioLinkIds, new MultiSelectList(Model.AllePercipioLinks, "Id", "Link", Model.Topic.PercipioLinks.Select(p => p.Id)), new { @class = "multiSelect", @multiple = "multiple", @searchable = "Search here.." })
                 @Html.ValidationMessageFor(model => model.PercipioLinkIds, "", new { @class = "text-danger" })
             </div>
         </div>

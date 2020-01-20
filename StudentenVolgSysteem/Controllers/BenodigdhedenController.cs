@@ -19,7 +19,7 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Benodigdheden
         public ActionResult Index()
         {
-            return View(db.Benodigdheden.Where(b => !b.IsDeleted).ToList());
+            return View(db.GetFromDatabase<Benodigdheid>());
         }
 
         // GET: Benodigdheden/Details/5
@@ -30,7 +30,7 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Benodigdheid benodigdheid = db.GetFromDatabase<Benodigdheid>(id);
-            if (benodigdheid == null || benodigdheid.IsDeleted)
+            if (benodigdheid == null)
             {
                 return HttpNotFound();
             }
@@ -48,7 +48,7 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "BenodigdheidId,Naam")] Benodigdheid benodigdheid)
+        public ActionResult Create([Bind(Include = "Id,Naam")] Benodigdheid benodigdheid)
         {
             if (ModelState.IsValid)
             {
@@ -68,7 +68,7 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Benodigdheid benodigdheid = db.GetFromDatabase<Benodigdheid>(id); 
-            if (benodigdheid == null || benodigdheid.IsDeleted)
+            if (benodigdheid == null)
             {
                 return HttpNotFound();
             }
@@ -80,7 +80,7 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "BenodigdheidId,Naam")] Benodigdheid benodigdheid)
+        public ActionResult Edit([Bind(Include = "Id,Naam")] Benodigdheid benodigdheid)
         {
             if (ModelState.IsValid)
             {
@@ -100,7 +100,7 @@ namespace StudentenVolgSysteem.Controllers
             }
 
             Benodigdheid benodigdheid = db.GetFromDatabase<Benodigdheid>(id);
-            if (benodigdheid == null || benodigdheid.IsDeleted)
+            if (benodigdheid == null)
             {
                 return HttpNotFound();
             }

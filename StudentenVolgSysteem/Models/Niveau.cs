@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudentenVolgSysteem.DAL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,7 +9,7 @@ using System.Web;
 namespace StudentenVolgSysteem.Models
 {
     [Table(name: "Niveaus")]
-    public class Niveau
+    public class Niveau : IDeletable
     {
         [Key]
         public int Id { get; set; }

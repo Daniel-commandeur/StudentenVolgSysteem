@@ -19,7 +19,7 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Werkvorm
         public ActionResult Index()
         {
-            return View(db.Werkvormen.Where(w => !w.IsDeleted).ToList());
+            return View(db.GetFromDatabase<Werkvorm>());
         }
 
         // GET: Werkvorm/Details/5
@@ -48,7 +48,7 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "WerkvormId,Naam")] Werkvorm werkvorm)
+        public ActionResult Create([Bind(Include = "Id,Naam")] Werkvorm werkvorm)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +80,7 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "WerkvormId,Naam")] Werkvorm werkvorm)
+        public ActionResult Edit([Bind(Include = "Id,Naam")] Werkvorm werkvorm)
         {
             if (ModelState.IsValid)
             {

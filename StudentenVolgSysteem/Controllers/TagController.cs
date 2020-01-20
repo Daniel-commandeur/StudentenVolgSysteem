@@ -19,7 +19,7 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Tag
         public ActionResult Index()
         {
-            return View(db.Tags.Where(t => !t.IsDeleted).ToList());
+            return View(db.GetFromDatabase<Tag>());
         }
 
         // GET: Tag/Details/5
@@ -48,7 +48,7 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TagId,Naam")] Tag tag)
+        public ActionResult Create([Bind(Include = "Id,Naam")] Tag tag)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +80,7 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "TagId,Naam")] Tag tag)
+        public ActionResult Edit([Bind(Include = "Id,Naam")] Tag tag)
         {
             if (ModelState.IsValid)
             {
@@ -98,7 +98,7 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tag tag = db.Tags.Find(id);
+            Tag tag = db.GetFromDatabase<Tag>(id);
             if (tag == null)
             {
                 return HttpNotFound();

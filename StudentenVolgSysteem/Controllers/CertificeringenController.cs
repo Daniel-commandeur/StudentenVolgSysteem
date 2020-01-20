@@ -19,7 +19,7 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Certificeringen
         public ActionResult Index()
         {
-            return View(db.Certificeringen.Where(c => !c.IsDeleted).ToList());
+            return View(db.GetFromDatabase<Certificering>());
         }
 
         // GET: Certificeringen/Details/5
@@ -30,7 +30,7 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Certificering certificering = db.GetFromDatabase<Certificering>(id);
-            if (certificering == null || certificering.IsDeleted)
+            if (certificering == null)
             {
                 return HttpNotFound();
             }
@@ -71,7 +71,7 @@ namespace StudentenVolgSysteem.Controllers
 
             Certificering certificering = db.GetFromDatabase<Certificering>(id);
    
-            if (certificering == null || certificering.IsDeleted)
+            if (certificering == null)
             {
                 return HttpNotFound();
             }
@@ -83,7 +83,7 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CertificeringId,Naam")] Certificering certificering)
+        public ActionResult Edit([Bind(Include = "Id,Naam")] Certificering certificering)
         {
             if (ModelState.IsValid)
             {
@@ -104,8 +104,7 @@ namespace StudentenVolgSysteem.Controllers
 
             Certificering certificering = db.GetFromDatabase<Certificering>(id);
 
-            //Certificering certificering = db.Certificeringen.Find(id);
-            if (certificering == null || certificering.IsDeleted)
+            if (certificering == null)
             {
                 return HttpNotFound();
             }
@@ -133,27 +132,6 @@ namespace StudentenVolgSysteem.Controllers
         }
     }
 
-    public class EnsureExists : ActionFilterAttribute
-    {
-
-        //public T cert { get; set; }
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            var id = (int)filterContext.ActionParameters["id"];
-                          
-            using (var context = new SVSContext())
-            {
-                Certificering cert = context.Certificeringen.Find(id);
-                
-                if(cert == null || cert.IsDeleted)
-                {
-                    filterContext.Result = new HttpNotFoundResult();
-                }
-            }
-
-            base.OnActionExecuting(filterContext);
-        }
-    }
 
     
 }

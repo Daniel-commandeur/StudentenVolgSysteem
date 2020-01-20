@@ -19,7 +19,7 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Percipiolink
         public ActionResult Index()
         {
-            return View(db.PercipioLinks.Where(p => !p.IsDeleted).ToList());
+            return View(db.GetFromDatabase<PercipioLink>());
         }
 
         // GET: Percipiolink/Details/5
@@ -30,7 +30,7 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             PercipioLink percipioLink = db.GetFromDatabase<PercipioLink>(id);
-            if (percipioLink == null || percipioLink.IsDeleted)
+            if (percipioLink == null)
             {
                 return HttpNotFound();
             }
@@ -48,7 +48,7 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PercipioLinkId,Link")] PercipioLink percipioLink)
+        public ActionResult Create([Bind(Include = "Id,Link")] PercipioLink percipioLink)
         {
             if (ModelState.IsValid)
             {
@@ -68,7 +68,7 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             PercipioLink percipioLink = db.GetFromDatabase<PercipioLink>(id);
-            if (percipioLink == null || percipioLink.IsDeleted)
+            if (percipioLink == null)
             {
                 return HttpNotFound();
             }
@@ -80,7 +80,7 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PercipioLinkId,Link")] PercipioLink percipioLink)
+        public ActionResult Edit([Bind(Include = "Id,Link")] PercipioLink percipioLink)
         {
             if (ModelState.IsValid)
             {
@@ -99,7 +99,7 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             PercipioLink percipioLink = db.GetFromDatabase<PercipioLink>(id);
-            if (percipioLink == null || percipioLink.IsDeleted)
+            if (percipioLink == null)
             {
                 return HttpNotFound();
             }
