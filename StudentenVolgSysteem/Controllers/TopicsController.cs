@@ -158,6 +158,7 @@ namespace StudentenVolgSysteem.Controllers
 
                 topic1.Werkvorm = db.Werkvormen.Find(topicViewModel.Topic.Werkvorm.Id);
                 topic1.Niveau = db.Niveaus.Find(topicViewModel.Topic.Niveau.Id);
+
                 topic1.Werkvorm = db.Werkvormen.Find(topicViewModel.Topic.Werkvorm.Id);
                 topic1.Duur = db.Tijdsduren.Find(topicViewModel.Topic.Duur.Id);
 
@@ -165,7 +166,7 @@ namespace StudentenVolgSysteem.Controllers
 
                 if (topicViewModel.BenodigdheidIds != null)
                 {
-                    UpdateList(topicViewModel.BenodigdheidIds,ref benodigheden);
+                    UpdateList(topicViewModel.BenodigdheidIds, ref benodigheden);
                 }
                 topic1.Benodigdheden = benodigheden;
 
