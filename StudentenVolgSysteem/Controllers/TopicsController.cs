@@ -173,6 +173,7 @@ namespace StudentenVolgSysteem.Controllers
                 topic1.Werkvorm = db.Werkvormen.Find(topicViewModel.Topic.Werkvorm.Id);
                 topic1.Duur = db.Tijdsduren.Find(topicViewModel.Topic.Duur.Id);
 
+
                 var benodigheden = topicViewModel.Topic.Benodigdheden;
 
                 if (topicViewModel.BenodigdheidIds != null)
@@ -206,6 +207,7 @@ namespace StudentenVolgSysteem.Controllers
                 }
 
                 topic1.PercipioLinks = percipioLinks;
+             
 
                 //Tell the context the topicModel has changed and save changes
                 db.Entry(topic1).State = EntityState.Modified;
@@ -270,12 +272,22 @@ namespace StudentenVolgSysteem.Controllers
             }
         }
 
-        public void UpdateList<T>(int[] ids, ref ICollection<T> oldList) where T: class, IDeletable {
-
+        public void UpdateList<T>(int[] ids, ref ICollection<T> oldList) where T: class, IDeletable 
+        {
             List<T> newList = new List<T>();
             foreach (int id in ids)
             {
-                T item =  db.GetFromDatabase<T>(id);
+                T item = db.GetFromDatabase<T>(id);
+                if (item != null)
+                {
+                    if (!oldList.Contains(item))
+                    {
+                        newList.Add(item);
+                    }
+                }
+
+                /*
+                T item =  db.GetFromDatabase<T>(ids);
                 if(item != null)
                 {
                     if(!oldList.Contains(item))
@@ -283,6 +295,7 @@ namespace StudentenVolgSysteem.Controllers
                         newList.Add(item);
                     }                   
                 }
+                */
             }
             oldList = newList;
             

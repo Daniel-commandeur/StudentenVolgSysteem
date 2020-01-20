@@ -57,7 +57,6 @@ namespace StudentenVolgSysteem.DAL
         /// <returns></returns>
         public T GetFromDatabase<T>(int? id, string[] includes = null) where T : class, IDeletable
         {
-
             DbSet<T> dbSet = this.Set<T>();
 
             DbQuery<T> query = null;
