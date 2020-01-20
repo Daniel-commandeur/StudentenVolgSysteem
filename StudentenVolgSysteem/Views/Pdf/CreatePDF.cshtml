@@ -4,23 +4,23 @@
     ViewBag.Title = "Create PDF";
 }
 
-<h2>Create PDF</h2>
+<h2>Maak PDF</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <h4>Curriculum</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.curriculumId)
-    <div class="form-group">
-        @Html.LabelFor(model => model.Student, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DisplayFor(model => model.Student, new { htmlAttributes = new { @class = "form-control" } })
+    <div class="form-horizontal">
+        <h4>Curriculum</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.CurriculumId)
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Student, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
         </div>
-    </div>
 
     <div class="form-group">
         @Html.LabelFor(model => model.DoB, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -87,5 +87,28 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index", "Student")
+    @Html.ActionLink("Terug naar overzicht", "Index", "Student")
 </div>
+
+
+
+@*
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Student)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DoB)
+        </dt>
+
+        <dd>
+            @Html.EditorFor(model => model.DoB, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.DoB, "", new { @class = "text-danger" })
+        </dd>
+    </dl>
+*@

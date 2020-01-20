@@ -19,9 +19,8 @@ namespace StudentenVolgSysteem.Models
         [Key]
         public int Id { get; set; }
 
-        public int StudentId { get; set; }
+        public int? StudentId { get; set; }
 
-        [Required]
         public Student Student { get; set; }
 
         [Required]

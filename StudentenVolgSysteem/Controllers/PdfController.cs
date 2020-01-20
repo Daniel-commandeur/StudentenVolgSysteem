@@ -78,7 +78,7 @@ namespace StudentenVolgSysteem.Controllers
             PdfViewModel pdfViewModel = new PdfViewModel();
 
             pdfViewModel.Student = db.Studenten.Find(curiculum.Student.Id).VolledigeNaam;
-            pdfViewModel.curriculumId = (int)curriculumId;
+            pdfViewModel.CurriculumId = (int)curriculumId;
             pdfViewModel.NiveauList = GetNiveaus();
 
             return View(pdfViewModel);
@@ -90,7 +90,7 @@ namespace StudentenVolgSysteem.Controllers
             pdfViewModel.NiveauList = GetNiveaus();
             if (ModelState.IsValid)
             {
-                Curriculum curriculum = db.Curricula.Include("Student").Include("Topics.Topic").Where(m => m.Id == pdfViewModel.curriculumId).FirstOrDefault();
+                Curriculum curriculum = db.Curricula.Include("Student").Include("Topics.Topic").Where(m => m.Id == pdfViewModel.CurriculumId).FirstOrDefault();
                 PDF.Create(pdfViewModel, curriculum);
                 //MakePdf(pdfViewModel);
             }
