@@ -51,13 +51,15 @@ namespace StudentenVolgSysteem.Controllers
         {
             TopicViewModel topicViewModel = new TopicViewModel();
 
-            Topic topic = db.Topics.Where(t => !t.IsDeleted)
-                                   .Include(t => t.Duur)
-                                   .Include(t => t.Niveau)
-                                   .Include(t => t.PercipioLinks)
-                                   .Include(t => t.Werkvorm)
-                                   .Include(t => t.Certificeringen)
-                                   .FirstOrDefault(t => t.Id == id);
+            //Topic topic = db.Topics.Where(t => !t.IsDeleted)
+            //                       .Include(t => t.Duur)
+            //                       .Include(t => t.Niveau)
+            //                       .Include(t => t.PercipioLinks)
+            //                       .Include(t => t.Werkvorm)
+            //                       .Include(t => t.Certificeringen)
+            //                       .FirstOrDefault(t => t.Id == id);
+
+            Topic topic = db.GetFromDatabase<Topic>(id);
 
             topicViewModel.Topic = topic;
             FillTopicViewModelLists(topicViewModel); //
@@ -73,17 +75,17 @@ namespace StudentenVolgSysteem.Controllers
         {
             if (ModelState.IsValid)
             {
-                Topic topic1 = new Topic
-                {
-                    Code = topic.Code,
-                    Naam = topic.Naam,
-                    Inhoud = topic.Inhoud,
+                //Topic topic1 = new Topic
+                //{
+                //    Code = topic.Code,
+                //    Naam = topic.Naam,
+                //    Inhoud = topic.Inhoud,
 
-                };
+                //};
 
+                
 
-
-                db.Topics.Add(topic1);
+                db.Topics.Add(topic);
                 db.SaveChanges();
 
                 return RedirectToAction("Index");
@@ -105,16 +107,18 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Topic topic = db.Topics.Where(t => !t.IsDeleted)
-                                   .Include(t => t.Duur)
-                                   .Include(t => t.Niveau)
-                                   .Include(t => t.PercipioLinks)
-                                   .Include(t => t.Werkvorm)
-                                   .Include(t => t.Certificeringen)
-                                   .Include(t => t.Benodigdheden)
-                                   .FirstOrDefault(t => t.Id == id);
+            //Topic topic = db.Topics.Where(t => !t.IsDeleted)
+            //                       .Include(t => t.Duur)
+            //                       .Include(t => t.Niveau)
+            //                       .Include(t => t.PercipioLinks)
+            //                       .Include(t => t.Werkvorm)
+            //                       .Include(t => t.Certificeringen)
+            //                       .Include(t => t.Benodigdheden)
+            //                       .FirstOrDefault(t => t.Id == id);
 
-            if (topic == null || topic.IsDeleted)
+            Topic topic = db.GetFromDatabase<Topic>(id);
+
+            if (topic == null)
             {
                 return HttpNotFound();
             }
@@ -137,23 +141,17 @@ namespace StudentenVolgSysteem.Controllers
         public ActionResult Edit(TopicViewModel topicViewModel)
         {
             if (ModelState.IsValid)
-            {
-                Topic topic1 = db.Topics.Where(t => !t.IsDeleted)
-                                   .Include(t => t.Duur)
-                                   .Include(t => t.Niveau)
-                                   .Include(t => t.PercipioLinks)
-                                   .Include(t => t.Werkvorm)
-                                   .Include(t => t.Certificeringen)
-                                   .Include(t => t.Benodigdheden)
-                                   .Include(t => t.Voorkennis)
-                                   .FirstOrDefault(t => t.Id == topicViewModel.Topic.Id);
+            {             
+                Topic topic1 = db.GetFromDatabase<Topic>(topicViewModel.Topic.Id);
 
+                // TODO: Refractor topic copy
 
                 //Topic topic1 = db.Topics.Find(topicViewModel.Topic.TopicId);
                 //topic1 = topicViewModel.Topic.ShallowCopy();
                 topic1.Code = topicViewModel.Topic.Code;
                 topic1.Inhoud = topicViewModel.Topic.Inhoud;
                 topic1.Naam = topicViewModel.Topic.Naam;
+                topic1.Leerdoel = topicViewModel.Topic.Leerdoel;
                 
 
                 topic1.Werkvorm = db.Werkvormen.Find(topicViewModel.Topic.Werkvorm.Id);
