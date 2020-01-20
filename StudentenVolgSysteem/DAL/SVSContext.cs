@@ -61,8 +61,11 @@ namespace StudentenVolgSysteem.DAL
             IQueryable<T> query = this.Set<T>();
             if (includes != null)
             {
-                query = includes.Aggregate(query, (current, includedProperty) => current.Include(includedProperty));
-            }           
+                foreach (string include in includes)
+                {
+                    query = dbSet.Include(include);
+                }
+            }
             
             if (id == null) return default;
             var result = query.Where(t => t.Id == id).FirstOrDefault();
