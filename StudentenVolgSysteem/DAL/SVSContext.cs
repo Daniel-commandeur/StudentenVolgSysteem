@@ -148,11 +148,7 @@ namespace StudentenVolgSysteem.DAL
             {
                 // TODO implement exception handler
                 return default;
-            }
-
-            
-
-            
+            }          
         }
     }
 
