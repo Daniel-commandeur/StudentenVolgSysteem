@@ -19,33 +19,13 @@ namespace StudentenVolgSysteem.Controllers
 
         // GET: Topics
         public ActionResult Index()
-        {
-            //List<string> includes = new List<string>();
-            //var props = typeof(Topic).GetProperties();
-            //foreach (var prop in props)
-            //{
-            //    var type = prop.PropertyType;
-
-            //    if (!type.IsValueType)
-            //    {
-            //        if(type != typeof(string))
-            //        includes.Add(prop.Name.ToString());
-            //    }
-            //}
-            //string[] includes = new string[] { "Niveau", "Duur", "Werkvorm", "Certificeringen", "Voorkennis", "Benodigdheden", "PercipioLinks", "Tags" };
-
+        {            
             var topics = db.GetFromDatabase<Topic>();
+            if (topics == null)
+            {
+                return HttpNotFound();
+            }
 
-            //var topics = db.Topics.Where(t => !t.IsDeleted)
-            //    .Include("Niveau")
-            //    .Include("Duur")
-            //    .Include("Werkvorm")
-            //    .Include("Certificeringen")
-            //    .Include("Voorkennis")
-            //    .Include("Benodigdheden")
-            //    .Include("PercipioLinks")
-            //    .Include("Tags")
-            //    .ToList();
             return View(topics);
         }
 
@@ -56,13 +36,10 @@ namespace StudentenVolgSysteem.Controllers
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            //string[] includes = new string[] { "Duur" };
+            }         
             Topic topic = db.GetFromDatabase<Topic>(id);
 
-            //Topic topic = db.Topics.Include("Duur").Where(m => m.TopicId == id).FirstOrDefault();
-
-            if (topic == null || topic.IsDeleted)
+            if (topic == null)
             {
                 return HttpNotFound();
             }

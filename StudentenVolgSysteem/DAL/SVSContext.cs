@@ -56,10 +56,9 @@ namespace StudentenVolgSysteem.DAL
         /// <param name="id"></param>
         /// <returns></returns>
         public T GetFromDatabase<T>(int? id) where T : class, IDeletable
-        {
-            DbSet<T> dbSet = this.Set<T>();
+        {      
             var includes = GetIncludes<T>();
-            IQueryable<T> query = dbSet;
+            IQueryable<T> query = this.Set<T>();
             if (includes != null)
             {
                 query = includes.Aggregate(query, (current, includedProperty) => current.Include(includedProperty));
@@ -101,10 +100,9 @@ namespace StudentenVolgSysteem.DAL
             /// <typeparam name="T">Input type</typeparam>
             /// <param name="includes">Includes needed</param>
             /// <returns>Collection of type T</returns>
-        public ICollection<T> GetFromDatabase<T>() where T : class, IDeletable {
-            DbSet<T> dbSet = this.Set<T>();
+        public ICollection<T> GetFromDatabase<T>() where T : class, IDeletable {          
             var includes = GetIncludes<T>();
-            IQueryable<T> query = dbSet;
+            IQueryable<T> query = this.Set<T>();
             if (includes != null)
             {
                 query = includes.Aggregate(query, (current, includedProperty) => current.Include(includedProperty));
