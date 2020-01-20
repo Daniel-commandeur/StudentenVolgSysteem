@@ -19,21 +19,13 @@ namespace StudentenVolgSysteem.Controllers
 
         // GET: Topics
         public ActionResult Index()
-        {
-            string[] includes = new string[] { "Nivea", "Duur", "Werkvorm", "Certificeringen", "Voorkennis", "Benodigheden", "PercipioLinks", "Tags" };
+        {            
+            var topics = db.GetFromDatabase<Topic>();
+            if (topics == null)
+            {
+                return HttpNotFound();
+            }
 
-            //var topics = db.GetFromDatabase<Topic>(includes);
-
-            var topics = db.Topics.Where(t => !t.IsDeleted)
-                .Include("Niveau")
-                .Include("Duur")
-                .Include("Werkvorm")
-                .Include("Certificeringen")
-                .Include("Voorkennis")
-                .Include("Benodigdheden")
-                .Include("PercipioLinks")
-                .Include("Tags")
-                .ToList();
             return View(topics);
         }
 
@@ -44,13 +36,10 @@ namespace StudentenVolgSysteem.Controllers
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            string[] includes = new string[] { "Duur" };
-            Topic topic = db.GetFromDatabase<Topic>(id, includes);
+            }         
+            Topic topic = db.GetFromDatabase<Topic>(id);
 
-            //Topic topic = db.Topics.Include("Duur").Where(m => m.TopicId == id).FirstOrDefault();
-
-            if (topic == null || topic.IsDeleted)
+            if (topic == null)
             {
                 return HttpNotFound();
             }
