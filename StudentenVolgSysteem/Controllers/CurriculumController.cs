@@ -102,6 +102,8 @@ namespace StudentenVolgSysteem.Controllers
 
                 return RedirectToAction("Index");
             }
+            curriculumViewModel.AlleTopics = db.Topics.Where(t => !t.IsDeleted).ToList();
+            curriculumViewModel.AlleStudenten = db.Studenten.Where(s => !s.IsDeleted).ToList();
             curriculumViewModel.AlleTopics = db.Topics.ToList();
             return View(curriculumViewModel);
         }

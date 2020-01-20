@@ -6,7 +6,7 @@
 
 <h2>Curricula</h2>
 
-@Html.ActionLink("Create New", "Create", null, new { type = "button" })
+@Html.ActionLink("Toevoegen", "Create", null, new { type = "button" })
 <table class="table">
     <tr>
         <th>
@@ -47,9 +47,9 @@
                 }
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Wijzig", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                @Html.ActionLink("Verwijder", "Delete", new { id = item.Id })
             </td>
         </tr>
     }

@@ -9,10 +9,11 @@ namespace StudentenVolgSysteem.Models
 {
     public class PdfViewModel
     {
-        public int curriculumId { get; set; }
+        public int CurriculumId { get; set; }
         public string Student { get; set; }
 
         [Required(ErrorMessage = "Voer geboortedatum in")]
+        [Display (Name = "Geboortedatum")]
         public DateTime DoB { get; set; }
 
         [Required(ErrorMessage = "Voer startdatum in")]

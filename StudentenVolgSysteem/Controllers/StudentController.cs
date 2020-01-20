@@ -65,7 +65,7 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "StudentId,Voornaam,Achternaam")] Student student)
+        public ActionResult Create([Bind(Include = "Id,Voornaam,Achternaam")] Student student)
         {
             if (ModelState.IsValid)
             {
@@ -97,7 +97,7 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "StudentId,Voornaam,Achternaam")] Student student)
+        public ActionResult Edit([Bind(Include = "Id,Voornaam,Achternaam")] Student student)
         {
             if (ModelState.IsValid)
             {
