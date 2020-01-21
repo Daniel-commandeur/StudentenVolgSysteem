@@ -168,10 +168,10 @@ namespace StudentenVolgSysteem.Controllers
                 topic1.Leerdoel = topicViewModel.Topic.Leerdoel;
                 
                 topic1.Werkvorm = db.GetFromDatabase<Werkvorm>(topicViewModel.Topic.Werkvorm.Id);
-                topic1.Niveau = db.Niveaus.Find(topicViewModel.Topic.Niveau.Id);              
-                topic1.Duur = db.Tijdsduren.Find(topicViewModel.Topic.Duur.Id);
+                topic1.Niveau = db.GetFromDatabase<Niveau>(topicViewModel.Topic.Niveau.Id);              
+                topic1.Duur = db.GetFromDatabase<Tijdsduur>(topicViewModel.Topic.Duur.Id);
 
-                var benodigheden = topicViewModel.Topic.Benodigdheden;
+                var benodigheden = topic1.Benodigdheden;
 
                 if (topicViewModel.BenodigdheidIds != null)
                 {
@@ -179,7 +179,7 @@ namespace StudentenVolgSysteem.Controllers
                 }
                 topic1.Benodigdheden = benodigheden;
 
-                var certificeringen = topicViewModel.Topic.Certificeringen;
+                var certificeringen = topic1.Certificeringen;
 
                 if (topicViewModel.CertificeringenIds != null)
                 {
@@ -188,7 +188,7 @@ namespace StudentenVolgSysteem.Controllers
 
                 topic1.Certificeringen = certificeringen;
 
-                var voorkennis = topicViewModel.Topic.Voorkennis;
+                var voorkennis = topic1.Voorkennis;
 
                 if(topicViewModel.VoorkennisIds != null) {
                     UpdateList(topicViewModel.VoorkennisIds, ref voorkennis);    
@@ -196,7 +196,7 @@ namespace StudentenVolgSysteem.Controllers
 
                 topic1.Voorkennis = voorkennis;
 
-                var percipioLinks = topicViewModel.Topic.PercipioLinks;
+                var percipioLinks = topic1.PercipioLinks;
 
                 if (topicViewModel.PercipioLinkIds != null)
                 {
@@ -290,15 +290,31 @@ namespace StudentenVolgSysteem.Controllers
                 T item = db.GetFromDatabase<T>(id);
                 if (item != null)
                 {
+                    newList.Add(item);
                     if (!oldList.Contains(item))
                     {
-                        newList.Add(item);
-                    }
-                }
-           
+                        oldList.Add(item);
+                    }                  
+                }         
             }
-            oldList = newList;
-            
+            if(oldList.Count > newList.Count)
+            {
+                oldList = newList;
+            }                
+        }
+
+        public List<T> ListUpdate<T>(IEnumerable<int> ids) where T: class,IDeletable
+        {
+            List<T> list = new List<T>();
+            using (IEnumerator<int> emunerator =  ids.GetEnumerator())
+            {
+                while(emunerator.MoveNext())
+                {
+                    var id = emunerator.Current;
+                    list.Add(db.GetFromDatabase<T>(id));
+                }
+            }
+            return list;
         }
 
         // topic verwijderd, curriculumtopic niet,

@@ -30,7 +30,14 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             //Every relation that is handled with a link-table isn't automatically
-            Student student = db.GetFromDatabase<Student>(id);
+            Student student = db.Studenten
+                                        .Include(a => a.Curricula)
+                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Topic.Duur)))
+                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Topic.Benodigdheden)))
+                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Topic.Werkvorm)))
+                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Topic.Niveau)))
+                                        .Where(a => a.Id == id)
+                                        .FirstOrDefault();
             if (student == null)
             {
                 return HttpNotFound();
