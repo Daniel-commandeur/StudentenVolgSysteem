@@ -27,7 +27,9 @@ namespace StudentenVolgSysteem.Models
         public string Naam { get; set; }
         public string NotitieDocent { get; set; }
         public string NotitieStudent { get; set; }
+        
         [Required]
+        [Display(Name = "Onderwerpen")]
         public virtual ICollection<CurriculumTopic> Topics { get; set; }
 
         public bool IsDeleted { get; set; }

@@ -19,8 +19,10 @@ namespace StudentenVolgSysteem.Models
         public string Achternaam { get; set; }
 
         [NotMapped]
+        [Display(Name ="Naam")]
         public string VolledigeNaam { get { return $"{Voornaam} {Achternaam}"; } }
 
+        [Display(Name = "Curriculum")]
         public ICollection<Curriculum> Curricula { get; set; }
 
         public bool IsDeleted { get; set; }
