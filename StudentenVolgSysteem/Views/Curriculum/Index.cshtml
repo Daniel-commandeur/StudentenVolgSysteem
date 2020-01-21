@@ -13,12 +13,6 @@
             @Html.DisplayNameFor(model => model.Naam)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Student.Voornaam)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Student.Achternaam)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Topics)
         </th>
     </tr>
@@ -29,14 +23,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Naam)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Student.Voornaam)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Student.Achternaam)
-            </td>
-            <td>
-             
+            <td>        
                 @foreach (var topic in item.Topics)
                 {
                     @Html.DisplayFor(modelItem => topic.Topic.NaamCode)
@@ -53,5 +40,4 @@
             </td>
         </tr>
     }
-
 </table>

@@ -32,27 +32,4 @@ namespace StudentenVolgSysteem.Models
 
         public bool IsDeleted { get; set; }
     }
-
-    //[NotMapped]
-    //public class CUCurriculum : Curriculum
-    //{
-    //    public CUCurriculum()
-    //    {
-
-    //    }
-
-    //    public CUCurriculum(Curriculum c)
-    //    {
-    //        this.CurriculumId = c.CurriculumId;
-    //        this.Student = c.Student;
-    //        this.Topics = c.Topics;
-    //        this.Naam = c.Naam;
-    //        this.NotitieDocent = c.NotitieDocent;
-    //        this.NotitieStudent = c.NotitieStudent;
-    //    }
-    //    public List<CurriculumTopic> AlleTopics { get; set; }
-    //    //public List<Topic> AlleTopics { get; set; }
-    //    //public string[] alleTopicIds { get; set; }
-    //    public int StudentId { get; set; }
-    //}
 }
