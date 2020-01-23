@@ -180,6 +180,7 @@
     <Compile Include="Controllers\CertificeringenController.cs" />
     <Compile Include="Controllers\CSVController.cs" />
     <Compile Include="Controllers\CurriculumController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NiveauController.cs" />
     <Compile Include="Controllers\PdfController.cs" />
@@ -340,6 +341,7 @@
     <Content Include="Views\Admin\AssignRolesToUsersAsync.cshtml" />
     <Content Include="Views\Pdf\CreatePDF.cshtml" />
     <Content Include="Views\Admin\EditRolesForUser.cshtml" />
+    <Content Include="Views\Home\Home.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="csv_files\" />
