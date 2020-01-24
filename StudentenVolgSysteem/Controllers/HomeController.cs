@@ -11,15 +11,12 @@ namespace StudentenVolgSysteem.Controllers
     [Authorize(Roles = "Administrator, Docent")]
     public class HomeController : Controller
     {
-        private SVSContext db = new SVSContext();
+        private readonly SVSContext db = new SVSContext();
 
         // GET: Home
         public ActionResult Index()
         {
             return View("Home");
-             = db.GetFromDatabase<Student>
-
-             = db.Student 
         }
     }
 }

@@ -10,7 +10,6 @@ namespace StudentenVolgSysteem.DAL
 {
     public class SVSContext : DbContext
     {
-
         public SVSContext() : base(GetBase())
         {
             //Database.SetInitializer(new DropCreateDatabaseAlways<MyDbContext>());
