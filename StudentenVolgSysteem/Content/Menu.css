@@ -5,7 +5,7 @@
 #ddmenu {
 display: block;
 font-family: Verdana, Geneva, Tahoma, sans-serif;
-text-align: justify;
+text-align: left;
 letter-spacing: normal;
 }
 
@@ -27,6 +27,7 @@ box-shadow: 0px 2px 5px #DDDDDD;
 
 #ddmenu li {
 margin: 0;
+margin-left: 20px;
 padding: 0;
 display: inline-block;
 position: relative;
@@ -35,10 +36,10 @@ color: #FFFFFF;
 
 #ddmenu a {
 color: #FFFFFF;
-padding: 0 28px;
+padding: 0 20px;
 line-height: 40px;
-font-size: 14px;
-font-weight: normal;
+font-size: 16px;
+font-weight: 600;
 text-decoration: none;
 display: inline-block;
 outline: 0;
@@ -58,7 +59,7 @@ color: #FFFFFF;
 
 /* links with sub-menu */
 #ddmenu a.arrow {
-background-image: url(arrow2.gif);
+/* background-image: url(arrow2.gif); */
 background-repeat: no-repeat;
 background-position: right center;
 border-left: 1px solid transparent;

@@ -15,18 +15,17 @@
     <header class="header">
         <div id="headerLogo">
             <a href="@Url.Action("Index", "Home")">
-                <img src="logo_itvitae_liggend_anders_denken.png" alt="IT Vitae logo" width="250" align="left" />
+                <img src="logo_itvitae_liggend_anders_denken.png" alt="IT Vitae logo" width="250"/>
             </a>
         </div>
         <div id="headerTitle">
             <h1>Studievolgsysteem</h1>
         </div>
     </header>
-    <br />
     <nav id="ddmenu">
         <ul>
-            <li><a @Html.ActionLink("Deelnemers", "Index", "Student")></a></li>
-            <li><a @Html.ActionLink("Curricula", "Index", "Curriculum")></a></li>
+            <li><a class="arrow" @Html.ActionLink("Deelnemers", "Index", "Student")></a></li>
+            <li><a class="arrow" @Html.ActionLink("Curricula", "Index", "Curriculum")></a></li>
             <li> Admin
                 <div class="dropdown">
                     <div id="myDropdown" class="dropdown-content">
@@ -45,7 +44,6 @@
             </li>
         </ul>
     </nav>
-    <br />
     <main class="main">
         @RenderBody()
     </main>
