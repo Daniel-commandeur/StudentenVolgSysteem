@@ -1,5 +1,88 @@
-﻿.navbar {
-    background-color: white;
+﻿.top {
+    display: flex;
+    margin-left: 15px;
+}
+
+#headerTitle {
+    margin-left: 50px;
+    margin-top: 15px;
+}
+
+#headerLogo {
+    width: 250px;
+}
+
+nav {
+    background-color: dimgray;
+    margin-top: 0px;
+}
+nav ul {
+    margin: 0px;
+    list-style-type: none;
+    padding: 5px 0px 5px 0px;
+}
+nav ul li {
+    display: inline;
+    padding: 5px 10px 5px 10px;
+}
+nav ul li a:link, nav ul li a:visited {
+    color: white;
+    border-bottom: none;
+    font-weight: bold;
+}
+nav ul li.selected {
+    background-color: aqua;
+}
+
+/*
+.navbar-fixed-top {
+    position: fixed;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    background-color: dimgray;
+    color: white;
+}
+*/
+
+.bodyContent {
+    font-family: Arial, Verdana, Helvetica sans-serif;
+    margin-top: 50px;
+    margin-left: 10px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    width: 100%;
+    min-width: 700px;
+}
+
+.navbar {
+    background-color: black;
 }
 
 .navbar-inverse {
@@ -13,7 +96,7 @@
 }
 
 .navbar-collapse collapse {
-    color: black;
+    color: white;
 }
 
 .navbar-brand {
@@ -47,9 +130,10 @@
 
 body {
     font-family: Arial, Verdana, Helvetica sans-serif;
-    padding-top: 50px;
-    padding-bottom: 20px;
+    padding-top: 0px;
+    padding-bottom: 0px;
     width: 100%;
+    min-width: 700px;
 }
 
 body-center {
@@ -67,7 +151,7 @@ body-center {
 
 .my-body-content {
     position: relative;
-    padding-top: 20px;
+    padding-top: 80px;
 }
 
 a[type="button"] {
