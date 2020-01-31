@@ -13,10 +13,10 @@
 </head>
 <body style="margin-left: 0px">
     <header class="header">
-        <div id="headerLogo">   
-             <a href="@Url.ActionLink("Home", "Home")">
-                <img src="logo_itvitae_liggend_anders_denken.png" alt="IT Vitae logo" width="250" align="left"/>
-             </a>
+        <div id="headerLogo">
+            <a href="@Url.Action("Index", "Home")">
+                <img src="logo_itvitae_liggend_anders_denken.png" alt="IT Vitae logo" width="250" align="left" />
+            </a>
         </div>
         <div id="headerTitle">
             <h1>Studievolgsysteem</h1>
@@ -27,8 +27,7 @@
         <ul>
             <li><a @Html.ActionLink("Deelnemers", "Index", "Student")></a></li>
             <li><a @Html.ActionLink("Curricula", "Index", "Curriculum")></a></li>
-            <li>
-                Admin
+            <li> Admin
                 <div class="dropdown">
                     <div id="myDropdown" class="dropdown-content">
                         <a>@Html.ActionLink("Users", "Users", "Admin")</a>
@@ -50,7 +49,9 @@
     <main class="main">
         @RenderBody()
     </main>
-    <hr style="border-top: 3px dotted #00a7be"/>
+    <br />
+    <br />
+    <hr style="border-top: 2px dotted #00a7be" />
     <footer id="footer">
         <br />
         <p>&copy; @DateTime.Now.Year - IT Vitae</p>
