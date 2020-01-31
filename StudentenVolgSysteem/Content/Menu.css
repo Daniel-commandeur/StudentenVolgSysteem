@@ -22,7 +22,7 @@ list-style: none;
 position: relative;
 font-size: 0;
 z-index: 999999990;
-border-radius: 4px;
+border-radius: 0px;
 box-shadow: 0px 2px 5px #DDDDDD;
 }
 
