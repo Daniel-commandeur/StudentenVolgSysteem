@@ -11,20 +11,24 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
 </head>
-<body>
-    <header class="top">
-        <div id="headerLogo">
-            <img src="logo_itvitae_liggend_anders_denken.png" alt="IT Vitae logo" width="200" align="left" />
+<body style="margin-left: 0px">
+    <header class="header">
+        <div id="headerLogo">   
+             <a href="@Url.ActionLink("Home", "Home")">
+                <img src="logo_itvitae_liggend_anders_denken.png" alt="IT Vitae logo" width="250" align="left"/>
+             </a>
         </div>
         <div id="headerTitle">
             <h1>Studievolgsysteem</h1>
         </div>
     </header>
+    <br />
     <nav id="ddmenu">
         <ul>
             <li><a @Html.ActionLink("Deelnemers", "Index", "Student")></a></li>
             <li><a @Html.ActionLink("Curricula", "Index", "Curriculum")></a></li>
-            <li>Admin
+            <li>
+                Admin
                 <div class="dropdown">
                     <div id="myDropdown" class="dropdown-content">
                         <a>@Html.ActionLink("Users", "Users", "Admin")</a>
@@ -42,11 +46,13 @@
             </li>
         </ul>
     </nav>
-    <main>
+    <br />
+    <main class="main">
         @RenderBody()
-        <hr />
     </main>
+    <hr style="border-top: 3px dotted #00a7be"/>
     <footer id="footer">
+        <br />
         <p>&copy; @DateTime.Now.Year - IT Vitae</p>
     </footer>
     @RenderSection("scripts", required: false)
