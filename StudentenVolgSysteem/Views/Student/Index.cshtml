@@ -16,7 +16,7 @@
             @Html.DisplayNameFor(model => model.Achternaam)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Curricula)
+            @Html.DisplayNameFor(model => model.Curriculum)
         </th>
         <th></th>
     </tr>
@@ -31,10 +31,9 @@
                 @Html.DisplayFor(modelItem => item.Achternaam)
             </td>
             <td>
-                @foreach (var Curriculum in item.Curricula)
-                {
-                    @Html.DisplayFor(modelItem => Curriculum.Naam)<br />
-                }
+               
+                    @Html.DisplayFor(modelItem => item.Curriculum.Naam)
+                
             </td>
             <td>
                 @Html.ActionLink("Wijzig", "Edit", new { id = item.Id }) |

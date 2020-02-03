@@ -18,6 +18,7 @@ namespace StudentenVolgSysteem.Models
             this.Curricula = new HashSet<CurriculumTopic>();
             this.Benodigdheden = new HashSet<Benodigdheid>();
             this.PercipioLinks = new HashSet<PercipioLink>();
+            this.CurriculumTemplates = new HashSet<CurriculumTemplate>();
         }
 
         // COMMENT: 
@@ -53,6 +54,7 @@ namespace StudentenVolgSysteem.Models
 
         public virtual ICollection<Tag> Tags { get; set; }
         public virtual ICollection<CurriculumTopic> Curricula { get; set; }
+        public virtual ICollection<CurriculumTemplate> CurriculumTemplates { get; set; }
 
         [NotMapped]
         public string NaamCode

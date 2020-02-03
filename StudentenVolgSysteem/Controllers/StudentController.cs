@@ -31,13 +31,14 @@ namespace StudentenVolgSysteem.Controllers
             }
             //Every relation that is handled with a link-table isn't automatically
             Student student = db.Studenten
-                                        .Include(a => a.Curricula)
-                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Topic.Duur)))
-                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Topic.Benodigdheden)))
-                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Topic.Werkvorm)))
-                                        .Include(a => a.Curricula.Select(b => b.Topics.Select(c => c.Topic.Niveau)))
+                                        .Include(a => a.Curriculum)
+                                        .Include(a => a.Curriculum.Topics.Select(c => c.Topic.Duur))
+                                        .Include(a => a.Curriculum.Topics.Select(c => c.Topic.Benodigdheden))
+                                        .Include(a => a.Curriculum.Topics.Select(c => c.Topic.Werkvorm))
+                                        .Include(a => a.Curriculum.Topics.Select(c => c.Topic.Niveau))
                                         .Where(a => a.Id == id)
                                         .FirstOrDefault();
+                                     
             if (student == null)
             {
                 return HttpNotFound();

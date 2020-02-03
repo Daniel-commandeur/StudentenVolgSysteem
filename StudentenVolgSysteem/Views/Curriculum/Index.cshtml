@@ -1,57 +1,7 @@
-﻿@model IEnumerable<StudentenVolgSysteem.Models.Curriculum>
-
+﻿
 @{
-    ViewBag.Title = "Curricula";
+    ViewBag.Title = "Index";
 }
 
-<h2>Curricula</h2>
+<h2>Index</h2>
 
-@Html.ActionLink("Toevoegen", "Create", null, new { type = "button" })
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Naam)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Student.Voornaam)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Student.Achternaam)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Topics)
-        </th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Naam)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Student.Voornaam)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Student.Achternaam)
-            </td>
-            <td>
-             
-                @foreach (var topic in item.Topics)
-                {
-                    @Html.DisplayFor(modelItem => topic.Topic.NaamCode)
-                    if (topic != item.Topics.Last())
-                    {
-                        @Html.Raw(" <strong>|</strong> ")
-                    }
-                }
-            </td>
-            <td>
-                @Html.ActionLink("Wijzig", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Verwijder", "Delete", new { id = item.Id })
-            </td>
-        </tr>
-    }
-
-</table>

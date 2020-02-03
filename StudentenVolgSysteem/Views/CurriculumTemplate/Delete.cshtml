@@ -1,4 +1,4 @@
-﻿@model StudentenVolgSysteem.Models.Curriculum
+﻿@model StudentenVolgSysteem.Models.CurriculumTemplate
 
 @{
     ViewBag.Title = "Delete";
@@ -19,30 +19,6 @@
             @Html.DisplayFor(model => model.Naam)
         </dd>
 
-        @*<dt>
-            @Html.DisplayNameFor(model => model.Student)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Student)
-        </dd>*@
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Student.Voornaam)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Student.Voornaam)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Student.Achternaam)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Student.Achternaam)
-        </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Topics)
         </dt>
@@ -50,7 +26,7 @@
         <dd>
             @foreach (var item in Model.Topics)
             {
-                @Html.DisplayFor(model => item.Topic.NaamCode)<br />
+                @Html.DisplayFor(model => item.NaamCode)<br />
             }
         </dd>
     </dl>

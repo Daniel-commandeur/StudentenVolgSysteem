@@ -19,6 +19,9 @@ namespace StudentenVolgSysteem.Models
         public Topic Topic { get; set; }
 
         public Voortgang TopicVoortgang { get; set; }
+
+        public DateTime? StartDatum { get; set; }
+        public DateTime? EindDatum { get; set; }
         public bool Akkoord { get; set; }
     }
 

@@ -17,12 +17,10 @@ namespace StudentenVolgSysteem.Models
         public string Voornaam { get; set; }
         [Required]
         public string Achternaam { get; set; }
-
         [NotMapped]
         public string VolledigeNaam { get { return $"{Voornaam} {Achternaam}"; } }
-
-        public ICollection<Curriculum> Curricula { get; set; }
-
+        public Curriculum Curriculum { get; set; }
+        public virtual CurriculumTemplate CurriculumTemplate { get; set; }
         public bool IsDeleted { get; set; }
     }
 

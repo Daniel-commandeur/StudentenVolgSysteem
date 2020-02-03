@@ -21,14 +21,14 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a href="@Url.Action("Index", "Topics")" class="navbar-left">
-                    <div class="imagecontainer"></div>
+                    @*<div class="imagecontainer"></div>*@
                 </a>
             </div>
 
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Onderwerpen", "Index", "Topics")</li>
-                    <li>@Html.ActionLink("Curricula", "Index", "Curriculum")</li>
+                    <li>@Html.ActionLink("Curricula", "Index", "CurriculumTemplate")</li>
                     <li>@Html.ActionLink("Studenten", "Index", "Student")</li>
                     @if (true)
                     {

@@ -7,7 +7,7 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Student</h4>
+    <h4>Deelnemer</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -27,15 +27,23 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Curricula)
+            @Html.DisplayNameFor(model => model.Curriculum)
         </dt>
 
-        <dd></dd>
+        <dd>
+            @Html.DisplayFor(model => model.Curriculum.Naam)
+        </dd>
 
-        @foreach (var Curriculum in Model.Curricula)
+        @if (Model.Curriculum != null)
         {
-            @Html.Partial("PartialDisplayCurriculum", Curriculum)
+            @Html.Partial("PartialDisplayCurriculum", Model.Curriculum)
         }
+
+        @Html.ActionLink("maak PDF", "CreatePDF", "Pdf", new { studentId = Model.Id }, null)
+
+
+
+
     </dl>
 </div>
 <p>
