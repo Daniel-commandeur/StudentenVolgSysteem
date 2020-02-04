@@ -65,7 +65,7 @@ namespace StudentenVolgSysteem.DAL
             query = props.Aggregate(query, (current, property) =>
             {
                 if (!property.PropertyType.IsValueType && property.PropertyType != typeof(string) && current != null)
-                    return current.Include(property.Name.ToString()).Where(p => !p.IsDeleted);
+                    return current.Include(property.Name).Where(p => !p.IsDeleted);
                 return current;
             });           
 

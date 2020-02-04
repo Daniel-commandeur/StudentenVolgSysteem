@@ -23,10 +23,10 @@ namespace StudentenVolgSysteem.Controllers
 
         public ActionResult Create(int id)
         { 
-            if(id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            //if(id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
 
             CurriculumViewModel curriculumViewModel = new CurriculumViewModel {
                 CurriculumTemplates = db.GetFromDatabase<CurriculumTemplate>().ToList(),
@@ -128,14 +128,14 @@ namespace StudentenVolgSysteem.Controllers
             {
                 Curriculum curriculum = db.GetFromDatabase<Curriculum>(cvm.Curriculum.Id);
                 curriculum.Naam = cvm.Curriculum.Naam;
-                var oldList = curriculum.Topics;
+                var oldList = curriculum.Topics;                                                      
 
-                List<Topic> newList = new List<Topic>();
+                List <Topic> newList = new List<Topic>();
                 foreach(int id in cvm.TopicIds)
                 {
                     newList.Add(db.GetFromDatabase<Topic>(id));
                     var curriculumTopic = db.CurriculumTopics.Where(ct => ct.Topic.Id == id && ct.Curriculum.Id == curriculum.Id).FirstOrDefault();
-                    // if null betekend dat id niet in curruculum staat dus nieuw curriculumtopic toevoegen topic aan curriculum.
+                    // if null means a new curriculumtopic needs to be added.
                     if(curriculumTopic == null)
                     {
                         Topic topic = db.GetFromDatabase<Topic>(id);
@@ -144,7 +144,7 @@ namespace StudentenVolgSysteem.Controllers
                     }
                 }
 
-                // For remove topicIds < curriculum.topics ofwel remove curriculumtopic
+                // oldList has more items than newlist so we need to remove items.
                 if(oldList.Count > newList.Count)
                 {
                     List<CurriculumTopic> removeList = new List<CurriculumTopic>();
@@ -168,38 +168,9 @@ namespace StudentenVolgSysteem.Controllers
                     }
                 }
                 
-
-
-
-
-                //// Determine curriculum, with topics
-                //CurriculumTemplate curriculumTemplate = db.GetFromDatabase<CurriculumTemplate>(curriculumTemplateViewModel.CurriculumTemplate.Id);
-
-                ////// Add topic id's to list
-                //List<int> topicIds = new List<int>();
-                //foreach (var topic in cvm.TopicIds)
-                //{
-                //    topicIds.Add(topic.Id);
-                //}
-
-                //// Remove topics from the curriculum, if topic is not selected in the curriculumViewModel
-
-
-
-                //// Add topics to the curriculum, if topic is selected in the curriculumViewModel
-                //foreach (int topicId in curriculumTemplateViewModel.TopicIds)
-                //{
-                //    Topic topic = db.GetFromDatabase<Topic>(topicId);
-
-
-                //    // Check if curriculum exists, add if it does not.
-
-                //    curriculumTemplate.Topics.Add(topic);
-
-                //}
                 db.Entry(curriculum).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index"); 
             }
             //curriculumTemplateViewModel.AlleTopics = db.Topics.ToList();
             return View();

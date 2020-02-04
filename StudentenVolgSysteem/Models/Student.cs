@@ -14,6 +14,10 @@ namespace StudentenVolgSysteem.Models
         [Key]
         public int Id { get; set; }
         [Required]
+        [DataType(DataType.Date), Display(Name = "Aanmeld Datum")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
+        public DateTime? AanmeldDatum { get; set; }
+        [Required]
         public string Voornaam { get; set; }
         [Required]
         public string Achternaam { get; set; }

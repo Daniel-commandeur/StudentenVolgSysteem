@@ -1,13 +1,12 @@
 ﻿@model StudentenVolgSysteem.Models.Student
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "DeelnemerCurriculum";
 }
 
-<h2>Details</h2>
+<h2>DeelnemerCurriculum</h2>
 
 <div>
-    <h4>Deelnemer</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -27,6 +26,14 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.AanmeldDatum)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AanmeldDatum)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Curriculum)
         </dt>
 
@@ -37,17 +44,22 @@
         @if (Model.Curriculum != null)
         {
             @Html.Partial("PartialDisplayCurriculum", Model.Curriculum)
+            @Html.ActionLink("maak PDF", "CreatePDF", "Pdf", new { studentId = Model.Id }, null)
         }
+        else
+        {
+            <br />
 
-        @Html.ActionLink("maak PDF", "CreatePDF", "Pdf", new { studentId = Model.Id }, null)
-
-
-
-
+            <text> Nog Geen Curriculum. </text>
+        }
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Wijzig", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Curriculum toevoegen", "Create", "Curriculum", new { id = Model.Id }, null) |
+    @Html.ActionLink("Wijzig Student", "Edit", new { id = Model.Id }) |
+    @if (Model.Curriculum == null)
+    {
+        @Html.ActionLink("Curriculum toevoegen", "Create", "Curriculum", new { id = Model.Id }, null)
+        <text> | </text>
+    }
     @Html.ActionLink("Terug naar overzicht", "Index")
 </p>

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<StudentenVolgSysteem.Models.Student>
 
 @{
-    ViewBag.Title = "Studenten";
+    ViewBag.Title = "Deelnemers";
 }
 
 <h2>Studenten</h2>
@@ -16,8 +16,12 @@
             @Html.DisplayNameFor(model => model.Achternaam)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.AanmeldDatum)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Curriculum)
         </th>
+
         <th></th>
     </tr>
 
@@ -31,9 +35,15 @@
                 @Html.DisplayFor(modelItem => item.Achternaam)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.AanmeldDatum)
+            </td>
+            <td>
                
-                    @Html.DisplayFor(modelItem => item.Curriculum.Naam)
-                
+                 @Html.DisplayFor(modelItem => item.Curriculum.Naam)
+                @if(item.Curriculum == null)
+                {
+                    <text> Nog Geen Curriculum </text>
+                }
             </td>
             <td>
                 @Html.ActionLink("Wijzig", "Edit", new { id = item.Id }) |

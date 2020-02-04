@@ -22,7 +22,7 @@ namespace StudentenVolgSysteem.Controllers
         {
             List<Topic> topicIndexViewModel = new List<Topic>();
             var topics = db.GetFromDatabase<Topic>();
-
+       
             topics.ToList().ForEach(topic =>
             {
                 topicIndexViewModel.Add(new Topic()
@@ -208,7 +208,6 @@ namespace StudentenVolgSysteem.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Topic topic = db.GetFromDatabase<Topic>(id);
-            //Topic topicModel = db.Topics.Include("Curricula").Include("Voorkennis").Where(t => t.Id == id).FirstOrDefault();
             db.Topics.Remove(topic);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -238,11 +237,11 @@ namespace StudentenVolgSysteem.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Transforms array of ids into a Collection of type T
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="ids"></param>
-        /// <param name="oldList"></param>
+        /// <typeparam name="T">any class that implements IDeletable</typeparam>
+        /// <param name="ids">input array</param>
+        /// <param name="oldList">old collection</param>
         public ICollection<T> UpdateList<T>(int[] ids, ICollection<T> oldList) where T : class, IDeletable
         {
             List<T> newList = new List<T>();
@@ -279,6 +278,7 @@ namespace StudentenVolgSysteem.Controllers
         public List<T> ListUpdate<T>(IEnumerable<int> ids) where T : class, IDeletable
         {
             List<T> list = new List<T>();
+            
             using (IEnumerator<int> emunerator = ids.GetEnumerator())
             {
                 while (emunerator.MoveNext())
@@ -290,9 +290,6 @@ namespace StudentenVolgSysteem.Controllers
             return list;
         }
 
-        // topic verwijderd, curriculumtopic niet,
-
-        // student verwijderd, 
 
         /// <summary>
         /// Fills the lists in the TopicViewModel that populate dropdowns in the Topic/Create View.
@@ -314,4 +311,15 @@ namespace StudentenVolgSysteem.Controllers
         }
 
     }
-}
+
+    public static class ExtensionDemo
+    {
+        public static int ToInt(this string input, int add = 0)
+        {
+            int a;
+            Int32.TryParse(input, out a);
+            return a + add;
+        }
+    }
+
+   }

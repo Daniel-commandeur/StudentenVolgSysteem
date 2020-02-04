@@ -181,6 +181,10 @@
     <Compile Include="Controllers\CSVController.cs" />
     <Compile Include="Controllers\CurriculumController.cs" />
     <Compile Include="Controllers\CurriculumTemplateController.cs" />
+    <Compile Include="Migrations\MyDbContext\202002040944324_init.cs" />
+    <Compile Include="Migrations\MyDbContext\202002040944324_init.Designer.cs">
+      <DependentUpon>202002040944324_init.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewModels\EditCurriculumViewModel.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NiveauController.cs" />
@@ -195,14 +199,6 @@
     <Compile Include="Documents\PDF.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\MyDbContext\202001241049533_init.cs" />
-    <Compile Include="Migrations\MyDbContext\202001241049533_init.Designer.cs">
-      <DependentUpon>202001241049533_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\MyDbContext\202001241100092_aa.cs" />
-    <Compile Include="Migrations\MyDbContext\202001241100092_aa.Designer.cs">
-      <DependentUpon>202001241100092_aa.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MyDbContext\Configuration.cs" />
     <Compile Include="Models\CurriculumTemplate.cs" />
@@ -378,11 +374,8 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\MyDbContext\202001241049533_init.resx">
-      <DependentUpon>202001241049533_init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\MyDbContext\202001241100092_aa.resx">
-      <DependentUpon>202001241100092_aa.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\MyDbContext\202002040944324_init.resx">
+      <DependentUpon>202002040944324_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
