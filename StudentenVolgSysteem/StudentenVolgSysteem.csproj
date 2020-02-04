@@ -180,7 +180,12 @@
     <Compile Include="Controllers\CertificeringenController.cs" />
     <Compile Include="Controllers\CSVController.cs" />
     <Compile Include="Controllers\CurriculumController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\CurriculumTemplateController.cs" />
+    <Compile Include="Migrations\MyDbContext\202002040944324_init.cs" />
+    <Compile Include="Migrations\MyDbContext\202002040944324_init.Designer.cs">
+      <DependentUpon>202002040944324_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViewModels\EditCurriculumViewModel.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NiveauController.cs" />
     <Compile Include="Controllers\PdfController.cs" />
@@ -196,6 +201,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MyDbContext\Configuration.cs" />
+    <Compile Include="Models\CurriculumTemplate.cs" />
     <Compile Include="Models\CurriculumTopic.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\ViewModels\AdminViewModels.cs" />
@@ -203,6 +209,7 @@
     <Compile Include="Models\Certificering.cs" />
     <Compile Include="Models\Curriculum.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ViewModels\CurriculumTemplateViewModel.cs" />
     <Compile Include="Models\ViewModels\CurriculumViewModel.cs" />
     <Compile Include="Models\ViewModels\ManageViewModels.cs" />
     <Compile Include="Models\Niveau.cs" />
@@ -298,11 +305,11 @@
     <Content Include="Views\Student\Details.cshtml" />
     <Content Include="Views\Student\Edit.cshtml" />
     <Content Include="Views\Student\Index.cshtml" />
-    <Content Include="Views\Curriculum\Create.cshtml" />
-    <Content Include="Views\Curriculum\Delete.cshtml" />
-    <Content Include="Views\Curriculum\Details.cshtml" />
-    <Content Include="Views\Curriculum\Edit.cshtml" />
-    <Content Include="Views\Curriculum\Index.cshtml" />
+    <Content Include="Views\CurriculumTemplate\Create.cshtml" />
+    <Content Include="Views\CurriculumTemplate\Delete.cshtml" />
+    <Content Include="Views\CurriculumTemplate\Details.cshtml" />
+    <Content Include="Views\CurriculumTemplate\Edit.cshtml" />
+    <Content Include="Views\CurriculumTemplate\Index.cshtml" />
     <Content Include="Views\Shared\PartialDisplayCurriculum.cshtml" />
     <Content Include="Views\Benodigdheden\Create.cshtml" />
     <Content Include="Views\Benodigdheden\Delete.cshtml" />
@@ -345,6 +352,10 @@
     <Content Include="Views\Pdf\CreatePDF.cshtml" />
     <Content Include="Views\Admin\EditRolesForUser.cshtml" />
     <Content Include="Views\Home\Home.cshtml" />
+    <Content Include="Views\Student\CreateCurriculum.cshtml" />
+    <Content Include="Views\Curriculum\Create.cshtml" />
+    <Content Include="Views\Curriculum\Index.cshtml" />
+    <Content Include="Views\Curriculum\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="csv_files\" />
@@ -365,6 +376,11 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\MyDbContext\202002040944324_init.resx">
+      <DependentUpon>202002040944324_init.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

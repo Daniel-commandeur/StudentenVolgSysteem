@@ -19,15 +19,30 @@ namespace StudentenVolgSysteem.Controllers
 
         // GET: Topics
         public ActionResult Index()
-        {            
-          
+        {
+            List<Topic> topicIndexViewModel = new List<Topic>();
             var topics = db.GetFromDatabase<Topic>();
+       
+            topics.ToList().ForEach(topic =>
+            {
+                topicIndexViewModel.Add(new Topic()
+                {
+                    Naam = topic.Naam,
+                    Id = topic.Id,
+                    Code = topic.Code,
+                    Duur = topic.Duur == null ? new Tijdsduur() : topic.Duur.IsDeleted  ? new Tijdsduur() { } : topic.Duur,
+                    Werkvorm = topic.Werkvorm.IsDeleted ? new Werkvorm() { } : topic.Werkvorm,
+                    Niveau = topic.Niveau == null ? new Niveau() : topic.Niveau.IsDeleted ? new Niveau() { } : topic.Niveau,
+                    Certificeringen = topic.Certificeringen.Where(x => !x.IsDeleted).ToList(),
+                });
+            });
+
             if (topics == null)
             {
                 return HttpNotFound();
             }
 
-            return View(topics);
+            return View(topicIndexViewModel);
         }
 
         // GET: Topics/Details/5
@@ -37,7 +52,7 @@ namespace StudentenVolgSysteem.Controllers
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }         
+            }
             Topic topic = db.GetFromDatabase<Topic>(id);
 
             if (topic == null)
@@ -75,44 +90,14 @@ namespace StudentenVolgSysteem.Controllers
                     Inhoud = topicViewModel.Topic.Inhoud,
                     Leerdoel = topicViewModel.Topic.Leerdoel,
                     Werkvorm = db.Werkvormen.Find(topicViewModel.Topic.Werkvorm.Id),
-                    Niveau = db.Niveaus.Find(topicViewModel.Topic.Niveau.Id),              
+                    Niveau = db.Niveaus.Find(topicViewModel.Topic.Niveau.Id),
                     Duur = db.Tijdsduren.Find(topicViewModel.Topic.Duur.Id)
                 };
 
-                var benodigheden = topicViewModel.Topic.Benodigdheden;
-
-                if (topicViewModel.BenodigdheidIds != null)
-                {
-                    UpdateList(topicViewModel.BenodigdheidIds, ref benodigheden);
-                }
-                topic.Benodigdheden = benodigheden;
-
-                var certificeringen = topicViewModel.Topic.Certificeringen;
-
-                if (topicViewModel.CertificeringenIds != null)
-                {
-                    UpdateList(topicViewModel.CertificeringenIds, ref certificeringen);
-                }
-
-                topic.Certificeringen = certificeringen;
-
-                var voorkennis = topicViewModel.Topic.Voorkennis;
-
-                if (topicViewModel.VoorkennisIds != null)
-                {
-                    UpdateList(topicViewModel.VoorkennisIds, ref voorkennis);
-                }
-
-                topic.Voorkennis = voorkennis;
-
-                var percipioLinks = topicViewModel.Topic.PercipioLinks;
-
-                if (topicViewModel.PercipioLinkIds != null)
-                {
-                    UpdateList(topicViewModel.PercipioLinkIds, ref percipioLinks);
-                }
-
-                topic.PercipioLinks = percipioLinks;
+                topic.Benodigdheden = UpdateList(topicViewModel.BenodigdheidIds,  topic.Benodigdheden);              
+                topic.Certificeringen = UpdateList(topicViewModel.CertificeringenIds, topic.Certificeringen);
+                topic.Voorkennis = UpdateList(topicViewModel.VoorkennisIds, topic.Voorkennis);
+                topic.PercipioLinks = UpdateList(topicViewModel.PercipioLinkIds, topic.PercipioLinks);
 
                 db.Topics.Add(topic);
                 db.SaveChanges();
@@ -132,7 +117,7 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            
+
             Topic topic = db.GetFromDatabase<Topic>(id);
 
             if (topic == null)
@@ -155,63 +140,39 @@ namespace StudentenVolgSysteem.Controllers
         public ActionResult Edit(TopicViewModel topicViewModel)
         {
             if (ModelState.IsValid)
-            {             
-                Topic topic1 = db.GetFromDatabase<Topic>(topicViewModel.Topic.Id);
+            {
+                Topic topic = db.GetFromDatabase<Topic>(topicViewModel.Topic.Id);
 
-                // TODO: Refractor topic copy
+                topic.Code = topicViewModel.Topic.Code;
+                topic.Inhoud = topicViewModel.Topic.Inhoud;
+                topic.Naam = topicViewModel.Topic.Naam;
+                topic.Leerdoel = topicViewModel.Topic.Leerdoel;
 
-                //Topic topic1 = db.Topics.Find(topicViewModel.Topic.TopicId);
-                //topic1 = topicViewModel.Topic.ShallowCopy();
-                topic1.Code = topicViewModel.Topic.Code;
-                topic1.Inhoud = topicViewModel.Topic.Inhoud;
-                topic1.Naam = topicViewModel.Topic.Naam;
-                topic1.Leerdoel = topicViewModel.Topic.Leerdoel;
-                
-                topic1.Werkvorm = db.GetFromDatabase<Werkvorm>(topicViewModel.Topic.Werkvorm.Id);
-                topic1.Niveau = db.GetFromDatabase<Niveau>(topicViewModel.Topic.Niveau.Id);              
-                topic1.Duur = db.GetFromDatabase<Tijdsduur>(topicViewModel.Topic.Duur.Id);
+                topic.Werkvorm = db.GetFromDatabase<Werkvorm>(topicViewModel.Topic.Werkvorm.Id);
+                topic.Niveau = db.GetFromDatabase<Niveau>(topicViewModel.Topic.Niveau.Id);
+                topic.Duur = db.GetFromDatabase<Tijdsduur>(topicViewModel.Topic.Duur.Id);
 
-                var benodigheden = topic1.Benodigdheden;
+                topic.Benodigdheden = UpdateList(topicViewModel.BenodigdheidIds, topic.Benodigdheden);
+                topic.Certificeringen = UpdateList(topicViewModel.CertificeringenIds, topic.Certificeringen);             
+                topic.Voorkennis = UpdateList(topicViewModel.VoorkennisIds, topic.Voorkennis);
+                topic.PercipioLinks = UpdateList(topicViewModel.PercipioLinkIds, topic.PercipioLinks);
 
-                if (topicViewModel.BenodigdheidIds != null)
-                {
-                    UpdateList(topicViewModel.BenodigdheidIds, ref benodigheden);
-                }
-                topic1.Benodigdheden = benodigheden;
-
-                var certificeringen = topic1.Certificeringen;
-
-                if (topicViewModel.CertificeringenIds != null)
-                {
-                    UpdateList(topicViewModel.CertificeringenIds, ref certificeringen);
-                }
-
-                topic1.Certificeringen = certificeringen;
-
-                var voorkennis = topic1.Voorkennis;
-
-                if(topicViewModel.VoorkennisIds != null) {
-                    UpdateList(topicViewModel.VoorkennisIds, ref voorkennis);    
-                }
-
-                topic1.Voorkennis = voorkennis;
-
-                var percipioLinks = topic1.PercipioLinks;
-
-                if (topicViewModel.PercipioLinkIds != null)
-                {
-                    UpdateList(topicViewModel.PercipioLinkIds, ref percipioLinks);
-                }
-
-                topic1.PercipioLinks = percipioLinks;
-             
                 //Tell the context the topicModel has changed and save changes
-                db.Entry(topic1).State = EntityState.Modified;
+                db.Entry(topic).State = EntityState.Modified;
+             
                 try
                 {
+                    //if (TryUpdateModel(topicViewModel.Topic, "Topic", new[] { topicViewModel.Topic.Benodigdheden.ToString() }))
+                    //{
+                    //    if(TryUpdateModel(topicViewModel.Topic.Werkvorm, "", new[] { "" }))
+                    //    {
+
+                    //    }
+                    //    db.SaveChanges();
+                    //}
                     db.SaveChanges();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     ModelState.AddModelError("", "There was an error updating the database");
                 }
@@ -247,7 +208,6 @@ namespace StudentenVolgSysteem.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Topic topic = db.GetFromDatabase<Topic>(id);
-            //Topic topicModel = db.Topics.Include("Curricula").Include("Voorkennis").Where(t => t.Id == id).FirstOrDefault();
             db.Topics.Remove(topic);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -277,38 +237,51 @@ namespace StudentenVolgSysteem.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Transforms array of ids into a Collection of type T
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="ids"></param>
-        /// <param name="oldList"></param>
-        public void UpdateList<T>(int[] ids, ref ICollection<T> oldList) where T: class, IDeletable 
+        /// <typeparam name="T">any class that implements IDeletable</typeparam>
+        /// <param name="ids">input array</param>
+        /// <param name="oldList">old collection</param>
+        public ICollection<T> UpdateList<T>(int[] ids, ICollection<T> oldList) where T : class, IDeletable
         {
             List<T> newList = new List<T>();
-            foreach (int id in ids)
+            if (ids == null)
             {
-                T item = db.GetFromDatabase<T>(id);
-                if (item != null)
+                if (oldList.Count != 0)
                 {
-                    newList.Add(item);
-                    if (!oldList.Contains(item))
-                    {
-                        oldList.Add(item);
-                    }                  
-                }         
+                    return newList;
+                }
             }
-            if(oldList.Count > newList.Count)
+            else
+            {
+                foreach (int id in ids)
+                {
+                    T item = db.GetFromDatabase<T>(id);
+                    if (item != null)
+                    {
+                        newList.Add(item);
+                        if (!oldList.Contains(item))
+                        {
+                            oldList.Add(item);
+                        }
+                    }
+                }
+            }
+
+            if (oldList.Count > newList.Count)
             {
                 oldList = newList;
-            }                
+            }
+            return oldList;
         }
 
-        public List<T> ListUpdate<T>(IEnumerable<int> ids) where T: class,IDeletable
+        public List<T> ListUpdate<T>(IEnumerable<int> ids) where T : class, IDeletable
         {
             List<T> list = new List<T>();
-            using (IEnumerator<int> emunerator =  ids.GetEnumerator())
+            
+            using (IEnumerator<int> emunerator = ids.GetEnumerator())
             {
-                while(emunerator.MoveNext())
+                while (emunerator.MoveNext())
                 {
                     var id = emunerator.Current;
                     list.Add(db.GetFromDatabase<T>(id));
@@ -317,9 +290,6 @@ namespace StudentenVolgSysteem.Controllers
             return list;
         }
 
-        // topic verwijderd, curriculumtopic niet,
-        
-        // student verwijderd, 
 
         /// <summary>
         /// Fills the lists in the TopicViewModel that populate dropdowns in the Topic/Create View.
@@ -328,17 +298,28 @@ namespace StudentenVolgSysteem.Controllers
         /// <returns>TopicViewModel with filled Lists</returns>
         public TopicViewModel FillTopicViewModelLists(TopicViewModel tvm)
         {
-            tvm.AlleNiveaus = db.Niveaus.ToList();
-            tvm.AlleTijdsduren = db.Tijdsduren.Where(item => !item.IsDeleted).ToList();
-            tvm.AlleWerkvormen = db.Werkvormen.Where(item => !item.IsDeleted).ToList();
-            tvm.AlleCertificeringen = db.Certificeringen.Where(item => !item.IsDeleted).ToList();
-            tvm.AlleTags = db.Tags.Where(item => !item.IsDeleted).ToList();
+            tvm.AlleNiveaus = db.GetFromDatabase<Niveau>();
+            tvm.AlleTijdsduren = db.GetFromDatabase<Tijdsduur>();
+            tvm.AlleWerkvormen = db.GetFromDatabase<Werkvorm>();
+            tvm.AlleCertificeringen = db.GetFromDatabase<Certificering>();
+            tvm.AlleTags = db.GetFromDatabase<Tag>();
             tvm.AlleBenodigdheden = db.Benodigdheden.Where(item => !item.IsDeleted).ToList();
             tvm.AllePercipioLinks = db.PercipioLinks.Where(item => !item.IsDeleted).ToList();
             tvm.AlleVoorkennis = db.Topics.Where(item => !item.IsDeleted).ToList();
 
             return tvm;
-        }           
+        }
 
     }
-}
+
+    public static class ExtensionDemo
+    {
+        public static int ToInt(this string input, int add = 0)
+        {
+            int a;
+            Int32.TryParse(input, out a);
+            return a + add;
+        }
+    }
+
+   }

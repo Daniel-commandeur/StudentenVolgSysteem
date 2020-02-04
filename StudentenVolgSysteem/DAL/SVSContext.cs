@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using StudentenVolgSysteem.Models;
 
@@ -42,6 +43,8 @@ namespace StudentenVolgSysteem.DAL
         public DbSet<CurriculumTopic> CurriculumTopics { get; set; }
         public DbSet<Student> Studenten { get; set; }
 
+        public DbSet<CurriculumTemplate> CurriculumTemplates { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //Write Fluent API configurations here
@@ -55,61 +58,74 @@ namespace StudentenVolgSysteem.DAL
         /// <param name="id"></param>
         /// <returns></returns>
         public T GetFromDatabase<T>(int? id) where T : class, IDeletable
-        {      
-            var includes = GetIncludes<T>();
+        {
+            var props = typeof(T).GetProperties();
             IQueryable<T> query = this.Set<T>();
-
-            if (includes != null)
+            query = props.Aggregate(query, (current, property) =>
             {
-                query = includes.Aggregate(query, (current, includedProperty) => current.Include(includedProperty));
-            }
+                if (!property.PropertyType.IsValueType && property.PropertyType != typeof(string) && current != null)
+                    return current.Include(property.Name).Where(p => !p.IsDeleted);
+                return current;
+            });           
 
             if (id == null) return default;
             var result = query.Where(t => t.Id == id).FirstOrDefault();
             if (result == null || result.IsDeleted) return default;
-
             return result;
         }
-
-        public string[] GetIncludes<T>() where T : class,IDeletable
+        /// <summary>
+        /// Get Collection<T> from database with includes and filtered on IsDeleted
+        /// </summary>
+        /// <typeparam name="T">Input type</typeparam>
+        /// <returns>Collection of type T</returns>
+        public ICollection<T> GetFromDatabase<T>() where T : class,IDeletable
         {
-            List<string> includes = new List<string>();
             var props = typeof(T).GetProperties();
-            foreach (var prop in props)
+            IQueryable<T> query = this.Set<T>();
+            try
             {
-                var type = prop.PropertyType;
-
-                if (!type.IsValueType)
+                query = props.Aggregate(query, (x, y) =>
                 {
-                    if (type != typeof(string))
-                        includes.Add(prop.Name.ToString());
-                }
+                    if (!y.PropertyType.IsValueType && y.PropertyType != typeof(string) && x != null)
+                        return x.Include(y.Name.ToString());
+                    return x;
+                });
+            } catch(Exception ex)
+            {
+                return null;
             }
-            return includes.ToArray();
+            return query.Where(m => !m.IsDeleted).ToList();
         }
+        
 
-        //public IQueryable<TEntity> Including(params Expression<Func<TEntity, object>>[] _includeProperties)
+        //public IQueryable<TEntity> Including<TEntity>(params Func<TEntity, object>[] _includeProperties) where TEntity : class
         //{
-        //    IQueryable<TEntity> query = m_context.Set<TEntity>();
-        //    return _includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
+        //    IQueryable<TEntity> query = this.Set<TEntity>();
+        //    return _includeProperties.Aggregate(query, (current, includeProperty) => 
+        //    {
+        //        var include = includeProperty.ToString();
+        //        return current.Include(include);
+                
+        //        });
         //}
 
-            /// <summary>
-            /// Get Collection<T> from database with includes and filtered on IsDeleted
-            /// </summary>
-            /// <typeparam name="T">Input type</typeparam>
-            /// <param name="includes">Includes needed</param>
-            /// <returns>Collection of type T</returns>
-        public ICollection<T> GetFromDatabase<T>() where T : class, IDeletable {          
-            var includes = GetIncludes<T>();
-            IQueryable<T> query = this.Set<T>();
-            if (includes != null)
-            {
-                query = includes.Aggregate(query, (current, includedProperty) => current.Include(includedProperty));
-            }
-            var result = query.Where(t => t.IsDeleted != true);
-            return result.ToList();
-        }
+        /// <summary>
+        /// Get Collection<T> from database with includes and filtered on IsDeleted
+        /// </summary>
+        /// <typeparam name="T">Input type</typeparam>
+        /// <param name="includes">Includes needed</param>
+        /// <returns>Collection of type T</returns>
+        //public ICollection<T> GetFromDatabase<T>() where T : class, IDeletable {
+        //    //var includes = GetAllIncludes<T>();
+        //    //IQueryable<T> query = this.Set<T>();
+        //    //if (includes != null)
+        //    //{
+        //    //    query = includes.Aggregate(query, (current, includedProperty) => current.Include(includedProperty));
+        //    //}
+        //    var result = Includes<T>().Where(t => t.IsDeleted != true);
+        //    //var result = query.Where(t => t.IsDeleted != true);
+        //    return result.ToList();
+        //}
 
         /// <summary>
         /// Marks any "Removed" Entities as "Modified" and then sets the Db [IsDeleted] Flag to true

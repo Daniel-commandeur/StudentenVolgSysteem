@@ -19,11 +19,10 @@ namespace StudentenVolgSysteem.Models
         [Key]
         public int Id { get; set; }
 
-        public int? StudentId { get; set; }
+        //public int? StudentId { get; set; }
+        //public virtual Student Student { get; set; }
 
-        public Student Student { get; set; }
-
-        [Required]
+        //[Required]
         public string Naam { get; set; }
         public string NotitieDocent { get; set; }
         public string NotitieStudent { get; set; }

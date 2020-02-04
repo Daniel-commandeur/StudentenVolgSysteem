@@ -1,6 +1,7 @@
-﻿
+﻿@model IEnumerable<StudentenVolgSysteem.Models.CurriculumTemplate>
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Curricula";
 }
 
 <h2>Curricula</h2>
@@ -14,7 +15,6 @@
         <th>
             @Html.DisplayNameFor(model => model.Topics)
         </th>
-        <th></th>
     </tr>
 
     @foreach (var item in Model)
@@ -23,10 +23,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Naam)
             </td>
-            <td>        
+            <td>
+             
                 @foreach (var topic in item.Topics)
                 {
-                    @Html.DisplayFor(modelItem => topic.Topic.NaamCode)
+                    @Html.DisplayFor(modelItem => topic.NaamCode)
                     if (topic != item.Topics.Last())
                     {
                         @Html.Raw(" <strong>|</strong> ")
@@ -40,4 +41,5 @@
             </td>
         </tr>
     }
+
 </table>

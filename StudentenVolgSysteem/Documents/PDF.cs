@@ -11,10 +11,10 @@ namespace StudentenVolgSysteem.Documents
 {
     public static class PDF
     {
-        public static void Create(PdfViewModel pdfvm, Curriculum curriculum)
+        public static void Create(PdfViewModel pdfvm, Student student)
         {
             // CuriculumModel curriculum = db.Curiculums.Include("StudentId").Where(m => m.CuriculumId == pdfvm.curriculumId).FirstOrDefault();
-            Student student = curriculum.Student;
+            Curriculum curriculum = student.Curriculum;
             List<CurriculumTopic> curriculumTopics = curriculum.Topics.ToList();
 
 
@@ -228,7 +228,7 @@ namespace StudentenVolgSysteem.Documents
             
 
             
-            string filename = student.VolledigeNaam + $"{ DateTime.Now.Millisecond.ToString()}.pdf";
+            string filename = student + $"{ DateTime.Now.Millisecond.ToString()}.pdf";
 
             // $"Hello_{DateTime.Now.Millisecond.ToString()}.pdf";
             document.Save(filename);
