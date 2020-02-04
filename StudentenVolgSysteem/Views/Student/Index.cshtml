@@ -6,45 +6,56 @@
 
 <h2>Deelnemers</h2>
 
-@Html.ActionLink("toevoegen", "Create", null, new { type = "button" })
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.VolledigeNaam)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AanmeldDatum)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Curriculum)
-        </th>
+@Html.ActionLink("Toevoegen", "Create", null, new { type = "button" })
 
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
+@{
+    int numOfStudents = 0;
+    foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.VolledigeNaam)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AanmeldDatum)
-            </td>
-            <td>
-               
-                @Html.DisplayFor(modelItem => item.Curriculum.Naam)
-                @if(item.Curriculum == null)
-                {
-                    <text> Nog Geen Curriculum </text>
-                }
-            </td>
-           
-            <td>
-                @Html.ActionLink("Wijzig studentgegevens", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Ga naar curriculum", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Verwijder", "Delete", new { id = item.Id })
-            </td>
-        </tr>
+        numOfStudents++;
     }
-</table>
+}
+
+@if (numOfStudents != 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.VolledigeNaam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AanmeldDatum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Curriculum)
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VolledigeNaam)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AanmeldDatum)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Curriculum.Naam)
+                    @if (item.Curriculum == null)
+                    {
+                        <text>Nog geen curriculum</text>
+                    }
+                </td>
+
+                <td>
+                    @Html.ActionLink("Wijzig studentgegevens", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Ga naar curriculum", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Verwijder", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </table>
+}

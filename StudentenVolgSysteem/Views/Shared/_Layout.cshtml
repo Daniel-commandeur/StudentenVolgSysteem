@@ -8,7 +8,6 @@
     @Styles.Render("~/Content/Site.css")
     @Styles.Render("~/Content/Menu.css")
     @Scripts.Render("~/Scripts/ddmenu.js")
-    @Scripts.Render("~/Scripts/active.js")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
 </head>
@@ -25,8 +24,8 @@
     </header>
     <nav id="ddmenu">
         <ul>
-            <li><a @Html.ActionLink("Deelnemers", "Index", "Student")></a></li>
-            <li><a @Html.ActionLink("Curricula", "Index", "Curriculum")></a></li>
+            <li><a class="arrow" @Html.ActionLink("Deelnemers", "Index", "Student")></a></li>
+            <li><a class="arrow" @Html.ActionLink("Curriculum", "Index", "CurriculumTemplate")></a></li>
             <li>
                 Admin
                 <div>
@@ -51,7 +50,7 @@
     </main>
     <br />
     <br />
-    <hr style="border-top: 2px dotted #00a7be" />
+    <hr style="border-top: 3px dotted #00a7be" />
     <footer id="footer">
         <br />
         <p>&copy; @DateTime.Now.Year - IT Vitae</p>

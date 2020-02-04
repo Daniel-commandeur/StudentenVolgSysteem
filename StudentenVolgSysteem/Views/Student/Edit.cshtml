@@ -10,61 +10,33 @@
 {
     @Html.AntiForgeryToken()
     
-<div class="form-horizontal">
-    <h4>Student</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.Id)
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Voornaam, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Voornaam, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Voornaam, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Achternaam, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Achternaam, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Achternaam, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.AanmeldDatum, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.AanmeldDatum, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.AanmeldDatum, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Opslaan" class="btn btn-default" />
-        </div>
-    </div>
-</div>
-
     <div>
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.ValidationSummary(true, "", new { @class = "text-warning" })
         @Html.HiddenFor(model => model.Id)
         <div class="labelFont1">
-            @Html.LabelFor(model => model.Voornaam, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Voornaam)
             <div class="topMargin-3">
-                @Html.EditorFor(model => model.Voornaam, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Voornaam, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Voornaam)
+                @Html.ValidationMessageFor(model => model.Voornaam, "", new { @class = "text-warning" })
             </div>
         </div>
         <br />
         <div class="labelFont1">
-            @Html.LabelFor(model => model.Achternaam, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Achternaam)
             <div class="topMargin-3">
-                @Html.EditorFor(model => model.Achternaam, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Achternaam, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Achternaam)
+                @Html.ValidationMessageFor(model => model.Achternaam, "", new { @class = "text-warning" })
             </div>
         </div>
+        <br />
+        <div class="labelFont1">
+            @Html.LabelFor(model => model.AanmeldDatum)
+            <div class="topMargin-3">
+                @Html.EditorFor(model => model.AanmeldDatum)
+                @Html.ValidationMessageFor(model => model.AanmeldDatum, "", new { @class = "text-warning" })
+            </div>
+        </div>
+        <br />
         <div>
             <div>
                 <input type="submit" value="Opslaan" class="button" />

@@ -4,41 +4,41 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Toevoegen nieuwe deelnemer</h2>
+<h2>Nieuwe deelnemer toevoegen</h2>
 <br/>
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
-    <div>
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="labelFont1">
-            @Html.LabelFor(model => model.Voornaam, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="topMargin-3">
-                @Html.EditorFor(model => model.Voornaam, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Voornaam, "", new { @class = "text-danger" })
-            </div>
+<div>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="labelFont1">
+        @Html.LabelFor(model => model.Voornaam, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="topMargin-3">
+            @Html.EditorFor(model => model.Voornaam, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Voornaam, "", new { @class = "text-danger" })
         </div>
-        <br />
-        <div class="labelFont1">
-            @Html.LabelFor(model => model.Achternaam, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="topMargin-3">
-                @Html.EditorFor(model => model.Achternaam, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Achternaam, "", new { @class = "text-danger" })
-            </div>
+    </div>
+    <br />
+    <div class="labelFont1">
+        @Html.LabelFor(model => model.Achternaam, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="topMargin-3">
+            @Html.EditorFor(model => model.Achternaam, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Achternaam, "", new { @class = "text-danger" })
         </div>
-
-    <div class="form-group">
+    </div>
+    <br />
+    <div class="labelFont1">
         @Html.LabelFor(model => model.AanmeldDatum, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
+        <div class="topMargin-3">
             @Html.EditorFor(model => model.AanmeldDatum, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.AanmeldDatum, "", new { @class = "text-danger" })
         </div>
     </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Toevoegen" class="btn btn-default" />
+    <br />
+    <div>
+        <div>
+            <input type="submit" value="Toevoegen" class="button" />
         </div>
     </div>
 </div>

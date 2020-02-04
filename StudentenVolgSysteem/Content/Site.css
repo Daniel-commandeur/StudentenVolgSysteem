@@ -11,9 +11,9 @@
 }
 
 #headerTitle {
-    margin-left: 200px;
+    margin-left: 375px;
     margin-top: 20px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: Arial, Verdana, Helvetica sans-serif;
     font-size: large;
 }
 
@@ -37,7 +37,7 @@ a {
     color: #00a7be;
 }
 
-a.hover {
+a:hover {
     text-decoration: none;
 }
 
@@ -80,6 +80,11 @@ a[type="button"] {
     padding: 20px 20px 20px 20px;
     text-decoration: none;
 }
+
+a[type="button"]:hover {
+    color: gold;
+}
+
 
 .my-body-content hr {
     color: #e9e9e9;
@@ -145,7 +150,7 @@ textarea {
 }
 
 .labelFont1 {
-    font-size: small;
+    font-size: medium;
     font-weight: 700;
 }
 
@@ -158,7 +163,7 @@ textarea {
 }
 
 .button {
-    margin-top: 30px;
+    margin-top: 20px;
     background-color: #00a7be;
     border: none;
     border-radius: 16px;
@@ -171,9 +176,21 @@ textarea {
     font-weight: 700;
 }
 
+.button:hover {
+    color: gold;
+    cursor: pointer;
+}
+
 .button-delete {
     background-color: crimson;
 }
-    
- 
+
+.button-delete:hover {
+    color: black;
+}
+
+.text-warning {
+    margin-left: 5px;
+    color: crimson;
+}
 

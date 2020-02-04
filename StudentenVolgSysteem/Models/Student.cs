@@ -12,20 +12,27 @@ namespace StudentenVolgSysteem.Models
     public class Student : IDeletable
     {
         [Key]
-        public int Id { get; set; }
-        [Required]
-        [DataType(DataType.Date), Display(Name = "Aanmeld Datum")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
-        public DateTime? AanmeldDatum { get; set; }
+        public int Id { get; set; }     
+        
         [Required]
         public string Voornaam { get; set; }
+        
         [Required]
         public string Achternaam { get; set; }
+        
+        [Required]
+        [DataType(DataType.Date), Display(Name = "Aanmelddatum")]
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:dd-MM-yyyy}")]
+        public DateTime? AanmeldDatum { get; set; }
+        
         [NotMapped]
         [Display(Name ="Naam")]
         public string VolledigeNaam { get { return $"{Voornaam} {Achternaam}"; } }
+        
         public Curriculum Curriculum { get; set; }
+        
         public virtual CurriculumTemplate CurriculumTemplate { get; set; }
+        
         public bool IsDeleted { get; set; }
     }
 
