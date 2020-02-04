@@ -70,8 +70,8 @@ border-right: 1px solid transparent;
 #ddmenu li.over a.arrow {
 background-color: #00a7be;
 color: #FFFFFF;
-border-left: 1px solid #CC9999;
-border-right: 1px solid #CC9999;
+border-left: 1px solid gold;
+border-right: 1px solid gold;
 z-index: 9999999999;
 /*text-decoration:underline;*/
 }
@@ -87,7 +87,9 @@ margin: 0;
 #ddmenu div.drop {
 position: absolute;
 text-align: left;
-border: 1px solid #CC9999;
+border-left: 1px solid gold;
+border-right: 1px solid gold;
+border-bottom: 1px solid gold;
 background: #00a7be;
 padding: 25px;
 color: #FFFFFF;
