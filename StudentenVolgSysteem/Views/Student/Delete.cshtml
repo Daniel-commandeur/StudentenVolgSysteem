@@ -4,37 +4,27 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Verwijder</h2>
-
-<h3>Weet je zeker dat je dit wilt verwijderen?</h3>
+<h2>Verwijder deelnemer</h2>
+<h4>Weet je zeker dat je deze deelnemer, inclusief alle voor deze deelnemer opgeslagen gegevens, wilt verwijderen?</h4>
+<br />
 <div>
-    <h4>deelnemer</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Voornaam)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Voornaam)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Achternaam)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Achternaam)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Verwijder" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
-    }
+    <div class="labelFont1">
+        @Html.DisplayNameFor(model => model.VolledigeNaam)
+    </div>
+    <div class="topMargin-3">
+        @Html.DisplayFor(model => model.VolledigeNaam)
+    </div>
 </div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        <input type="submit" value="Verwijder" class="button button-delete" />
+    </div>
+    <br />
+    <div>
+        @Html.ActionLink("Terug naar overzicht", "Index")
+    </div>
+}

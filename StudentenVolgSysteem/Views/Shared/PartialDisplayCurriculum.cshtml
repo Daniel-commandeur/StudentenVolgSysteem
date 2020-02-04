@@ -1,72 +1,73 @@
 ﻿@model StudentenVolgSysteem.Models.Curriculum
 
 @*TODO: add checkbox functionality to keep track of student progress*@
-    <div>
-        <h4>
-            @Html.DisplayFor(model => model.Naam) |
-            @Html.ActionLink("wijzig", "Edit", "Curriculum", new { id = Model.Id }, null) |
-            @Html.ActionLink("maak PDF", "CreatePDF", "Pdf", new { curriculumId = Model.Id }, null)
-        </h4>
-        <hr />
-        <table class="my-table">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Topics.FirstOrDefault().Topic.Code)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Topics.FirstOrDefault().Topic.Niveau)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Topics.FirstOrDefault().Topic.Naam)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Topics.FirstOrDefault().Topic.Duur)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Topics.FirstOrDefault().Topic.Werkvorm)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Topics.FirstOrDefault().Topic.Certificeringen)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Topics.FirstOrDefault().TopicVoortgang)
-                </th>
-                <th></th>
-            </tr>
-            @foreach (var topic in Model.Topics)
-            {
+<br/>
+<div>
+    <!--
+    <h4>
+        @Html.DisplayFor(model => model.Naam) |
+        @Html.ActionLink("wijzig", "Edit", "Curriculum", new { id = Model.Id }, null) |
+        @Html.ActionLink("maak PDF", "CreatePDF", "Pdf", new { curriculumId = Model.Id }, null)
+    </h4>
+    -->
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => topic.Topic.Code)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => topic.Topic.Niveau.Naam)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => topic.Topic.Naam)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => topic.Topic.Duur.Eenheid)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => topic.Topic.Werkvorm.Naam)
-            </td>
-            <td>
-                @foreach (var cert in topic.Topic.Certificeringen)
-                {
-                    @Html.DisplayFor(modelItem => cert.Naam)
-                }
-            </td>
-            <td>
-                
-                @Html.DropDownListFor(modelItem => topic.TopicVoortgang, new SelectList(Enum.GetValues(typeof(StudentenVolgSysteem.Models.Voortgang))), new { htmlAttributes = new { @class = "form-control" } })
-               
-            </td>
-            <td>
-                @Html.ActionLink("Details", "Details", "Topics", new { id = topic.TopicId, returnUrl = this.Request.RawUrl }, null)
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.Topics.FirstOrDefault().Topic.Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Topics.FirstOrDefault().Topic.Niveau)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Topics.FirstOrDefault().Topic.Naam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Topics.FirstOrDefault().Topic.Duur)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Topics.FirstOrDefault().Topic.Werkvorm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Topics.FirstOrDefault().Topic.Certificeringen)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Topics.FirstOrDefault().TopicVoortgang)
+            </th>
+            <th></th>
         </tr>
-            }
-        </table>
-        <br />
-    </div>
+        @foreach (var topic in Model.Topics)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => topic.Topic.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => topic.Topic.Niveau.Naam)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => topic.Topic.Naam)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => topic.Topic.Duur.Eenheid)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => topic.Topic.Werkvorm.Naam)
+                </td>
+                <td>
+                    @foreach (var cert in topic.Topic.Certificeringen)
+                    {
+                        @Html.DisplayFor(modelItem => cert.Naam)
+                    }
+                </td>
+                <td>
+
+                    @Html.DropDownListFor(modelItem => topic.TopicVoortgang, new SelectList(Enum.GetValues(typeof(StudentenVolgSysteem.Models.Voortgang))), new { htmlAttributes = new { @class = "form-control" } })
+
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", "Topics", new { id = topic.TopicId, returnUrl = this.Request.RawUrl }, null)
+                </td>
+            </tr>
+        }
+    </table>
+</div>
