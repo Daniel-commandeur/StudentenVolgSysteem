@@ -12,10 +12,6 @@
         <th>
             @Html.DisplayNameFor(model => model.VolledigeNaam)
         </th>
-        <!--
-        <th>
-            @Html.DisplayNameFor(model => model.Achternaam)
-        </th>
         <th>
             @Html.DisplayNameFor(model => model.AanmeldDatum)
         </th>
@@ -32,19 +28,18 @@
             <td>
                 @Html.DisplayFor(modelItem => item.VolledigeNaam)
             </td>
-            <!--
             <td>
                 @Html.DisplayFor(modelItem => item.AanmeldDatum)
             </td>
             <td>
                
-                 @Html.DisplayFor(modelItem => item.Curriculum.Naam)
+                @Html.DisplayFor(modelItem => item.Curriculum.Naam)
                 @if(item.Curriculum == null)
                 {
                     <text> Nog Geen Curriculum </text>
                 }
             </td>
-            -->
+           
             <td>
                 @Html.ActionLink("Wijzig studentgegevens", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("Ga naar curriculum", "Details", new { id = item.Id }) |

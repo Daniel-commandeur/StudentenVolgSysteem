@@ -181,10 +181,7 @@
     <Compile Include="Controllers\CSVController.cs" />
     <Compile Include="Controllers\CurriculumController.cs" />
     <Compile Include="Controllers\CurriculumTemplateController.cs" />
-    <Compile Include="Migrations\MyDbContext\202002040944324_init.cs" />
-    <Compile Include="Migrations\MyDbContext\202002040944324_init.Designer.cs">
-      <DependentUpon>202002040944324_init.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Models\ViewModels\EditCurriculumViewModel.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NiveauController.cs" />
@@ -351,7 +348,7 @@
     <Content Include="Views\Admin\AssignRolesToUsersAsync.cshtml" />
     <Content Include="Views\Pdf\CreatePDF.cshtml" />
     <Content Include="Views\Admin\EditRolesForUser.cshtml" />
-    <Content Include="Views\Home\Home.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Student\CreateCurriculum.cshtml" />
     <Content Include="Views\Curriculum\Create.cshtml" />
     <Content Include="Views\Curriculum\Index.cshtml" />
@@ -376,11 +373,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\MyDbContext\202002040944324_init.resx">
-      <DependentUpon>202002040944324_init.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
