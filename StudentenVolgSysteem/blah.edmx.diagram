@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9666fee178a24dbebafd95d51b68dbec" Name="Diagram1">
+        <EntityTypeShape EntityType="StudentenVolgSysteemDbModel1.C__MigrationHistory" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentenVolgSysteemDbModel1.AspNetRoles" Width="1.5" PointX="5.75" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentenVolgSysteemDbModel1.AspNetUserClaims" Width="1.5" PointX="10.25" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentenVolgSysteemDbModel1.AspNetUserLogins" Width="1.5" PointX="10.25" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentenVolgSysteemDbModel1.AspNetUsers" Width="1.5" PointX="8" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentenVolgSysteemDbModel1.Benodigdheden" Width="1.5" PointX="3.75" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentenVolgSysteemDbModel1.Certificeringen" Width="1.5" PointX="3.75" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentenVolgSysteemDbModel1.Curricula" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentenVolgSysteemDbModel1.CurriculumTemplates" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentenVolgSysteemDbModel1.CurriculumTopics" Width="1.5" PointX="8.25" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentenVolgSysteemDbModel1.Niveaus" Width="1.5" PointX="3.75" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentenVolgSysteemDbModel1.PercipioLinks" Width="1.5" PointX="3.75" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentenVolgSysteemDbModel1.Studenten" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentenVolgSysteemDbModel1.Tags" Width="1.5" PointX="3.75" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentenVolgSysteemDbModel1.Tijdsduren" Width="1.5" PointX="3.75" PointY="20.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentenVolgSysteemDbModel1.Topics" Width="1.5" PointX="6" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentenVolgSysteemDbModel1.Werkvormen" Width="1.5" PointX="3.75" PointY="23.25" IsExpanded="true" />
+        <AssociationConnector Association="StudentenVolgSysteemDbModel1.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentenVolgSysteemDbModel1.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentenVolgSysteemDbModel1.FK_dbo_CurriculumTopics_dbo_Curricula_CurriculumId" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentenVolgSysteemDbModel1.FK_dbo_Studenten_dbo_Curricula_Curriculum_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentenVolgSysteemDbModel1.FK_dbo_Studenten_dbo_CurriculumTemplates_CurriculumTemplate_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentenVolgSysteemDbModel1.FK_dbo_CurriculumTopics_dbo_Topics_TopicId" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentenVolgSysteemDbModel1.FK_dbo_Topics_dbo_Niveaus_Niveau_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentenVolgSysteemDbModel1.FK_dbo_Topics_dbo_Tijdsduren_Duur_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentenVolgSysteemDbModel1.FK_dbo_Topics_dbo_Werkvormen_Werkvorm_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentenVolgSysteemDbModel1.AspNetUserRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentenVolgSysteemDbModel1.CertificeringTopics" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentenVolgSysteemDbModel1.CurriculumTemplateTopics" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentenVolgSysteemDbModel1.PercipioLinkTopics" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentenVolgSysteemDbModel1.TagTopics" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentenVolgSysteemDbModel1.TopicBenodigdheids" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentenVolgSysteemDbModel1.TopicTopics" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

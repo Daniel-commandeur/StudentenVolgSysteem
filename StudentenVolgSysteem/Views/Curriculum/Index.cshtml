@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<StudentenVolgSysteem.Models.ViewModels.CurriculumViewModel>
 @{
     ViewBag.Title = "Index";
 }
@@ -23,7 +23,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Naam)
             </td>
-            <td>        
+            <td>
                 @foreach (var topic in item.Topics)
                 {
                     @Html.DisplayFor(modelItem => topic.Topic.NaamCode)
