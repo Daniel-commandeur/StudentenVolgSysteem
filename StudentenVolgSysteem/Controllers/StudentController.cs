@@ -19,7 +19,7 @@ namespace StudentenVolgSysteem.Controllers
         // GET: Student
         public ActionResult Index()
         {
-            return View(db.GetFromDatabase<Student>());
+            return View(db.GetFromDatabase<Student>().OrderBy(n => n.Achternaam));
         }
 
         // GET: Student/Details/5
