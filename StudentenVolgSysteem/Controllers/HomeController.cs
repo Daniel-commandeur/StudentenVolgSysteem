@@ -6,7 +6,6 @@ using System.Web.Mvc;
 
 namespace StudentenVolgSysteem.Controllers
 {
-    [Authorize(Roles = "Administrator, Docent")]
     public class HomeController : Controller
     {
         // GET: Home
