@@ -32,20 +32,15 @@
             @Html.DisplayFor(model => model.AanmeldDatum)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Curriculum)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Curriculum.Naam)
-        </dd>
-
-        @if (Model.Curriculum != null)
+        <hr />
+        @foreach (var curriculum in Model.Curricula)
         {
-            @Html.Partial("PartialDisplayCurriculum", Model.Curriculum)
-            @Html.ActionLink("maak PDF", "CreatePDF", "Pdf", new { studentId = Model.Id }, null)
+            @Html.Partial("PartialDisplayCurriculum", curriculum)
+            @Html.ActionLink("maak PDF", "CreatePDF", "Pdf", new { curriculumId = Model.Id }, null)
+            <hr />
         }
-        else
+
+        @if (Model.Curricula.Count == 0)
         {
             <br />
 
@@ -55,11 +50,11 @@
 </div>
 <br/>
 <p>
-    @Html.ActionLink("Wijzig Student", "Edit", new { id = Model.Id }) |
-    @if (Model.Curriculum == null)
-    {
-        @Html.ActionLink("Curriculum toevoegen", "Create", "Curriculum", new { id = Model.Id }, null)
-        <text> | </text>
-    }
+    @Html.ActionLink("Wijzig Student", "Edit", new { id = Model.Id })
+    <text> | </text>
+
+    @Html.ActionLink("Curriculum toevoegen", "Create", "Curriculum", new { id = Model.Id }, null)
+    <text> | </text>
+
     @Html.ActionLink("Terug naar overzicht", "Index")
 </p>

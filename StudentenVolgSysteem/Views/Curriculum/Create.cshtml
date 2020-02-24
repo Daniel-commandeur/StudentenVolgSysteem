@@ -23,16 +23,16 @@
         <div class="col-md-10">
             <h1>@Model.Student.VolledigeNaam</h1>
             @Html.HiddenFor(model => model.StudentId)
-            @Html.HiddenFor(model => model.CurriculumTemplate.Naam)
+            @*@Html.HiddenFor(model => model.CurriculumTemplate.Naam)*@
         </div>
     </div>
     <br/>
     <br/>
     
     <div class="form-group">
-        @Html.LabelFor(model => model.CurriculumTemplate, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.CurriculumTemplates, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownListFor(model => model.CurriculumTemplateId, new SelectList(Model.CurriculumTemplates, "Id", "Naam", Model.CurriculumTemplate), new { htmlAttributes = new { @class = "form-control" } })
+            @Html.DropDownListFor(model => model.CurriculumTemplateId, new SelectList(Model.CurriculumTemplates, "Id", "Naam"), new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.CurriculumTemplateId, "", new { @class = "text-danger" })
         </div>
     </div>

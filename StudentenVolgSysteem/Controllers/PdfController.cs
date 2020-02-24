@@ -50,29 +50,29 @@ namespace StudentenVolgSysteem.Controllers
         }
 
         [NonAction]
-        public SelectListItem GetCurriculum(int studentId)
+        public SelectListItem GetCurriculum(int curriculumId)
         {
-            Student student = db.Studenten.Find(studentId);
-            SelectListItem curriculum = new SelectListItem
+            Curriculum curriculum = db.Curricula.FirstOrDefault(o => o.Id == curriculumId);
+            Student student = db.GetFromDatabase<Student>(curriculum.Id);
+            SelectListItem curriculum_selectitem = new SelectListItem
             {
-                Text = student.Curriculum.Naam,
-                Value = student.Curriculum.Id.ToString()
+                Text = curriculum.Naam,
+                Value = curriculum.Id.ToString()
             };
-
-            return curriculum;
+            
+            return curriculum_selectitem;
         }
 
         [HttpGet]
-        public ActionResult CreatePDF(int? studentId)
+        public ActionResult CreatePDF(int curriculumId)
         {
-            if (studentId == null)
+            if (curriculumId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = db.GetFromDatabase<Student>(studentId);
+            Curriculum curriculum = db.GetFromDatabase<Curriculum>(curriculumId);
+            Student student = curriculum.Student;
 
-            Curriculum curriculum = student.Curriculum;
-                //db.Curricula.Include("Student").Where(m => m.Id == curriculumId).FirstOrDefault();
             if (curriculum == null)
             {
                 return HttpNotFound();
@@ -84,9 +84,9 @@ namespace StudentenVolgSysteem.Controllers
             pdfViewModel.StudentNaam = student.VolledigeNaam;
             pdfViewModel.CurriculumId = curriculum.Id;
             pdfViewModel.NiveauList = GetNiveaus();
-            pdfViewModel.Course = student.CurriculumTemplate.Naam;
+            pdfViewModel.Course = curriculum.Naam;
             //pdfViewModel.Niveau = student.Curriculum.
-
+            
             return View(pdfViewModel);
         }
 
@@ -96,16 +96,17 @@ namespace StudentenVolgSysteem.Controllers
             pdfViewModel.NiveauList = GetNiveaus();
             if (ModelState.IsValid)
             {
-                Student student = db.Studenten.Include(a => a.Curriculum)
-                                        .Include(a => a.Curriculum.Topics.Select(c => c.Topic.Duur))
-                                        .Include(a => a.Curriculum.Topics.Select(c => c.Topic.Benodigdheden))
-                                        .Include(a => a.Curriculum.Topics.Select(c => c.Topic.Werkvorm))
-                                        .Include(a => a.Curriculum.Topics.Select(c => c.Topic.Niveau))
-                                        .Where(a => a.Id == pdfViewModel.StudentId)
-                                        .FirstOrDefault();
+                //Student student = db.Studenten.Where(o => o.Id == pdfViewModel.StudentId).First();
+                Curriculum curriculum = db.Curricula.Where(o => o.Id == pdfViewModel.CurriculumId)
+                                        .Include(a => a.Topics.Select(c => c.Topic.Duur))
+                                        .Include(a => a.Topics.Select(c => c.Topic.Benodigdheden))
+                                        .Include(a => a.Topics.Select(c => c.Topic.Werkvorm))
+                                        .Include(a => a.Topics.Select(c => c.Topic.Niveau))
+                                        .First();
+                Student student = curriculum.Student;
                 //Student student = db.Studenten.Include("")
                 //Curriculum curriculum = db.Curricula.Include("Student").Include("Topics.Topic").Where(m => m.Id == pdfViewModel.CurriculumId).FirstOrDefault();
-                PDF.Create(pdfViewModel, student);
+                PDF.Create(pdfViewModel, curriculum);
             }
             return View(pdfViewModel);
         }

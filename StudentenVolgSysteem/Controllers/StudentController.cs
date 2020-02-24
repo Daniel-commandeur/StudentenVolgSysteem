@@ -29,6 +29,17 @@ namespace StudentenVolgSysteem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            Student student = db.Studenten.Find(id);
+            student.Curricula = db.Curricula.Where(o => o.Student.Id == id)
+                                            .Include(a => a.Topics.Select(c => c.Topic.Duur))
+                                            .Include(a => a.Topics.Select(c => c.Topic.Benodigdheden))
+                                            .Include(a => a.Topics.Select(c => c.Topic.Werkvorm))
+                                            .Include(a => a.Topics.Select(c => c.Topic.Niveau))
+                                            .ToList();
+            
+
+/*
             //Every relation that is handled with a link-table isn't automatically
             Student student = db.Studenten
                                         .Include(a => a.Curriculum)
@@ -38,7 +49,7 @@ namespace StudentenVolgSysteem.Controllers
                                         .Include(a => a.Curriculum.Topics.Select(c => c.Topic.Niveau))
                                         .Where(a => a.Id == id)
                                         .FirstOrDefault();
-                                     
+*/                                     
             if (student == null)
             {
                 return HttpNotFound();

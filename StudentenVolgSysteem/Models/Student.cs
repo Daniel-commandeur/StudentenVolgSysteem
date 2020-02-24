@@ -29,10 +29,8 @@ namespace StudentenVolgSysteem.Models
         [Display(Name ="Naam")]
         public string VolledigeNaam { get { return $"{Voornaam} {Achternaam}"; } }
         
-        public Curriculum Curriculum { get; set; }
-        
-        public virtual CurriculumTemplate CurriculumTemplate { get; set; }
-        
+        public virtual ICollection<Curriculum> Curricula { get; set; }
+                
         public bool IsDeleted { get; set; }
     }
 

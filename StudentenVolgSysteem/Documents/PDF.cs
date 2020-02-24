@@ -11,11 +11,11 @@ namespace StudentenVolgSysteem.Documents
 {
     public static class PDF
     {
-        public static void Create(PdfViewModel pdfvm, Student student)
+        public static void Create(PdfViewModel pdfvm, Curriculum curriculum)
         {
             // CuriculumModel curriculum = db.Curiculums.Include("StudentId").Where(m => m.CuriculumId == pdfvm.curriculumId).FirstOrDefault();
-            Curriculum curriculum = student.Curriculum;
             List<CurriculumTopic> curriculumTopics = curriculum.Topics.ToList();
+            Student student = curriculum.Student;
 
 
             // TODO: Sort and group topics by first Certification

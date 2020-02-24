@@ -7,8 +7,6 @@ namespace StudentenVolgSysteem.Models.ViewModels
 {
     public class CurriculumViewModel
     {
-        public CurriculumTemplate CurriculumTemplate { get; set; }
-
         public int CurriculumTemplateId { get; set; }
         public List<Niveau> Niveaus { get; set; }
         public Student Student { get; set; }

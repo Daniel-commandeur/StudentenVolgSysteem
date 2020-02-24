@@ -15,19 +15,18 @@ namespace StudentenVolgSysteem.Controllers
     public class CurriculumController : Controller
     {
         private SVSContext db = new SVSContext();
-        // GET: Curriculum
-        public ActionResult Index()
-        {
-            return View();
-        }
 
+        // GET: Curriculum
+        //public ActionResult Index()
+        //{
+        //    return View();
+        //}
+        
         public ActionResult Create(int id)
         { 
-            //if(id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-
+            if(id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            
             CurriculumViewModel curriculumViewModel = new CurriculumViewModel {
                 CurriculumTemplates = db.GetFromDatabase<CurriculumTemplate>().ToList(),
                 Niveaus = db.GetFromDatabase<Niveau>().ToList(),
@@ -53,7 +52,8 @@ namespace StudentenVolgSysteem.Controllers
                 var curriculumTemplate = db.GetFromDatabase<CurriculumTemplate>(curriculumViewModel.CurriculumTemplateId);
                 var topics = curriculumTemplate.Topics;
                 Curriculum curriculum = new Curriculum();
-
+                curriculum.Naam = curriculumTemplate.Naam;
+                
                 foreach (var topic in topics)
                 {
                     var topic1 = db.GetFromDatabase<Topic>(topic.Id);
@@ -66,26 +66,19 @@ namespace StudentenVolgSysteem.Controllers
                 }
 
 
-                //curriculum.Student = student;
-                student.Curriculum = curriculum;
-                student.CurriculumTemplate = curriculumTemplate;
-                
+                curriculum.Student = student;
+                student.Curricula.Add(curriculum);
                 db.Curricula.Add(curriculum);
                 db.Entry(student).State = EntityState.Modified;
 
-
-                //db.CurriculumTemplates.Add(curriculumTemplate);
                 db.SaveChanges();
 
-                // COMMENT: This code can probably be removed
+                //// COMMENT: This code can probably be removed
+                //if (curriculumViewModel.StudentId != 0)
+                //  return RedirectToAction("Details", "Student", new { id = curriculumViewModel.StudentId });
                 
-                if (curriculumViewModel.StudentId != 0)
-                {
-                    return RedirectToAction("Details", "Student", new { id = curriculumViewModel.StudentId });
-                }
 
-
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Student", new { id = curriculumViewModel.StudentId });
             }
             return View();
             //curriculumTemplateViewModel.AlleTopics = db.Topics.Where(t => !t.IsDeleted).ToList();
@@ -126,9 +119,12 @@ namespace StudentenVolgSysteem.Controllers
         {
             if (ModelState.IsValid)
             {
-                Curriculum curriculum = db.GetFromDatabase<Curriculum>(cvm.Curriculum.Id);
+                Curriculum curriculum = db.Curricula.Where(o => o.Id == cvm.Curriculum.Id)
+                                                    .Include(o => o.Student)
+                                                    .FirstOrDefault();
+                //Curriculum curriculum = db.GetFromDatabase<Curriculum>(cvm.Curriculum.Id);
                 curriculum.Naam = cvm.Curriculum.Naam;
-                var oldList = curriculum.Topics;                                                      
+                var oldList = curriculum.Topics;
 
                 List <Topic> newList = new List<Topic>();
                 foreach(int id in cvm.TopicIds)
@@ -159,18 +155,13 @@ namespace StudentenVolgSysteem.Controllers
 
                         }
                     }
-                    if(removeList != null)
-                    {
-                        foreach(var item in removeList)
-                        {
-                            oldList.Remove(item);
-                        }
-                    }
+                    foreach(var item in removeList)
+                        oldList.Remove(item);
                 }
                 
                 db.Entry(curriculum).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index"); 
+                return RedirectToAction("Details", "Student", new { id = curriculum.Student.Id });
             }
             //curriculumTemplateViewModel.AlleTopics = db.Topics.ToList();
             return View();
