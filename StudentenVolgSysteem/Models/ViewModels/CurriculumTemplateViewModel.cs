@@ -9,6 +9,7 @@ namespace StudentenVolgSysteem.Models.ViewModels
     {
         public CurriculumTemplate CurriculumTemplate { get; set; }
         public List<Topic> AlleTopics { get; set; }
+
         public int[] TopicIds { get; set; }
     }
 }

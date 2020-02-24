@@ -31,7 +31,7 @@
         <dd>
             @Html.DisplayFor(model => model.AanmeldDatum)
         </dd>
-
+        
         <hr />
         @foreach (var curriculum in Model.Curricula)
         {
@@ -43,7 +43,6 @@
         @if (Model.Curricula.Count == 0)
         {
             <br />
-
             <text> Nog Geen Curriculum. </text>
         }
     </dl>
@@ -51,10 +50,10 @@
 <br/>
 <p>
     @Html.ActionLink("Wijzig Student", "Edit", new { id = Model.Id })
-    <text> | </text>
+    @Html.Raw(" <strong>|</strong> ")
 
     @Html.ActionLink("Curriculum toevoegen", "Create", "Curriculum", new { id = Model.Id }, null)
-    <text> | </text>
+    @Html.Raw(" <strong>|</strong> ")
 
     @Html.ActionLink("Terug naar overzicht", "Index")
 </p>

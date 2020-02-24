@@ -18,8 +18,6 @@ namespace StudentenVolgSysteem.Models
         [Key]
         public int Id { get; set; }
 
-        public virtual ICollection<Student> Students { get; set; }
-
         [Required]
         public string Naam { get; set; }
         [Required]

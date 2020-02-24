@@ -21,7 +21,7 @@
             @Html.DisplayNameFor(model => model.AanmeldDatum)
         </th>
         <th>
-            @*Html.DisplayNameFor(model => model.Curriculum)*@
+            @Html.DisplayNameFor(model => model.Curricula)
         </th>
 
         <th></th>
@@ -36,9 +36,19 @@
             @Html.DisplayFor(modelItem => item.AanmeldDatum)
         </td>
         <td>
-            @if (item.Curricula.Count == 0)
-            {
-            <text>Nog geen curriculum</text>
+            @{
+                foreach (var curriculum in item.Curricula)
+                {
+                    @Html.DisplayFor(modelItem => curriculum.Naam)
+                    if (curriculum != item.Curricula.Last())
+                    {
+                        @Html.Raw(" <strong>|</strong> ")
+                    }
+                }
+                if (item.Curricula.Count == 0)
+                {
+                    <text>Nog geen curriculum</text>
+                }
             }
         </td>
         <td>
@@ -47,19 +57,5 @@
             @Html.ActionLink("Verwijder deelnemer", "Delete", new { id = item.Id })
         </td>
     </tr>
-        foreach (var curriculum in item.Curricula)
-        {
-            <tr>
-                <td>
-                </td>
-                <td>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => curriculum.Naam)
-                </td>
-                <td>
-                </td>
-            </tr>
-        }
     }
 </table>

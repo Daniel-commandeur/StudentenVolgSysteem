@@ -20,20 +20,18 @@ namespace StudentenVolgSysteem.Controllers
         {
             return View(db.GetFromDatabase<CurriculumTemplate>());
         }
-
+        
         // GET: Curriculum/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+
             CurriculumTemplate curriculumTemplate = db.GetFromDatabase<CurriculumTemplate>(id);
 
             if (curriculumTemplate == null)
-            {
                 return HttpNotFound();
-            }
+
             return View(curriculumTemplate);
         }
 
@@ -86,15 +84,13 @@ namespace StudentenVolgSysteem.Controllers
         public ActionResult Edit(int? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+ 
             CurriculumTemplate curriculumTemplate = db.GetFromDatabase<CurriculumTemplate>(id);
 
             if (curriculumTemplate == null)
-            {
                 return HttpNotFound();
-            }
+
             CurriculumTemplateViewModel cvm = new CurriculumTemplateViewModel
             {
                 CurriculumTemplate = curriculumTemplate,
