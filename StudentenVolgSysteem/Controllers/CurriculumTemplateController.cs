@@ -1,14 +1,12 @@
-﻿using System;
+﻿using StudentenVolgSysteem.DAL;
+using StudentenVolgSysteem.Models;
+using StudentenVolgSysteem.Models.ViewModels;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using StudentenVolgSysteem.Models;
-using StudentenVolgSysteem.DAL;
-using StudentenVolgSysteem.Models.ViewModels;
 
 namespace StudentenVolgSysteem.Controllers
 {
@@ -31,7 +29,7 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             CurriculumTemplate curriculumTemplate = db.GetFromDatabase<CurriculumTemplate>(id);
-            
+
             if (curriculumTemplate == null)
             {
                 return HttpNotFound();
@@ -43,14 +41,14 @@ namespace StudentenVolgSysteem.Controllers
         public ActionResult Create(int? id)
         {
             List<Topic> theTopics = db.GetFromDatabase<Topic>().ToList();
-            
+
             CurriculumTemplateViewModel curriculumTemplateViewModel = new CurriculumTemplateViewModel { AlleTopics = theTopics };
 
             return View(curriculumTemplateViewModel);
         }
 
         // POST: Curriculum/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -58,7 +56,7 @@ namespace StudentenVolgSysteem.Controllers
         {
             if (ModelState.IsValid)
             {
-                CurriculumTemplate curriculumTemplate = curriculumTemplateViewModel.CurriculumTemplate;              
+                CurriculumTemplate curriculumTemplate = curriculumTemplateViewModel.CurriculumTemplate;
 
                 foreach (int topicId in curriculumTemplateViewModel.TopicIds)
                 {
@@ -92,7 +90,7 @@ namespace StudentenVolgSysteem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             CurriculumTemplate curriculumTemplate = db.GetFromDatabase<CurriculumTemplate>(id);
-              
+
             if (curriculumTemplate == null)
             {
                 return HttpNotFound();
@@ -106,7 +104,7 @@ namespace StudentenVolgSysteem.Controllers
         }
 
         // POST: Curriculum/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -116,7 +114,7 @@ namespace StudentenVolgSysteem.Controllers
             {
                 // Determine curriculum, with topics
                 CurriculumTemplate curriculumTemplate = db.GetFromDatabase<CurriculumTemplate>(curriculumTemplateViewModel.CurriculumTemplate.Id);
-                    
+                curriculumTemplate.Naam = (curriculumTemplateViewModel.CurriculumTemplate.Naam ?? curriculumTemplate.Naam);
                 // Add topic id's to list
                 List<int> topicIds = new List<int>();
                 foreach (var topic in curriculumTemplate.Topics)
@@ -137,12 +135,10 @@ namespace StudentenVolgSysteem.Controllers
                 foreach (int topicId in curriculumTemplateViewModel.TopicIds)
                 {
                     Topic topic = db.GetFromDatabase<Topic>(topicId);
-                    
-                     
+
                     // Check if curriculum exists, add if it does not.
-                    
+
                     curriculumTemplate.Topics.Add(topic);
-                    
                 }
                 db.Entry(curriculumTemplate).State = EntityState.Modified;
                 db.SaveChanges();

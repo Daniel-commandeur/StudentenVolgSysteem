@@ -92,7 +92,7 @@ namespace StudentenVolgSysteem.DAL
                 });
             } catch(Exception ex)
             {
-                return null;
+                throw ex;
             }
             return query.Where(m => !m.IsDeleted).ToList();
         }
