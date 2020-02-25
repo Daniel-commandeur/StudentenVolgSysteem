@@ -135,7 +135,7 @@ namespace StudentenVolgSysteem.Controllers
             // Student student = db.GetFromDatabase<Student>(id);
 
             // Remove selected student, and also remove related Curricula
-            Student student = db.Studenten.Include("Curriculum").Where(s => s.Id == id).FirstOrDefault();
+            Student student = db.Studenten.Include(o => o.Curricula).FirstOrDefault(s => s.Id == id);
             db.Studenten.Remove(student);
             db.SaveChanges();
 
