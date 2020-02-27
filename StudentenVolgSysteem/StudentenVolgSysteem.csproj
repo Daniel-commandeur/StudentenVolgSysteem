@@ -248,6 +248,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="App_Data\TopicDataInfra.csv" />
     <Content Include="App_Data\DropdownDataInfra.csv" />
+    <Content Include="Web.config" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -346,6 +347,12 @@
     <Content Include="Views\Curriculum\Create.cshtml" />
     <Content Include="Views\Curriculum\Index.cshtml" />
     <Content Include="Views\Curriculum\Edit.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="csv_files\" />
