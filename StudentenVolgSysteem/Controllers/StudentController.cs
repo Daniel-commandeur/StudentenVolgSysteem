@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using StudentenVolgSysteem.Models;
 using StudentenVolgSysteem.DAL;
+using System.Threading.Tasks;
 
 namespace StudentenVolgSysteem.Controllers
 {
@@ -135,10 +136,10 @@ namespace StudentenVolgSysteem.Controllers
             // Student student = db.GetFromDatabase<Student>(id);
 
             // Remove selected student, and also remove related Curricula
-            Student student = db.Studenten.Include(o => o.Curricula).FirstOrDefault(s => s.Id == id);
+            Student student = db.Studenten.FirstOrDefault(s => s.Id == id);
+
             db.Studenten.Remove(student);
             db.SaveChanges();
-
             return RedirectToAction("Index");
         }
 
