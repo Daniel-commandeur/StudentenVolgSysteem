@@ -16,21 +16,21 @@ namespace StudentenVolgSysteem.Controllers
     {
         private SVSContext db = new SVSContext();
 
-        // GET: Curriculum
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
+        //GET: Curriculum
+        public ActionResult Index()
+        {
+            return new HttpStatusCodeResult(HttpStatusCode.MethodNotAllowed);
+        }
         
-        public ActionResult Create(int id)
+        public ActionResult Create(int? id)
         { 
             if(id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            
+
             CurriculumViewModel curriculumViewModel = new CurriculumViewModel {
                 CurriculumTemplates = db.GetFromDatabase<CurriculumTemplate>().ToList(),
                 Niveaus = db.GetFromDatabase<Niveau>().ToList(),
-                StudentId = id,
+                StudentId = (int)id,
                 Student = db.GetFromDatabase<Student>(id)
             };
 
