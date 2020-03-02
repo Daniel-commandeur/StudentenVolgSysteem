@@ -15,7 +15,7 @@ namespace StudentenVolgSysteem.Controllers
     public class CurriculumController : Controller
     {
         private SVSContext db = new SVSContext();
-
+        
         //GET: Curriculum
         public ActionResult Index()
         {
@@ -165,6 +165,47 @@ namespace StudentenVolgSysteem.Controllers
             }
             //curriculumTemplateViewModel.AlleTopics = db.Topics.ToList();
             return View();
+        }
+
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            CurriculumDeleteViewModel cvm = new CurriculumDeleteViewModel()
+            {
+                curriculum = db.Curricula.FirstOrDefault(c => c.Id == id),
+                topics = db.CurriculumTopics.Where(ct => ct.CurriculumId == id).Include(ct => ct.Topic).ToList()
+            };
+
+            if (cvm.curriculum == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+            return View(cvm);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Curriculum curriculum = db.Curricula.Include(c => c.Student).FirstOrDefault(c => c.Id == id);
+            if (curriculum == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+            
+            int student_id = curriculum.Student.Id;
+            db.Curricula.Remove(curriculum);
+            db.SaveChanges();
+            return RedirectToAction("Details", "Student", new { id = student_id });
         }
 
 
