@@ -36,7 +36,7 @@
         @foreach (var curriculum in Model.Curricula)
         {
             @Html.Partial("PartialDisplayCurriculum", curriculum)
-            @Html.ActionLink("maak PDF", "CreatePDF", "Pdf", new { curriculumId = Model.Id }, null)
+            @Html.ActionLink("maak PDF", "CreatePDF", "Pdf", new { curriculumId = curriculum.Id }, null)
             <hr />
         }
 
