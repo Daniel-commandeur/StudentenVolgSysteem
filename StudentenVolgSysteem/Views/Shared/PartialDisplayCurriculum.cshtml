@@ -3,9 +3,12 @@
 @*TODO: add checkbox functionality to keep track of student progress*@
     <div>
         <h4>
-            @Html.DisplayFor(model => model.Naam) - 
+            @Html.DisplayFor(model => model.Naam)
+            -
             @Html.ActionLink("Wijzig Persoonlijk Curriculum", "Edit", "Curriculum", new { id = Model.Id }, null)
-
+            - 
+            @Html.ActionLink("Verwijder Persoonlijk Curriculum", "Delete", "Curriculum", new { id = Model.Id }, null)
+            
         </h4>
         <table class="my-table">
             <tr>

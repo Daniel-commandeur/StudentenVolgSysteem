@@ -37,17 +37,22 @@
         </td>
         <td>
             @{
-                foreach (var curriculum in item.Curricula)
-                {
-                    @Html.DisplayFor(modelItem => curriculum.Naam)
-                    if (curriculum != item.Curricula.Last())
-                    {
-                        @Html.Raw(" <strong>|</strong> ")
-                    }
-                }
+                //if no curricula, display
                 if (item.Curricula.Count == 0)
                 {
                     <text>Nog geen curriculum</text>
+                }
+                else
+                {
+                    //for each curriculum, display all names, seperated by a colon |
+                    foreach (var curriculum in item.Curricula)
+                    {
+                        @Html.DisplayFor(modelItem => curriculum.Naam)
+                        if (curriculum != item.Curricula.Last())
+                        {
+                            @Html.Raw(" <strong>|</strong> ")
+                        }
+                    }
                 }
             }
         </td>
