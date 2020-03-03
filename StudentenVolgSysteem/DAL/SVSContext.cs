@@ -96,7 +96,7 @@ namespace StudentenVolgSysteem.DAL
             }
             return query.Where(m => !m.IsDeleted).ToList();
         }
-        
+
 
         //public IQueryable<TEntity> Including<TEntity>(params Func<TEntity, object>[] _includeProperties) where TEntity : class
         //{
@@ -105,7 +105,7 @@ namespace StudentenVolgSysteem.DAL
         //    {
         //        var include = includeProperty.ToString();
         //        return current.Include(include);
-                
+
         //        });
         //}
 
@@ -127,47 +127,49 @@ namespace StudentenVolgSysteem.DAL
         //    return result.ToList();
         //}
 
-        /// <summary>
-        /// Marks any "Removed" Entities as "Modified" and then sets the Db [IsDeleted] Flag to true
-        /// </summary>
-        /// <returns></returns>
-        public override int SaveChanges()
-        {
-            ChangeTracker.DetectChanges();
 
-            // If an entity is marked for deletion add to markedAsDeleted
-            var markedAsDeleted = ChangeTracker.Entries().Where(x => x.State == EntityState.Deleted);
-
-            foreach (var item in markedAsDeleted)
-            {
-                // if entity implements IDeletable interface
-                if (item.Entity is IDeletable entity)
+        /*
+                /// <summary>
+                /// Marks any "Removed" Entities as "Modified" and then sets the Db [IsDeleted] Flag to true
+                /// </summary>
+                /// <returns></returns>
+                public override int SaveChanges()
                 {
-                    // Set the entity to unchanged (if we mark the whole entity as Modified, every field gets send to Db as an update.. null values
-                    item.State = EntityState.Unchanged;
-                    // Only update IsDeleted flag.
-                    entity.IsDeleted = true;
+                    ChangeTracker.DetectChanges();
+
+                    // If an entity is marked for deletion add to markedAsDeleted
+                    var markedAsDeleted = ChangeTracker.Entries().Where(x => x.State == EntityState.Deleted);
+
+                    foreach (var item in markedAsDeleted)
+                    {
+                        // if entity implements IDeletable interface
+                        if (item.Entity is IDeletable entity)
+                        {
+                            // Set the entity to unchanged (if we mark the whole entity as Modified, every field gets send to Db as an update.. null values
+                            item.State = EntityState.Unchanged;
+                            // Only update IsDeleted flag.
+                            entity.IsDeleted = true;
+                        }
+                    }
+                    try
+                    {
+                        return base.SaveChanges();
+                    }
+
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+                        // TODO implement exception handler
+                        return default;
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        // TODO implement exception handler
+                        //             ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                        return default;
+                    }          
                 }
-            }
-            try
-            {
-                return base.SaveChanges();
-            }
-
-            catch (DbUpdateConcurrencyException ex)
-            {
-                // TODO implement exception handler
-                return default;
-            }
-            catch (DbUpdateException ex)
-            {
-                // TODO implement exception handler
-                //             ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
-                return default;
-            }          
-        }
+        */
     }
-
     /// <summary>
     /// Standard Interface for softDeletes
     /// </summary>

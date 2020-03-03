@@ -208,7 +208,7 @@ namespace StudentenVolgSysteem.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Topic topic = db.GetFromDatabase<Topic>(id);
-            db.Topics.Remove(topic);
+            topic.IsDeleted = true;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

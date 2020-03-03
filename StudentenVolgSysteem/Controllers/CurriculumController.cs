@@ -197,7 +197,7 @@ namespace StudentenVolgSysteem.Controllers
             }
             
             int student_id = curriculum.Student.Id;
-            db.Curricula.Remove(curriculum);
+            curriculum.IsDeleted = true;
             db.SaveChanges();
             return RedirectToAction("Details", "Student", new { id = student_id });
         }

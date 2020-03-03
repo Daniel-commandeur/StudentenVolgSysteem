@@ -138,7 +138,8 @@ namespace StudentenVolgSysteem.Controllers
             // Remove selected student, and also remove related Curricula
             Student student = db.Studenten.FirstOrDefault(s => s.Id == id);
 
-            db.Studenten.Remove(student);
+            student.IsDeleted = true;
+            //TODO: soft-delete all curricula from this student
             db.SaveChanges();
             return RedirectToAction("Index");
         }

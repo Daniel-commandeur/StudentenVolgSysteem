@@ -112,7 +112,7 @@ namespace StudentenVolgSysteem.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Werkvorm werkvorm = db.GetFromDatabase<Werkvorm>(id);
-            db.Werkvormen.Remove(werkvorm);
+            werkvorm.IsDeleted = true;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

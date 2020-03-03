@@ -111,8 +111,8 @@ namespace StudentenVolgSysteem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Tag tag = db.GetFromDatabase<Tag>(id); 
-            db.Tags.Remove(tag);
+            Tag tag = db.GetFromDatabase<Tag>(id);
+            tag.IsDeleted = true;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

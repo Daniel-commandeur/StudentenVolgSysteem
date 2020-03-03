@@ -112,7 +112,7 @@ namespace StudentenVolgSysteem.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             PercipioLink percipioLink = db.GetFromDatabase<PercipioLink>(id);
-            db.PercipioLinks.Remove(percipioLink);
+            percipioLink.IsDeleted = true;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -112,7 +112,7 @@ namespace StudentenVolgSysteem.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Niveau niveau = db.GetFromDatabase<Niveau>(id);
-            db.Niveaus.Remove(niveau);
+            niveau.IsDeleted = true;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

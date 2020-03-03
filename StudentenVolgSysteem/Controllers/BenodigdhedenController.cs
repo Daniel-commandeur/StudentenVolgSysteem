@@ -113,7 +113,7 @@ namespace StudentenVolgSysteem.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Benodigdheid benodigdheid = db.GetFromDatabase<Benodigdheid>(id);
-            db.Benodigdheden.Remove(benodigdheid);
+            benodigdheid.IsDeleted = true;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

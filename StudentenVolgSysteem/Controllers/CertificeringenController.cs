@@ -117,7 +117,7 @@ namespace StudentenVolgSysteem.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Certificering certificering = db.GetFromDatabase<Certificering>(id);
-            db.Certificeringen.Remove(certificering);
+            certificering.IsDeleted = true;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

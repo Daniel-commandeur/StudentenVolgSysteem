@@ -113,7 +113,7 @@ namespace StudentenVolgSysteem.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Tijdsduur tijdsduur = db.GetFromDatabase<Tijdsduur>(id);
-            db.Tijdsduren.Remove(tijdsduur);
+            tijdsduur.IsDeleted = true;
             db.SaveChanges();
             return RedirectToAction("Index");
         }
