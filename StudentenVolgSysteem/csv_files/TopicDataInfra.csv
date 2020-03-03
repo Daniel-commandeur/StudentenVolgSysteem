@@ -1,0 +1,592 @@
+#$Code$Niveau $Topic$Duur$Werkvorm(en)$Leerdoel(en)$Certificering$Benodigde voorkennis$Inhoud$Benodigdheden$Percipio links$Tags 1$Tags 2$Tags 3
+1$int-ntw-1$Niv. 1$Intro Netwerken$4 dagdelen (12 uur)$Theorie + Praktijk$"Basiskennis Netwerken
+"$"*98-366 Networking Fundamentals
+*CompTIA Network+ "$Geen$"*Kennismaking (bedraade) netwerken
+*Intro LAN's en WAN's
+*Intro Wireless netwerken
+"$"* Werkstations
+* Server
+* Losse kabels en connectors
+* Switch en Router"$$Networking$$
+2$int-ntw-2$Niv. 1$OSI model$1 dagdeel (3 uur)$Theorie + Praktijk$Inzicht in het OSI-model$"*98-366 Networking Fundamentals
+*CompTIA Network+ "$Geen$Toelichting en praktijk m.b.v. het OSI model$* Werkstations$$Networking$Standaarden$
+3$int-ntw-3$Niv. 1$IP 4 adressering$2 dagdelen (6 uur)$Theorie + Praktijk$Werken met standaard IP 4 adressen$"*98-366 Networking Fundamentals
+*CompTIA Network+ "$"int-ntw-1
+"$Subnetting, IPconfig, why use Internet Protocol version 4 (IPv4), addressing, ipv4toipv6 tunneling protocols to ensure backward compatibility, dual IP stack, subnetmask, gateway, ports, packets, reserved address ranges for local use (including local loopback IP)$"* Werkstations
+* Server"$$Networking$Standaarden$
+4$int-ntw-4$Niv. 1$IP 6 adressering$2 dagdelen (6 uur)$Theorie + Praktijk$Werken met standaard IP 6 adressen$"*98-366 Networking Fundamentals
+*CompTIA Network+ "$"*int-ntw-1f
+*int-ntw-3"$Subnetting, IPconfig, why use IPv6, addressing, ipv4 to  ipv6 tunneling protocols to ensure backward compatibility, dual IP stack, subnetmask, gateway, ports, packets, reserved address ranges for local use (including local loopback IP)$"* Werkstations
+* Server"$$Networking$Standaarden$
+5$os-w-1$Niv. 1$Operating  Systems Intro$2 dagdelen (6 uur)$Theorie + Praktijk$"Begrip van OS + installatie
+"$98-349 Windows Operating System Fundamentals$Geen$Uitleg verschillende OS-en + basis install Windows en Linux$"* Werkstations
+* Installatiesoftware"$$Windows$Linux$
+6$os-l-1$Niv. 2$Arch Linux installeren$2 dagdelen (6 uur)$Opdrachten$Complexere Linux installatie$CompTIA Linux +$"*os-w-1
+*int-hw-1"$M.b.v. Wiki, Arch installeren$"* Computer
+* Arch ISO"$$$$
+7$int-hw-1$Niv. 1$Intro hardware$1 dagdeel (3 uur)$Theorie + Praktijk$Kennis van hardware$CompTIA A+ $Geen$Verschillende soorten hardware onderzoeken$"* Computers
+* Monitor
+* Routers, Switches etc."$$Hardware$$
+8$vpn-1$Niv. 1$Basiskennis VPN's$2 dagdelen (6 uur)$Theorie + Praktijk$Installeren, inrichten en gebruik VPN$"*98-366 Networking Fundamentals
+*CompTIA Network+ "$"*int-ntw-1
+*os-w-1
+*int-ntw-3"$"*Wat is een VPN en wanneer gebruik je deze?
+*Hoe installeer ik deze?
+*Hoe richt ik deze in voor gebruik?
+*Hoe beveilig ik een VPN?"$"* Werkstations
+* VPN Server"$$Networking$Security$Virtualisatie
+9$int-ntw-4$Niv. 1$Wireless netwerken $4 dagdelen (12 uur)$Theorie + Praktijk$"*Kennis opdoen omtrent wireless netwerkstandaarden waaronder 802.11a,b,g,n,ac.
+*Kennis en ervaring met verschillende GHz bereiken"$"*98-366 Networking Fundamentals
+*CompTIA Network+ "$"*int-ntw-1
+*os-w-1
+*int-ntw-3"$"*Wat is een Modem en waarvoor dient deze?
+*Welke standaard gebruik ik en wanneer pas ik *deze toe?
+*Wat zijn kanalen en wanneer gebruik ik welke kanaal?
+*Welke GHz gebruik ik en waarom?"$"* Werkstations
+* Server
+* Losse kabels en connectors
+* Switch en Router
+* Modem"$$Networking$Standaarden$
+10$int-ntw-5$Niv. 1$Switches$2 dagdelen (6 uur)$Theorie + Praktijk$Kennis en ervaring opdoen met netwerk swtiches$"*98-366 Networking Fundamentals
+*CompTIA Network+ "$"*int-ntw-1
+*os-w-1
+*int-ntw-3
+*int-ntw-4"$"*Wat is een switch en wat is het verschil met een router?
+*Transmission speed, number and type of ports, number of uplinks, speed of uplinks, managed or unmanaged switches, VLAN capabilities, Layer 2 and Layer 3 switches and security options, hardware redundancy, support, backplane speed, switching types and MAC table, understand capabilities of hubs versus switches, virtual switches."$"* Werkstations
+* Server
+* Losse kabels en connectors
+* Switch en Router
+"$$Networking$Standaarden$
+11$int-ntw-6$Niv. 1$Routers$2 dagdelen (6 uur)$Theorie + Praktijk$Kennis en ervaring opdoen met routers$"*98-366 Networking Fundamentals
+*CompTIA Network+ "$"*int-ntw-1
+*os-w-1
+*int-ntw-3
+*int-ntw-4
+*int-ntw-5"$"* Wat is een router en welke functie heeft deze?
+*Transmission speed considerations, directly connected routes, static routing, dynamic routing (routing protocols), RIP vs. OSPF, default routes; routing table and how it selects best route(s); routing table memory, Network Address Translation (NAT), software routing in Windows Server, installing and configuring routing; Quality of Service (QoS)"$"* Werkstations
+* Server
+* Losse kabels en connectors
+* Switch en Router
+"$$Networking$Standaarden$
+12$int-ntw-7$Niv. 1$Netwerk services$4 dagdelen (12 uur)$Theorie + Praktijk$Kennis en ervaring opdoen met netwerk services DNS, WINS, DHCP en NAT$"*98-366 Networking Fundamentals
+*CompTIA Network+ "$"*int-ntw-1
+*os-w-1
+*int-ntw-3
+*int-ntw-4
+*int-ntw-5
+*int-ntw-6"$"*Understand names resolution
+DNS, resource records, Windows Internet Name Service (WINS), steps in the name resolution process, HOSTS file, LMHOSTS file
+*Understand networking services
+Dynamic Host Configuration Protocol (DHCP), Network Address Translation (NAT), firewalls, remote access, VPN
+*Understand TCP/IP
+Tools (such as ping), tracert, pathping, Telnet, IPconfig, netstat, reserved address ranges for local use (including local loopback IP), protocols"$"* Werkstations
+* Server
+* Losse kabels en connectors
+* Switch en Router
+"$$Networking$Standaarden$
+13$exam-98-366$Niv. 1$Examen$1 dagdeel (3 uur)$Examen$"Behalen certificaat
+"$98-366 Networking Fundamentals$"int-ntw-1
+int-ntw-2
+int-ntw-3
+int-ntw-4
+os-w-1
+os-l-1
+int-hw-1
+vpn-1
+int-ntw-4
+int-ntw-5
+int-ntw-6
+int-ntw-7"$Examenstof van genoemde modules in benodigde voorkennis$Examenlocatie$$Examen$$
+14$int-sec-1$Niv. 1$Beveiliging intro - Beveiligings lagen$2 dagdelen (6 uur)$Theorie + Praktijk$Kennis en ervaring opdoen met de basis van beveiliging$"*98-367 Security Fundamentals
+*CompTIA Security+"$exam-98-366$"*Understand core security principles
+Confidentiality; integrity; availability; how threat and risk impact principles; principle of least privilege; social engineering; attack surface analysis; threat modelling
+*Understand physical security
+Site security; computer security; removable devices and drives; access control; mobile device security; keyloggers
+*Understand Internet security
+Browser security settings; secure websites
+*Understand wireless security
+Advantages and disadvantages of specific security types; keys; service set identifiers (SSIDs); MAC filters"$"* Werkstations
+* Server(s)
+* Losse kabels en connectors
+* Switch en Router
+"$$Security$Networking$Operating Systems
+15$int-sec-2$Niv. 1$OS beveiliging -Permissies en Policies$4 dagdelen (12 uur)$Theorie + Praktijk$Kennis en ervaring opdoen met beveiliging van besturingssystemen$"*98-367 Security Fundamentals
+*CompTIA Security+"$"*exam-98-366
+*int-sec-1"$"*Understand user authentication
+Multifactor authentication; physical and virtual smart cards; Remote Authentication Dial-In User Service (RADIUS); biometrics; use Run As to perform administrative tasks
+*Understand permissions
+File system permissions; share permissions; registry; Active Directory; enable or disable inheritance; behavior when moving or copying files within the same disk or on another disk; multiple groups with different permissions; basic permissions and advanced permissions; take ownership; delegation; inheritance
+*Understand password policies
+Password complexity; account lockout; password length; password history; time between password changes; enforce by using *Group Policies; common attack methods; password reset procedures; protect domain user account passwords
+*Understand audit policies
+Types of auditing; what can be audited; enable auditing; what to audit for specific purposes; where to save audit information; how to secure audit information"$"* Werkstations
+* Server(s)
+* Losse kabels en connectors
+* Switch en Router
+"$$Security$Networking$Operating Systems
+16$int-sec-3$Niv. 1$OS beveiliging - Encryptie en Malware$4 dagdelen (12 uur)$Theorie + Praktijk$Kennis en ervaring opdoen met beveiliging van besturingssystemen$"*98-367 Security Fundamentals
+*CompTIA Security+"$"*exam-98-366
+*int-sec-1
+*int-sec-2"$"*Understand encryption
+Encrypting file system (EFS); how EFS-encrypted folders impact moving/copying files; BitLocker (To Go); TPM; software-based encryption; MAIL encryption and signing and other uses; virtual private network (VPN); public key/private key; encryption algorithms; certificate properties; certificate services; PKI/certificate services infrastructure; token devices; lock down devices to run only trusted applications
+*Understand malware
+Buffer overflow; viruses, polymorphic viruses; worms; Trojan horses; spyware; ransomware; adware; rootkits; backdoors; zero day attacks"$"* Werkstations
+* Server(s)
+* Losse kabels en connectors
+* Switch en Router
+"$$Security$Networking$Operating Systems
+17$int-sec-4$Niv. 1$Netwerk beveiliging - Firewalls$2 dagdelen (6 uur)$Theorie + Praktijk$Kennis en ervaring opdoen met beveiliging van netwerk firewalls$"*98-367 Security Fundamentals
+*CompTIA Security+"$"*exam-98-366
+*int-sec-1
+*int-sec-2
+*int-sec-3"$"Understand dedicated firewalls
+Types of hardware firewalls and their characteristics; when to use a hardware firewall instead of a software firewall; stateful versus stateless firewall inspection; Security Compliance Manager; security baselines"$"* Werkstations
+* Server(s)
+* Losse kabels en connectors
+* Switch en Router
+"$$Security$Networking$
+18$int-sec-5$Niv. 1$Netwerk beveiliging - Netwerk isolatie en protocol beveiliging$2 dagdelen (6 uur)$Theorie + Praktijk$Kennis en ervaring opdoen met isolatie van netwerken en beveiliging van protocollen.$"*98-367 Security Fundamentals
+*CompTIA Security+"$"*exam-98-366
+*int-sec-1
+*int-sec-2
+*int-sec-3
+*int-sec-4"$"*Understand network isolation
+Routing; honeypot; perimeter networks; network address translation (NAT); VPN; IPsec; server and domain isolation
+*Understand protocol security
+Protocol spoofing; IPsec; tunneling; DNSsec; network sniffing; denial-of-service (DoS) attacks; common attack methods"$"* Werkstations
+* Server(s)
+* Losse kabels en connectors
+* Switch en Router
+"$$Security$Networking$
+19$exam-98-367$Niv. 1$Kennistoetsing omtrent basiskennis beveiling$1 dagdeel (3 uur)$Examen$Certificaat behalen$98-367 Security Fundamentals$"*exam-98-366
+*int-sec-1
+*int-sec-2
+*int-sec-3
+*int-sec-4
+*int-sec-5"$$Examenfaciliteit$$Examen$Security$
+20$os-l-1$Niv. 1$Kennis maken met de boot principes van Linux$2 dagdelen (6 uur)$Theorie + Praktijk$Installeren, starten, troubleshooten bij het op opstartproces.$"*LPIC-1 101
+*LPIC-1 102
+*CompTIA Linux +"$"exam-98-366
+exam-98-367
+examen-Linux-Essentials"$"*Boot loaders
+*Boot options
+*File locations
+*Boot modules and files
+*Kernel panic"$"Werkstation
+Server "$$Linux$$
+21$os-l-2$Niv. 1$Kernel modules$1 dagdeel (3 uur)$Opdrachten$Oefenen met het installeren, configureren en monitoren van kernel modules$"*LPIC-1 101
+*LPIC-1 102
+*CompTIA Linux +"$"exam-98-366
+exam-98-367
+examen-Linux-Essentials"$"*Verstrek lijst met commando's
+*Verstrek lijst met locaties"$"Werkstation
+Server "$$Linux$$
+22$os-l-3$Niv. 1$Netwerkconnectie parameters$2 dagdelen (6 uur)$Theorie + Praktijk$Oefenen met het configureren  en valideren van netwerkconnectie parameters$"*LPIC-1 101
+*LPIC-1 102
+*CompTIA Linux +"$"exam-98-366
+exam-98-367
+examen-Linux-Essentials"$"*Leg uit de voornaamste diagnostische tools
+- ping
+- netstat
+- nslookup
+- dig
+- host
+- route
+- ip
+- ethtool
+- ss
+- iwconfig
+- nmcli
+- brctl
+- nmtui
+* Laat de betrokken configuratie bestanden zien en hun locatie
+* Licht Bonding toe"$"* Werkstations
+* Server(s)
+* Losse kabels en connectors
+* Switch en Router
+"$$Linux$$
+23$os-l-4$Niv. 1$Storage$2 dagdelen (6 uur)$Theorie + Praktijk$Managen van opslag in een Linux omgeving$"*LPIC-1 101
+*LPIC-1 102
+*CompTIA Linux +"$"exam-98-366
+exam-98-367
+examen-Linux-Essentials"$"*Partitions
+*File System
+*Device mapper
+*Tools
+*Location
+*File system types"$"Werkstation
+Server "$$Linux$$
+24$os-l-5$Niv. 1$Cloud en Virtualistaie$2 dagdelen (6 uur)$Theorie + Praktijk$Vergelijking en verschillen cloud en virtualisatie concepten en technologieën$"*LPIC-1 101
+*LPIC-1 102
+*CompTIA Linux +"$"exam-98-366
+exam-98-367
+examen-Linux-Essentials"$"*Templates
+*Bootstrapping
+*Storage
+*Network Considerations
+- Bridging
+- Overlay networks
+- NAT
+- Local
+- Dual-homed
+*Types of hypervisors
+*Tools"$"* Werkstations
+* Server(s)
+* Losse kabels en connectors
+* Switch en Router
+"$$Linux$$
+25$os-l-6$Niv. 1$Configuratie localization opties$1 dagdeel (3 uur)$Theorie + Praktijk$Het configureren van localizatie opties$"*LPIC-1 101
+*LPIC-1 102
+*CompTIA Linux +"$"exam-98-366
+exam-98-367
+examen-Linux-Essentials"$"*File locations
+*Commans
+*Envorinment variables
+*Character sets"$"Werkstation
+Server "$$Linux$$
+26$os-l-7$Niv. 1$Software installaties, configuraties, updates en verwijderingen$1 dagdeel (3 uur)$Theorie + Praktijk$Het uitvoeren van sogftware installaties, configuraties, updates en verwijderingen$"*LPIC-1 101
+*LPIC-1 102
+*CompTIA Linux +"$"exam-98-366
+exam-98-367
+examen-Linux-Essentials"$"• Package types
+• Installation tools
+• Build tools
+• Repositories
+• Acquisition commands"$"Werkstation
+Server "$$Linux$$
+27$os-l-8$Niv. 1$Gebruikers en groepen$1 dagdeel (3 uur)$Theorie + Praktijk$Het beheren van gebruikers en groepen$"*LPIC-1 101
+*LPIC-1 102
+*CompTIA Linux +"$"exam-98-366
+exam-98-367
+examen-Linux-Essentials"$"• Creation
+• Modification
+• Deletion
+• Queries
+• Profiles
+• Important files and file contents"$"Werkstation
+Server "$$Linux$$
+28$os-l-9$Niv. 1$Omgaan met bestanden$2 dagdelen (6 uur)$Theorie + Praktijk$Het maken, aanpassen en re-directen van bestanden$"*LPIC-1 101
+*LPIC-1 102
+*CompTIA Linux +"$"exam-98-366
+exam-98-367
+examen-Linux-Essentials"$"• Text editors
+• File readers
+• Output redirection
+• Text processing
+• File and directory operations"$"Werkstation
+Server "$$Linux$$
+29$os-l-10$Niv. 1$Beheren van services$1 dagdeel (3 uur)$Theorie + Praktijk$Het beheren van Linux services$"*LPIC-1 101
+*LPIC-1 102
+*CompTIA Linux +"$"exam-98-366
+exam-98-367
+examen-Linux-Essentials"$"• Systemd management
+• SysVinit
+"$"Werkstation
+Server "$$Linux$$
+30$os-l-11$Niv. 1$Server rollen$2 dagdelen (6 uur)$Theorie + Praktijk$Het samenvatten en uitleggen van server rollen$"*LPIC-1 101
+*LPIC-1 102
+*CompTIA Linux +"$"exam-98-366
+exam-98-367
+examen-Linux-Essentials"$"• NTP
+• SSH
+• Web
+• Certificate authority
+• Name server
+• DHCP
+• File servers
+• Authentication server
+• Proxy
+• Logging
+• Containers
+• VPN
+• Monitoring
+• Database
+• Print server
+• Mail server
+• Load balancer
+• Clustering"$"Werkstation
+Server "$$Linux$$
+31$os-l-12$Niv. 1$Automatiseren van taken$1 dagdeel (3 uur)$Theorie + Praktijk$Het kunnen autamtiseren van Linux taken$"*LPIC-1 101
+*LPIC-1 102
+*CompTIA Linux +"$"exam-98-366
+exam-98-367
+examen-Linux-Essentials"$"• cron
+• at
+• crontab
+• fg
+• bg
+• &
+• kill
+• Ctrl+c
+• Ctrl+z
+• nohup"$"Werkstation
+Server "$$Linux$$
+32$os-l-13$Niv. 1$Het gebruik van Linux devices$2 dagdelen (6 uur)$Theorie + Praktijk$Het kunnen gebruiken en onderhouden van Linux devices$"*LPIC-1 101
+*LPIC-1 102
+*CompTIA Linux +"$"exam-98-366
+exam-98-367
+examen-Linux-Essentials"$"• Types of devices
+• Monitoring and configuration tools
+• File locations
+• Hot pluggable devices"$"Werkstation
+Server "$$Linux$$
+33$os-l-14$Niv. 1$Verschillende Linux GUI's$1 dagdeel (3 uur)$Theorie + Praktijk$Vergelijkingen en verschillen in Linux GUI's$"*LPIC-1 101
+*LPIC-1 102
+*CompTIA Linux +"$"exam-98-366
+exam-98-367
+examen-Linux-Essentials"$"• Servers
+• GUI
+• Remote desktop
+• Console redirection
+• Accessibility"$"Werkstation
+Server "$$Linux$$
+34$os-l-15$Niv. 1$Toekennen van permissies en eigenaarschap$$Theorie + Praktijk$Het toekennen of verkrijgen van de juiste gebruikers- en/of groepspermissies of eigenaarschap.$"*LPIC-1 101
+*LPIC-1 102
+*CompTIA Linux +"$"exam-98-366
+exam-98-367
+examen-Linux-Essentials"$"• File and directory permissions
+• Context-based permissions
+• Privilege escalation
+• User types
+"$"Werkstation
+Server "$$Linux$$
+35$os-l-16$Niv. 1$Configureren en implementeren van de juiste toegangs- en authentificatiemethodes$2 dagdelen (6 uur)$Theorie + Praktijk$Het configureren en implementeren van de juiste toegangs- en authentificatiemethodes$"*LPIC-1 101
+*LPIC-1 102
+*CompTIA Linux +"$"exam-98-366
+exam-98-367
+examen-Linux-Essentials"$"• PAM
+• SSH
+• TTYs
+• PTYs
+• PKI
+• VPN as a client
+"$"Werkstation
+Server "$$Linux$$
+36$os-l-17$Niv. 1$Best practices in een Linux omgeving$2 dagdelen (6 uur)$Theorie + Praktijk$Het samenvatten van best practices in een Linux omgeving$"*LPIC-1 101
+*LPIC-1 102
+*CompTIA Linux +"$"exam-98-366
+exam-98-367
+examen-Linux-Essentials"$"• Boot security
+• Additional authentication methods
+• Importance of disabling root login via SSH
+• Password-less login
+- Enforce use of PKI
+• Chroot jail services
+• No shared IDs
+• Importance of denying hosts
+• Separation of OS data from application data
+• Change default ports
+• Importance of disabling or uninstalling unused and unsecure services
+• Importance of enabling SSL/TLS
+• Importance of enabling auditd
+• CVE monitoring
+• Discouraging use of USB devices
+• Disk encryption
+• Restrict cron access
+• Disable Ctrl+Alt+Del
+• Add banner"$"Werkstation
+Server "$$Linux$$
+37$os-l-18$Niv. 1$Gebruik van looging devices$1 dagdeel (3 uur)$Theorie + Praktijk$Het werken met logging devices$"*LPIC-1 101
+*LPIC-1 102
+*CompTIA Linux +"$"exam-98-366
+exam-98-367
+examen-Linux-Essentials"$"• Key file locations
+• Log management"$"Werkstation
+Server "$$Linux$$
+38$os-l-19$Niv. 1$Implementeren en configureren van Linux firewalls$1 dagdeel (3 uur)$Theorie + Praktijk$Het kunnen implementeren en configureren van Linux firewalls$"*LPIC-1 101
+*LPIC-1 102
+*CompTIA Linux +"$"exam-98-366
+exam-98-367
+examen-Linux-Essentials"$"• Access control lists
+• Technologies
+• IP forwarding
+• Dynamic rule sets
+• Common application firewall configurations
+"$"Werkstation
+Server "$$Linux$$
+39$os-l-20$Niv. 1$Backup, restore en compress bestanden$1 dagdeel (3 uur)$Theorie + Praktijk$Het kunnen maken en beheren van een backup, restore en compress van bestanden$"*LPIC-1 101
+*LPIC-1 102
+*CompTIA Linux +"$"exam-98-366
+exam-98-367
+examen-Linux-Essentials"$"• Archive and restore utilities
+• Compression
+• Backup types
+• Off-site/off-system storage
+• Integrity checks"$"Werkstation
+Server "$$Linux$$
+40$os-l-21$Niv. 2$Systeemeigenschappen en storingen$2 dagdelen (6 uur)$Theorie + Praktijk$Analyseer systeemeigenschappen en verhelp storingen$"*LPIC-1 101
+*LPIC-1 102
+*CompTIA Linux +"$"exam-98-366
+exam-98-367
+examen-Linux-Essentials"$"• Network monitoring and configuration
+• Storage monitoring and configuration
+• CPU monitoring and configuration
+• Memory monitoring and configuration
+• Lost root password
+"$"Werkstation
+Server "$$Linux$$
+41$os-l-22$Niv. 2$Optimalistaie van systeemprocessen$1 dagdeel (3 uur)$Theorie + Praktijk$Analyseer systeemprocessen om systeem te kunnen optimaliseren$"*LPIC-1 101
+*LPIC-1 102
+*CompTIA Linux +"$"exam-98-366
+exam-98-367
+examen-Linux-Essentials"$"• Process management
+• Process states
+
+"$"Werkstation
+Server "$$Linux$$
+42$os-l-23$Niv. 2$Troubleshoot gebruikers issues$1 dagdeel (3 uur)$Theorie + Praktijk$Analyseer en troubleshoot gebruikers issues$"*LPIC-1 101
+*LPIC-1 102
+*CompTIA Linux +"$"exam-98-366
+exam-98-367
+examen-Linux-Essentials"$"• Permissions
+• Access
+• Authentication
+• File creation
+• Insufficient privileges for authorization
+• Environment and shell issues"$"Werkstation
+Server "$$Linux$$
+43$os-l-24$Niv. 2$TRoubleshoot applicatie en hardware issues$1 dagdeel (3 uur)$Theorie + Praktijk$Analyseer en troubleshoot applicatie en hardware  issues$"*LPIC-1 101
+*LPIC-1 102
+*CompTIA Linux +"$"exam-98-366
+exam-98-367
+examen-Linux-Essentials"$"• SELinux context violations
+• Storage
+• Firewall
+• Permission
+• Dependencies
+• Troubleshooting additional
+ hardware issues
+- Memory
+- Printers
+- Video
+ - GPU drivers
+- Communications ports
+- USB
+- Keyboard mapping
+- Hardware or software
+"$"Werkstation
+Server "$$Linux$$
+44$os-l-25$Niv. 2$Basis Bash scripting$1 dagdeel (3 uur)$Theorie + Praktijk$Het maken en uitvoeren van basis Bash scripts$"*LPIC-1 101
+*LPIC-1 102
+*CompTIA Linux +"$"exam-98-366
+exam-98-367
+examen-Linux-Essentials"$"• Shell environments and shell variables
+• #!/bin/bash
+• Sourcing scripts
+• Directory and file permissions
+• Extensions
+• Commenting
+• File globbing
+• Shell expansions
+• Redirection and piping
+• Exit codes
+• Metacharacters
+• Positional parameters
+• Looping constructs
+• Conditional statements
+• Escaping characters"$"Werkstation
+Server "$$Linux$$
+45$os-l-26$Niv. 2$Samenvatting processen en concepten$1 dagdeel (3 uur)$Theorie + Praktijk$Even op een rij zetten van de bel;angrijkste orchestratie van proecessen en concepten$"*LPIC-1 101
+*LPIC-1 102
+*CompTIA Linux +"$"exam-98-366
+exam-98-367
+examen-Linux-Essentials"$"• Agent
+• Agentless
+• Procedures
+• Attributes
+• Infrastructure automation
+• Infrastructure as code
+• Inventory
+• Automated configuration management
+• Build automation"$"Werkstation
+Server "$$Linux$$
+46$examen LPIC-101$Niv. 1$Linux Basis 1$1 dagdeel (3 uur)$Examen$Certificering $LPIC-1 101$"os-l-1 t/m os-i-26
+"$$Examen faciliteit$$Examen$Linux$
+47$examen LPIC-102$Niv. 1$Linux Basis 2$1 dagdeel (3 uur)$Examen$Certificering $LPIC-1 102$"os-l-1 t/m os-i-26
+"$$Examen faciliteit$$Examen$Linux$
+48$examen Linux+$Niv. 1$Linux Basis$1 dagdeel (3 uur)$Examen$Certificering $CompTIA Linux +$"os-l-1 t/m os-i-26
+"$$Examen faciliteit$$Examen$$
+49$ITIL-1$Niv. 1$Kennismaking Ticketing en registratie van service verzoeken.$1 dagdeel (3 uur)$Theorie + Praktijk$Verantwoord kunnen omgaan met een ticketing systeem$$Geen$Wat is een ticketingsysteem en hoe kan ik hier goed mee omgaan. $"*Server
+*Werkstation(s)
+*Ticketing Software"$$Standaarden$$
+50$ITIL-2$$Service Management basis$1 dagdeel (3 uur)$Klassikaal les$Basis service concepten en handelingen$$Geen$"1 Service Operation
+2 Introduction to Service Operations
+3 Objectives
+4 Service Operations-Overview
+5 Role of Communication
+6 Types of Communication
+7 Events
+8 Alerts and Incidents
+9 Problems and Workarounds
+10 Known Error and Known Error Database
+11 Priority"$"Zie Percipio of
+https://www.simplilearn.com/it-service-management"$$$$
+51$Intro-Pyth-1$Niv. 1$Pythons basis programmeren -1$1 dagdeel (3 uur)$Theorie + Praktijk$Uitvoeren van operaties met nbehulp van Data Types en Operators$98-381 Introduction to Programming Using Python$Geen$"*Evaluate an expression to identify the data type Python will assign to each variable
+*Perform data and data type operations
+*Determine the sequence of execution based on operator precedence
+*Select the appropriate operator to achieve the intended result
+"$"Werkstation 
+Python werkomgeving"$$Python$$
+52$Intro-Pyth-2$Niv. 1$Pythons basis programmeren -2$1 dagdeel (3 uur)$Theorie + Praktijk$Uitvoeren van control flow met decisions en loops$98-381 Introduction to Programming Using Python$Intro-Pyth-1$"*Construct and analyze code segments that use branching statements
+if; elif; else; nested and compound conditional expressions
+*Construct and analyze code segments that perform iteration
+while; for; break; continue; pass; nested loops and loops that include compound conditional expressions"$"Werkstation 
+Python werkomgeving"$$Python$$
+53$Intro-Pyth-3$Niv. 1$Pythons basis programmeren -3$1 dagdeel (3 uur)$Theorie + Praktijk$Uitvoeren van Input en Output operaties$98-381 Introduction to Programming Using Python$"Intro-Pyth-1
+Intro-Pyth-2"$"*Construct and analyze code segments that perform file input and output operations
+Open; close; read; write; append; check existence; delete; with statement
+*Construct and analyze code segments that perform console input and output operations
+Read input from console; print formatted text; use of command line arguments"$"Werkstation 
+Python werkomgeving"$$Python$$
+54$Intro-Pyth-4$Niv. 1$Pythons basis programmeren -4$1 dagdeel (3 uur)$Theorie + Praktijk$Documenteren en structureren van code$98-381 Introduction to Programming Using Python$"Intro-Pyth-1
+Intro-Pyth-2
+Intro-Pyth-3"$"*Document code segments using comments and documentation strings
+Use indentation, white space, comments, and documentation strings; generate documentation by using pydoc
+*Construct and analyze code segments that include function definitions
+Call signatures; default values; return; def; pass"$"Werkstation 
+Python werkomgeving"$$Python$$
+55$Intro-Pyth-5$Niv. 1$Pythons basis programmeren -5$1 dagdeel (3 uur)$Theorie + Praktijk$Trouble-shooting en foutafhandeling$98-381 Introduction to Programming Using Python$"Intro-Pyth-1
+Intro-Pyth-2
+Intro-Pyth-3
+Intro-Pyth-4"$"*Analyze, detect, and fix code segments that have errors
+Syntax errors; logic errors; runtime errors
+*Analyze and construct code segments that handle exceptions
+Try; except; else; finally; raise"$"Werkstation 
+Python werkomgeving"$$Python$$
+56$Intro-Pyth-6$Niv. 1$Pythons basis programmeren -6$1 dagdeel (3 uur)$Theorie + Praktijk$Uitvoeren van operaties m.b.v. modules en tools$98-381 Introduction to Programming Using Python$"Intro-Pyth-1
+Intro-Pyth-2
+Intro-Pyth-3
+Intro-Pyth-4
+Intro-Pyth-5"$"*Perform basic operations using built-in modules
+Math; datetime; io; sys; os; os.path; random
+*Solve complex computing problems by using built-in modules
+Math; datetime; random"$"Werkstation 
+Python werkomgeving"$$Python$$
+57$examen-Linux-Essentials$Niv. 1$Kennistoetsing omtrent introductie Linux$1 dagdeel (3 uur)$Examen$Certificaat behalen$LPI Linux essentials$"*FOSS (First Open Source Services), de verschillende communities en licenties
+Kennis van Open Source applicaties op de werkplek in combinatie met gesloten systemen
+*Basiskennis van hardware, processen, programma’s en de onderdelen van het Linux Operating System
+*Werken op de commandoregel, werken met files
+*Maken en herstellen van gecomprimeerde backups en archieven
+*Systeembeveiliging, aanmaken van gebruikersaccounts users/groups en rechten voor publieke en private mappen
+*Maken en laten werken van eenvoudige scripts."$$"Werkstation
+Server "$$Examen$$
+58$examen LPIC-101$Niv. 1$Kennistoetsing omtrent basiskennis Linux deel 1 van 2$1 dagdeel (3 uur)$Examen$Certificaat behalen$LPIC-1 101$"*understand the architecture of a Linux system;
+*install and maintain a Linux workstation, including X11 and setup it up as a network client;
+*work at the Linux command line, including common GNU and Unix commands;
+*handle files and access permissions as well as system security; and
+*perform easy maintenance tasks: help users, add users to a larger system, backup and restore, shutdown and reboot."$https://www.lpi.org/our-certifications/exam-101-objectives$$$Examen$$
+59$examen LPIC-102$Niv. 1$Kennistoetsing omtrent basiskennis Linux deel 2 van 2$1 dagdeel (3 uur)$Examen$Certificaat behalen$LPIC-1 102$"*Use standard sh syntax (loops, tests).
+*Use command substitution.
+*Test return values for success or failure or other information provided by a command.
+*Execute chained commands.
+*Perform conditional mailing to the superuser.
+*Correctly select the script interpreter through the shebang (#!) line.
+*Manage the location, ownership, execution and suid-rights of scripts."$https://www.lpi.org/our-certifications/exam-102-objectives$$$Examen$$
+60$examen LPIC-201$Niv. 2$$1 dagdeel (3 uur)$Examen$Certificaat behalen$LPIC-2 201$$$$$Examen$$
+61$examen LPIC-202$Niv. 2$$1 dagdeel (3 uur)$Examen$Certificaat behalen$LPIC-2 202$$$$$Examen$$
+62$examen A+$Niv. 1$$1 dagdeel (3 uur)$Examen$Certificaat behalen$CompTIA A+ $$$$$Examen$$
+63$examen Security+$Niv. 2$$1 dagdeel (3 uur)$Examen$Certificaat behalen$CompTIA Security+$$$$$Examen$$
+64$examen Network+$Niv. 2$$1 dagdeel (3 uur)$Examen$Certificaat behalen$CompTIA Network+ $$$$$Examen$$
+65$examen 98-349$Niv. 1$$1 dagdeel (3 uur)$Examen$Certificaat behalen$98-349 Windows Operating System Fundamentals$$$$$Examen$$
+66$examen 98-381$Niv. 1$$1 dagdeel (3 uur)$Examen$Certificaat behalen$98-381 Introduction to Programming Using Python$$$$$Examen$$
+67$examen 98-364$Niv. 1$$1 dagdeel (3 uur)$Examen$Certificaat behalen$98-364 Database Fundamentals$$$$$Examen$$

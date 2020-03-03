@@ -1,0 +1,60 @@
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studievolgsysteem IT Vitae - @ViewBag.Title</title>
+    @Styles.Render("~/bundles/css")
+    @Scripts.Render("~/Scripts/ddmenu.js")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</head>
+<body style="margin-left: 0px">
+    <header class="header">
+        <div id="headerLogo">
+            <a href="@Url.Action("Index", "Home")">
+                <img src="~/Content/logo_itvitae_liggend_anders_denken.png" alt="IT Vitae logo" width="250" />
+            </a>
+        </div>
+        <div id="headerTitle">
+            <h1>Studievolgsysteem</h1>
+        </div>
+    </header>
+    <nav id="ddmenu">
+        <ul>
+            <li><a class="arrow" @Html.ActionLink("Deelnemers", "Index", "Student")></a></li>
+            <li><a class="arrow" @Html.ActionLink("Curriculum-Sjablonen", "Index", "CurriculumTemplate")></a></li>
+            <li>
+                Admin
+                <div>
+                    <div>
+                        <a>@Html.ActionLink("Users", "Users", "Admin")</a>
+                        <a>@Html.ActionLink("CSV", "Index", "CSV")</a>
+                        <a>@Html.ActionLink("Onderwerpen", "Index", "Topics")</a>
+                        <a>@Html.ActionLink("Benodigdheden", "Index", "Benodigdheden")</a>
+                        <a>@Html.ActionLink("Certificeringen", "Index", "Certificeringen")</a>
+                        <a>@Html.ActionLink("Niveaus", "Index", "Niveau")</a>
+                        <a>@Html.ActionLink("Tags", "Index", "Tag")</a>
+                        <a>@Html.ActionLink("Percipio Links", "Index", "Percipiolink")</a>
+                        <a>@Html.ActionLink("Tijdsduren", "Index", "Tijdsduren")</a>
+                        <a>@Html.ActionLink("Werkvormen", "Index", "Werkvorm")</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <main class="main">
+        @RenderBody()
+    </main>
+    <br />
+    <br />
+    <hr style="border-top: 3px dotted #00a7be" />
+    <footer id="footer">
+        <br />
+        <p>&copy; @DateTime.Now.Year - IT Vitae</p>
+    </footer>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

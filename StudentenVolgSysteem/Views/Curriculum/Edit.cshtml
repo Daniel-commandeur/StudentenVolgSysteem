@@ -1,0 +1,66 @@
+﻿@model StudentenVolgSysteem.Models.ViewModels.EditCurriculumViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+    $(document).ready(function () {
+        $('.multiSelect').multiselect({
+            includeSelectAllOption: true,
+            maxHeight : 300,
+            enableFiltering: true,
+            onDropdownShown: function () {
+                $("li.filter").show();
+            },
+            onDropdownHidden: function () {
+                $("li.filter").hide();
+            },
+            enableCaseInsensitiveFiltering: true
+        });
+    });
+    </script>
+}
+
+<h2>Wijzig</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Persoonlijk curriculum van <b>@Model.Curriculum.Student.VolledigeNaam</b></h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Curriculum.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Curriculum.Naam, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Curriculum.Naam, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Curriculum.Naam, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Curriculum.Topics, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.TopicIds, new MultiSelectList(Model.AlleTopics, "Id", "NaamCode", Model.Curriculum.Topics.Select(c => c.Topic.Id)), new { @class = "multiSelect", @multiple = "multiple", @searchable = "Search here.." })
+                @Html.ValidationMessageFor(model => model.TopicIds, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Wijzig" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Terug naar overzicht",  "Details" , "Student",new { id = Model.Curriculum.Student.Id}, new { })
+</div>

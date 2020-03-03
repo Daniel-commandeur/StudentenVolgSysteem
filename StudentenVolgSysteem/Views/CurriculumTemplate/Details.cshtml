@@ -1,0 +1,35 @@
+﻿@model StudentenVolgSysteem.Models.CurriculumTemplate
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Curriculum</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Naam)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Naam)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Topics)
+        </dt>
+
+        <dd>
+            @foreach (var item in Model.Topics)
+            {
+                @Html.DisplayFor(model => item.NaamCode)<br />
+            }
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Wijzig", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Terug naar overzicht", "Index")
+</p>

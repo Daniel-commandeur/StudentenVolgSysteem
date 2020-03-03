@@ -1,0 +1,196 @@
+﻿.header {
+    display: flex;
+    margin-left: 30px;
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+.main {
+    margin-left: 40px;
+    margin-top: 45px;
+}
+
+#headerTitle {
+    margin-left: 375px;
+    margin-top: 20px;
+    font-family: Arial, Verdana, Helvetica sans-serif;
+    font-size: large;
+}
+
+#headerLogo {
+    width: 250px;
+}
+
+#footer {
+    margin-left: 40px;
+    font-weight: 300;
+}
+
+.pageTitleLabel {
+    color: black;
+    font-size: large;
+    font-weight: 600;
+}
+
+a {
+    text-decoration: none;
+    color: #00a7be;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+body {
+    font-family: Arial, Verdana, Helvetica sans-serif;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    width: 100%;
+    min-width: 700px;
+}
+
+body-center {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    position: relative;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.my-body-content {
+    position: relative;
+    padding-top: 80px;
+}
+
+a[type="button"] {
+    display: inline-block;
+    border-radius: 50%;
+    border: none;
+    background-color: #00a7be;
+    margin-bottom: 20px;
+    color: white;
+    font-style: normal;
+    font-size: medium;
+    font-weight: 600;
+    padding: 20px 20px 20px 20px;
+    text-decoration: none;
+}
+
+a[type="button"]:hover {
+    color: gold;
+}
+
+
+.my-body-content hr {
+    color: #e9e9e9;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.my-body-content {
+    margin: 20px;
+}
+
+#name {
+    max-width: 300px;
+}
+
+.table {
+    border-collapse: collapse !important;
+}
+
+.table th {
+    padding: 10px 30px 10px 0px;
+    background-color: #fff !important;
+    margin-bottom: 10px;
+    text-align: left;  
+}
+
+.table td {
+    padding: 10px 30px 10px 0px;
+    background-color: #fff !important;
+    margin-bottom: 10px;
+    border-color: #00a7be;
+}
+
+.showList {
+    border-collapse: collapse !important;
+}
+
+.showList dl {
+    padding: 10px 30px 10px 0px;
+    background-color: #fff !important;
+    text-align: left;
+}
+
+.showList dt {
+    padding: 10px 30px 10px 0px;
+    background-color: #fff !important;
+}
+
+.showList dd {
+    margin-bottom: 10px;
+}
+
+.labelFont1 {
+    font-size: medium;
+    font-weight: 700;
+}
+
+.topMargin-3 {
+    margin-top: 3px;
+}
+
+.topMargin-10 {
+    margin-top: 10px;
+}
+
+.button {
+    margin-top: 20px;
+    background-color: #00a7be;
+    border: none;
+    border-radius: 16px;
+    color: white;
+    padding: 8px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: small;
+    font-weight: 700;
+}
+
+.button:hover {
+    color: gold;
+    cursor: pointer;
+}
+
+.button-delete {
+    background-color: crimson;
+}
+
+.button-delete:hover {
+    color: black;
+}
+
+.text-warning {
+    margin-left: 5px;
+    color: crimson;
+}
+

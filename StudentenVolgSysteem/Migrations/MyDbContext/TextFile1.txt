@@ -1,0 +1,16 @@
+﻿
+
+add-Migration -Configuration StudentenVolgSysteem.Migrations.MyDbContext.Configuration
+
+(upgrade)
+update-database -Configuration StudentenVolgSysteem.Migrations.MyDbContext.Configuration
+
+(downgrade)
+update-database -Configuration StudentenVolgSysteem.Migrations.MyDbContext.Configuration -TargetMigration
+
+
+Release db:
+
+add-Migration -ConnectionStringName LiveConnection -Configuration StudentenVolgSysteem.Migrations.MyDbContext.Configuration init
+
+update-database -ConnectionStringName LiveConnection

@@ -1,0 +1,50 @@
+﻿@model StudentenVolgSysteem.Models.Student
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Wijzig studentgegevens</h2>
+<br/>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div>
+        @Html.ValidationSummary(true, "", new { @class = "text-warning" })
+        @Html.HiddenFor(model => model.Id)
+        <div class="labelFont1">
+            @Html.LabelFor(model => model.Voornaam)
+            <div class="topMargin-3">
+                @Html.EditorFor(model => model.Voornaam)
+                @Html.ValidationMessageFor(model => model.Voornaam, "", new { @class = "text-warning" })
+            </div>
+        </div>
+        <br />
+        <div class="labelFont1">
+            @Html.LabelFor(model => model.Achternaam)
+            <div class="topMargin-3">
+                @Html.EditorFor(model => model.Achternaam)
+                @Html.ValidationMessageFor(model => model.Achternaam, "", new { @class = "text-warning" })
+            </div>
+        </div>
+        <br />
+        <div class="labelFont1">
+            @Html.LabelFor(model => model.AanmeldDatum)
+            <div class="topMargin-3">
+                @Html.EditorFor(model => model.AanmeldDatum)
+                @Html.ValidationMessageFor(model => model.AanmeldDatum, "", new { @class = "text-warning" })
+            </div>
+        </div>
+        <br />
+        <div>
+            <div>
+                <input type="submit" value="Opslaan" class="button" />
+            </div>
+        </div>
+    </div>
+}
+<br />
+<div>
+    @Html.ActionLink("Terug naar overzicht", "Index")
+</div>

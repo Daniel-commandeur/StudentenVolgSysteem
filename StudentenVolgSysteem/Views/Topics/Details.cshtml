@@ -1,0 +1,112 @@
+﻿@model StudentenVolgSysteem.Models.Topic
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Onderwerp</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Naam)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Naam)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Leerdoel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Leerdoel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Duur)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Duur.Eenheid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Voorkennis)
+        </dt>
+
+        <dd>
+            @foreach (var kennis in Model.Voorkennis)
+            {
+                @Html.DisplayFor(model => kennis.Naam)
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Inhoud)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Inhoud)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Certificeringen)
+        </dt>
+
+        <dd>
+            @foreach (var cert in Model.Certificeringen)
+            {
+                @Html.DisplayFor(modelItem => cert.Naam)
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Benodigdheden)
+        </dt>
+
+        <dd>
+            @foreach (var benodigdheden in Model.Benodigdheden)
+            {
+                @Html.DisplayFor(model => benodigdheden.Naam)
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PercipioLinks)
+        </dt>
+
+        <dd>
+            @foreach (var percipioLinks in Model.PercipioLinks)
+            {
+                @Html.DisplayFor(modelItem => percipioLinks.Link)
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tags)
+        </dt>
+
+        <dd>
+            @foreach (var tags in Model.Tags)
+            {
+                @Html.DisplayFor(modelItem => tags.Naam)
+            }
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Wijzig", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Terug naar overzicht", "BackToPrevious", new { returnUrl = ViewBag.returnurl})
+</p>

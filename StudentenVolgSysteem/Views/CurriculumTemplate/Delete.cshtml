@@ -1,0 +1,43 @@
+﻿@model StudentenVolgSysteem.Models.CurriculumTemplate
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Verwijder</h2>
+
+<h3>Weet je zeker dat je dit wilt verwijderen?</h3>
+<div>
+    <h4>Curriculum</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Naam)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Naam)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Topics)
+        </dt>
+
+        <dd>
+            @foreach (var item in Model.Topics)
+            {
+                @Html.DisplayFor(model => item.NaamCode)<br />
+            }
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Verwijder" class="btn btn-default" /> |
+            @Html.ActionLink("Terug naar overzicht", "Index")
+        </div>
+    }
+</div>

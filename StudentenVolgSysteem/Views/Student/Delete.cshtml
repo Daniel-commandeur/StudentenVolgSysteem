@@ -1,0 +1,30 @@
+﻿@model StudentenVolgSysteem.Models.Student
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Verwijder deelnemer</h2>
+<h4>Weet je zeker dat je deze deelnemer, inclusief alle voor deze deelnemer opgeslagen gegevens, wilt verwijderen?</h4>
+<br />
+<div>
+    <div class="labelFont1">
+        @Html.DisplayNameFor(model => model.VolledigeNaam)
+    </div>
+    <div class="topMargin-10">
+        @Html.DisplayFor(model => model.VolledigeNaam)
+    </div>
+</div>
+<br/>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        <input type="submit" value="Verwijder" class="button button-delete" />
+    </div>
+    <br />
+    <div>
+        @Html.ActionLink("Terug naar overzicht", "Index")
+    </div>
+}
