@@ -64,7 +64,7 @@ namespace StudentenVolgSysteem.Controllers
         }
 
         [HttpGet]
-        public ActionResult CreatePDF(int curriculumId)
+        public ActionResult CreatePDF(int? curriculumId)
         {
             if (curriculumId == null)
             {
