@@ -9,13 +9,9 @@ namespace StudentenVolgSysteem.Models.ViewModels
     public class CurriculumViewModel
     {
         public int CurriculumTemplateId { get; set; }
-        //SelectList
-        public List<Niveau> Niveaus { get; set; }
         public Student Student { get; set; }
 
         public int StudentId { get; set; }
-        [Display(Name = "Niveau")]
-        public int NiveauId { get; set; }
         [Display(Name = "Templates")]
         public List<CurriculumTemplate> CurriculumTemplates { get; set; }
         public List<Topic> AlleTopics { get; set; }

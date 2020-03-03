@@ -29,7 +29,6 @@ namespace StudentenVolgSysteem.Controllers
 
             CurriculumViewModel curriculumViewModel = new CurriculumViewModel {
                 CurriculumTemplates = db.GetFromDatabase<CurriculumTemplate>().ToList(),
-                Niveaus = db.GetFromDatabase<Niveau>().ToList(),
                 StudentId = (int)id,
                 Student = db.GetFromDatabase<Student>(id)
             };
@@ -43,12 +42,11 @@ namespace StudentenVolgSysteem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "StudentId,NiveauId,CurriculumTemplateId")] CurriculumViewModel curriculumViewModel)
+        public ActionResult Create([Bind(Include = "StudentId,CurriculumTemplateId")] CurriculumViewModel curriculumViewModel)
         {
             if (ModelState.IsValid)
             {
                 Student student = db.GetFromDatabase<Student>(curriculumViewModel.StudentId);
-                int NiveauId = curriculumViewModel.NiveauId;
                 var curriculumTemplate = db.GetFromDatabase<CurriculumTemplate>(curriculumViewModel.CurriculumTemplateId);
                 var topics = curriculumTemplate.Topics;
                 Curriculum curriculum = new Curriculum();
@@ -56,13 +54,9 @@ namespace StudentenVolgSysteem.Controllers
                 
                 foreach (var topic in topics)
                 {
-                    var topic1 = db.GetFromDatabase<Topic>(topic.Id);
-
-                    if (topic1.Niveau.Id <= NiveauId)
-                    {
-                        CurriculumTopic t = new CurriculumTopic { TopicId = topic.Id, Topic = topic, Curriculum = curriculum, CurriculumId = curriculum.Id };
-                        curriculum.Topics.Add(t);
-                    }
+                    //var topic1 = db.GetFromDatabase<Topic>(topic.Id);
+                    CurriculumTopic t = new CurriculumTopic { TopicId = topic.Id, Topic = topic, Curriculum = curriculum, CurriculumId = curriculum.Id };
+                    curriculum.Topics.Add(t);
                 }
 
 
