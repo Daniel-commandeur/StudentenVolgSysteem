@@ -1,0 +1,38 @@
+﻿@model IEnumerable<StudentenVolgSysteem.Models.ViewModels.DeelnemerAfwezigheidListViewModel>
+
+@{
+    ViewBag.Title = "DeelnemerList";
+}
+
+<h2>Deelnemer Lijst</h2>
+
+<table class="table">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Date)
+        </th>
+
+        @foreach (var item in Model)
+        {
+            <th>
+                @Html.DisplayFor(model => item.Student.VolledigeNaam)
+            </th>
+        }
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(model => item.Date)
+    </td>
+    @foreach (var deelNemer in Model)
+    {
+        <td>
+            @Html.DropDownListFor(modelItem => item.Option, item.OptionsSelectList, " ", new { htmlAttributes = new { @class = "form-control" } })
+        </td>
+    }
+</tr>
+    }
+</table>

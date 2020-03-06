@@ -1,22 +1,20 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using StudentenVolgSysteem.DAL;
 using StudentenVolgSysteem.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using StudentenVolgSysteem.DAL;
 using SelectListItem = System.Web.WebPages.Html.SelectListItem;
-
 
 namespace StudentenVolgSysteem.Controllers
 {
     [Authorize(Roles = "Administrator")]
     public class AdminController : BaseController
     {
-        SVSContext db = new SVSContext();
+        private SVSContext db = new SVSContext();
 
         #region Actions
 
@@ -127,7 +125,7 @@ namespace StudentenVolgSysteem.Controllers
         //    }
         //}
 
-        #endregion
+        #endregion Unused code
 
         // GET: Admin/AssignRolesToUsersAsync
         [HttpGet]
@@ -172,12 +170,11 @@ namespace StudentenVolgSysteem.Controllers
                         ViewBag.ResultMessage = "User was not added to role!";
                     }
                 }
-                
             }
-            
+
             assignRole.UserRolesList = getRoles();
             assignRole.UserList = getUsers();
-            
+
             return View(assignRole);
         }
 
@@ -188,7 +185,7 @@ namespace StudentenVolgSysteem.Controllers
         }
 
         // GET: Admin/EditRolesForUser
-        
+
         [HttpGet]
         public ActionResult EditRolesForUser(string id)
         {
@@ -267,7 +264,6 @@ namespace StudentenVolgSysteem.Controllers
                         }
                         catch (ArgumentNullException e)
                         {
-
                         }
                         //If it's not in the ilst of selected roles, do nothing
                     }
@@ -290,7 +286,29 @@ namespace StudentenVolgSysteem.Controllers
             return View(urm);
         }
 
-        #endregion
+        #region Implementation Test Afwezigheid
+
+        public ActionResult AddAfwezigheidOptions()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddAfwezigheidOptions(AfwezigheidOptionsModel insertedOption)
+        {
+            if (insertedOption == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+            db.AfwezigheidOptions.Add(insertedOption);
+            db.SaveChanges();
+            ModelState.Clear();
+            return View();
+        }
+
+        #endregion ImplementationTest
+
+        #endregion Actions
 
         #region Helpers
 
@@ -310,7 +328,7 @@ namespace StudentenVolgSysteem.Controllers
             }
 
             return listUsers;
-        } 
+        }
 
         /// <summary>
         /// Returns a list of roles
@@ -332,7 +350,6 @@ namespace StudentenVolgSysteem.Controllers
             return listRoles;
         }
 
-
         /// <summary>
         /// Check if user has role
         /// </summary>
@@ -353,9 +370,6 @@ namespace StudentenVolgSysteem.Controllers
             return false;
         }
 
-        #endregion
+        #endregion Helpers
     }
-
-
-
 }

@@ -44,6 +44,8 @@ namespace StudentenVolgSysteem.DAL
         public DbSet<Student> Studenten { get; set; }
 
         public DbSet<CurriculumTemplate> CurriculumTemplates { get; set; }
+        public DbSet<AfwezigheidModel> Afwezigheden { get; set; }
+        public DbSet<AfwezigheidOptionsModel> AfwezigheidOptions { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -96,6 +98,8 @@ namespace StudentenVolgSysteem.DAL
             }
             return query.Where(m => !m.IsDeleted).ToList();
         }
+
+        public System.Data.Entity.DbSet<StudentenVolgSysteem.Models.ViewModels.DeelnemerAfwezigheidListViewModel> DeelnemerAfwezigheidListViewModels { get; set; }
 
 
         //public IQueryable<TEntity> Including<TEntity>(params Func<TEntity, object>[] _includeProperties) where TEntity : class
