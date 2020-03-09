@@ -1,16 +1,31 @@
-﻿
+﻿Identity :
+
+		enable-migrations -ContextTypeName StudentenVolgSysteem.Models.ApplicationDbContext -MigrationsDirectory Migrations.Identity
+		
+		update-database -Configuration StudentenVolgSysteem.Migrations.Identity.Configuration
+
+	Release db:
+		
+		add-Migration -ConnectionStringName LiveConnection -Configuration StudentenVolgSysteem.Migrations.MyDbContext.Configuration init
+		add-Migration -ConnectionStringName LiveConnection -Configuration StudentenVolgSysteem.Migrations.Identity.Configuration init
+
+		update-database -ConnectionStringName LiveConnection -Configuration StudentenVolgSysteem.Migrations.Identity.Configuration
+		update-database -ConnectionStringName LiveConnection -Configuration StudentenVolgSysteem.Migrations.MyDbContext.Configuration
+
+
+MyDbContext :
 
 add-Migration -Configuration StudentenVolgSysteem.Migrations.MyDbContext.Configuration
 
-(upgrade)
-update-database -Configuration StudentenVolgSysteem.Migrations.MyDbContext.Configuration
+		(upgrade)
+		update-database -Configuration StudentenVolgSysteem.Migrations.MyDbContext.Configuration
 
-(downgrade)
-update-database -Configuration StudentenVolgSysteem.Migrations.MyDbContext.Configuration -TargetMigration
+		(downgrade)
+		update-database -Configuration StudentenVolgSysteem.Migrations.MyDbContext.Configuration -TargetMigration
 
 
-Release db:
+	Release db:
 
-add-Migration -ConnectionStringName LiveConnection -Configuration StudentenVolgSysteem.Migrations.MyDbContext.Configuration init
+		add-Migration -ConnectionStringName LiveConnection -Configuration StudentenVolgSysteem.Migrations.MyDbContext.Configuration init
 
-update-database -ConnectionStringName LiveConnection
+		update-database -ConnectionStringName LiveConnection
