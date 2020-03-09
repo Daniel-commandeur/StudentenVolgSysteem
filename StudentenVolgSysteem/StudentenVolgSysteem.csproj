@@ -359,6 +359,10 @@
     <Compile Include="Controllers\CurriculumController.cs" />
     <Compile Include="Controllers\CurriculumTemplateController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Migrations\MyDbContext\202003091029290_Test.cs" />
+    <Compile Include="Migrations\MyDbContext\202003091029290_Test.Designer.cs">
+      <DependentUpon>202003091029290_Test.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\AfwezigheidModel.cs" />
     <Compile Include="Models\AfwezigheidOptionsModel.cs" />
     <Compile Include="Models\ViewModels\CurriculumDeleteViewModel.cs" />
@@ -530,7 +534,7 @@
     <Content Include="Views\Curriculum\Edit.cshtml" />
     <Content Include="Views\Curriculum\Delete.cshtml" />
     <Content Include="Views\Afwezigheid\DeelnemerList.cshtml" />
-    <Content Include="Views\Admin\AddAfwezigheidOptions.cshtml" />
+    <Content Include="Views\Afwezigheid\AddAfwezigheidOptions.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -557,6 +561,11 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\MyDbContext\202003091029290_Test.resx">
+      <DependentUpon>202003091029290_Test.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

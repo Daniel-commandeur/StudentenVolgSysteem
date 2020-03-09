@@ -9,11 +9,9 @@ namespace StudentenVolgSysteem.Models.ViewModels
 {
     public class DeelnemerAfwezigheidListViewModel
     {
-        public int Id { get; set; }
         public IEnumerable<SelectListItem> OptionsSelectList { get; set; }
-        [Display(Name ="Opties")]
-        public string Option { get; set; }
-        public Student Student { get; set; }
-        public DateTime Date { get; set; }
+        public List<AfwezigheidModel> Afwezigheid { get; set; }
+        public IEnumerable<Student> Students { get; set; }
+        public List<string> Dates { get; set; }
     }
 }

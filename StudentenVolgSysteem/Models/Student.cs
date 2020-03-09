@@ -31,7 +31,7 @@ namespace StudentenVolgSysteem.Models
         public string VolledigeNaam { get { return $"{Voornaam} {Achternaam}"; } }
 
         public virtual ICollection<Curriculum> Curricula { get; set; }
-
+            
         public virtual ICollection<AfwezigheidModel> Afwezigheden { get; set; }
 
         public bool IsDeleted { get; set; }

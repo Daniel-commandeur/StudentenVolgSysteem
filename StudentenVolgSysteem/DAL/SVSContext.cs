@@ -99,8 +99,6 @@ namespace StudentenVolgSysteem.DAL
             return query.Where(m => !m.IsDeleted).ToList();
         }
 
-        public System.Data.Entity.DbSet<StudentenVolgSysteem.Models.ViewModels.DeelnemerAfwezigheidListViewModel> DeelnemerAfwezigheidListViewModels { get; set; }
-
 
         //public IQueryable<TEntity> Including<TEntity>(params Func<TEntity, object>[] _includeProperties) where TEntity : class
         //{

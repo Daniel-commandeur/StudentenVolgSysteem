@@ -286,28 +286,6 @@ namespace StudentenVolgSysteem.Controllers
             return View(urm);
         }
 
-        #region Implementation Test Afwezigheid
-
-        public ActionResult AddAfwezigheidOptions()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult AddAfwezigheidOptions(AfwezigheidOptionsModel insertedOption)
-        {
-            if (insertedOption == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-            }
-            db.AfwezigheidOptions.Add(insertedOption);
-            db.SaveChanges();
-            ModelState.Clear();
-            return View();
-        }
-
-        #endregion ImplementationTest
-
         #endregion Actions
 
         #region Helpers

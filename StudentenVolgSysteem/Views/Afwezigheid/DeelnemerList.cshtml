@@ -1,4 +1,4 @@
-﻿@model IEnumerable<StudentenVolgSysteem.Models.ViewModels.DeelnemerAfwezigheidListViewModel>
+﻿@model StudentenVolgSysteem.Models.ViewModels.DeelnemerAfwezigheidListViewModel
 
 @{
     ViewBag.Title = "DeelnemerList";
@@ -6,33 +6,55 @@
 
 <h2>Deelnemer Lijst</h2>
 
+<script>
+
+    //To get selected value an text of dropdownlist
+    function SelectedValue(option_id, student_id, selected_date) {
+
+        $.post("DeelnemerList", {
+            selected_Value: option_id,
+            studentId: student_id,
+            dateId: selected_date
+        })
+        //alert popup with detail of seleceted value and text
+        alert(" Selected Value: " + option_id + " -- " + "student: " + student_id + "Date: " + selected_date)
+        //alert(" Selected Value: " + selectedValue + " -- " + "Selected Text: " + selectedText);
+    }
+</script>
 <table class="table">
     <tr>
 
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Date)
+            @Html.Label("Date")
         </th>
 
-        @foreach (var item in Model)
+        @foreach (var item in Model.Students)
         {
             <th>
-                @Html.DisplayFor(model => item.Student.VolledigeNaam)
+                @Html.DisplayFor(model => item.VolledigeNaam)
             </th>
         }
     </tr>
 
-    @foreach (var item in Model)
+    @for (int i = 0; i < Model.Dates.Count; i++)
     {
-<tr>
-    <td>
-        @Html.DisplayFor(model => item.Date)
-    </td>
-    @foreach (var deelNemer in Model)
-    {
-        <td>
-            @Html.DropDownListFor(modelItem => item.Option, item.OptionsSelectList, " ", new { htmlAttributes = new { @class = "form-control" } })
-        </td>
-    }
-</tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(model => Model.Dates[i])
+            </td>
+            @foreach (var student in Model.Students)
+            {
+
+                using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(o => student.Id)
+                    <td>
+                        @Html.DropDownListFor(modelItem => Model.Afwezigheid[i].OptionsModel, Model.OptionsSelectList, new { @class = "form-control", @onChange = $"SelectedValue(this.value, {student.Id}, {i} )" })
+                    </td>
+
+                }
+            }
+        </tr>
     }
 </table>
