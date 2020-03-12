@@ -32,7 +32,7 @@ namespace StudentenVolgSysteem.Models
 
         public virtual ICollection<Curriculum> Curricula { get; set; }
             
-        public virtual ICollection<AfwezigheidModel> Afwezigheden { get; set; }
+        public virtual ICollection<PresentieEntryModel> Afwezigheden { get; set; }
 
         public bool IsDeleted { get; set; }
     }

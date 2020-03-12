@@ -7,7 +7,7 @@ using System.Web;
 
 namespace StudentenVolgSysteem.Models
 {
-    public class AfwezigheidOptionsModel : IDeletable
+    public class AanwezigheidOptionModel : IDeletable
     {
         [Key]
         public int Id { get; set; }

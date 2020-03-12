@@ -1,0 +1,55 @@
+﻿@model StudentenVolgSysteem.Models.ViewModels.AanwezigheidViewModel
+
+@{
+    ViewBag.Title = "DeelnemerList";
+}
+
+<h2>Deelnemer Lijst</h2>
+
+<script>
+
+    //To get selected value an text of dropdownlist
+    function SelectedValue(option_id, student_id, selected_date) {
+        alert("Started");
+        $.post("DeelnemerList", {
+            selected_Value: option_id,
+            studentId: student_id,
+            selectedDate: selected_date
+        });
+        //alert popup with detail of seleceted value and text
+        alert(" Selected Value: " + option_id + " -- " + "student: " + student_id + "Date: " + selected_date);
+        //alert(" Selected Value: " + selectedValue + " -- " + "Selected Text: " + selectedText);
+    }
+</script>
+<table class="table">
+    <tr>
+
+        <th>
+            @Html.Label("Date")
+        </th>
+
+        @foreach (var presentieEntry in Model.PresentieEntryRows.FirstOrDefault().PresentieEntrys)
+        {
+            <th>
+                @Html.DisplayFor(model => presentieEntry.Date)
+            </th>
+        }
+    </tr>
+
+    @foreach (var presentieEntryRow in Model.PresentieEntryRows)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => presentieEntryRow.PresentieEntrys.FirstOrDefault().Deelnemer.VolledigeNaam)
+            </td>
+            @foreach (var presentieEntry in presentieEntryRow.PresentieEntrys)
+            {
+                <td>
+                    @* Todo: Remove Magic strings!!!!!!!! *@ 
+                    @Html.DropDownListFor(modelItem => presentieEntry.SelectedOption, new SelectList(Model.AanwezigheidsOptions, "Id", "Naam"), new { @class = "form-control", @onChange = $"SelectedValue(this.value, {presentieEntry.Deelnemer.Id}, '{presentieEntry.Date}' )" })
+                </td>
+
+            }
+        </tr>
+    }
+</table>

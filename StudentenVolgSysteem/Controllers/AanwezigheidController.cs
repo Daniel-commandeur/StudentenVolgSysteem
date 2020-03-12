@@ -11,7 +11,7 @@ using System.Web.Mvc;
 namespace StudentenVolgSysteem.Controllers
 {
     [Authorize(Roles = "Administrator")]
-    public class AfwezigheidController : Controller
+    public class AanwezigheidController : Controller
     {
         public SVSContext db = new SVSContext();
 
@@ -23,38 +23,63 @@ namespace StudentenVolgSysteem.Controllers
 
         public ActionResult DeelnemerList()
         {
-            var studenten = db.Studenten.Where(s => s.IsDeleted == false).ToList();
-            var date_monday = firstDayOfWeek(DateTime.Today);
+            //string date_format = "ddd dd-MM-yyyy";
+            //date = date == null ? DateTime.Today : date;
+            DateTime date = DateTime.Today;
+            //List<PresentieEntryModel> presentieEntrys = new List<PresentieEntryModel>();
+            List<Student> deelnemers = db.Studenten.Where(s => s.IsDeleted == false).ToList();
+            // Todo: Make it possible to chose different weeks
+            DateTime date_monday = firstDayOfWeek(date);
+            var presentieEntryRows = new List<PresentieEntryRow>();
 
-            var date_format = "ddd dd-MM-yyyy";
-            var dates = new List<string>();
-            foreach (var item in daysOfWeek(firstDayOfWeek(DateTime.Today)))
-            {
-                dates.Add(item.ToString(date_format));
-            };
-            var afwezigheden = db.Afwezigheden.Where(a => a.IsDeleted == false).ToList();
-            var AOpties = db.AfwezigheidOptions.Where(ao => ao.IsDeleted == false).ToList();
 
-            return View(new DeelnemerAfwezigheidListViewModel()
+            //var dates = new List<string>();
+            foreach (var deelnemer in deelnemers)
             {
-                Dates = dates,
-                OptionsSelectList = AOpties.Select(a => new SelectListItem
+                presentieEntryRows.Add(new PresentieEntryRow
                 {
-                    Text = a.Naam,
-                    Value = a.Id.ToString(),
-                   
-                }),
-                Students = studenten,
-                Afwezigheid = afwezigheden
-            });
+                    PresentieEntrys = new List<PresentieEntryModel>()
+                    
+                });
+
+
+                foreach (var day in daysOfWeek(date_monday))
+                {
+                    var presentieEntry = db.PresentieEntrys.Where(e => e.Date == day).Where(d => d.Deelnemer.Id == deelnemer.Id).FirstOrDefault();
+                    if (presentieEntry != null)
+                    {
+                        presentieEntryRows.Last().PresentieEntrys.Add(presentieEntry);
+                    }
+                    else
+                    {
+                        presentieEntryRows.Last().PresentieEntrys.Add(new PresentieEntryModel 
+                        {
+                            Date = day,
+                            Deelnemer = deelnemer,
+                            IsDeleted = false
+                        });
+                    }
+                    
+                }
+                
+                //dates.Add(day.ToString(date_format));
+            };
+            //var afwezigheden = db.PresentieEntrys.Where(a => a.IsDeleted == false).ToList();
+            var aanwezigheidsViewModel = new AanwezigheidViewModel()
+            {
+                AanwezigheidsOptions = db.AanwezigheidOptions.Where(ao => ao.IsDeleted == false).ToList(),
+                PresentieEntryRows = presentieEntryRows
+
+            };
+            return View(aanwezigheidsViewModel);
         }
 
         [HttpPost]
-        public ActionResult DeelnemerList(int selected_Value, int studentId, int dateId)
+        public ActionResult DeelnemerList(int selected_Value, int studentId, DateTime selectedDate)
         {
-            DateTime selectedDate = daysOfWeek(firstDayOfWeek(DateTime.Today))[dateId];
+            //DateTime selectedDate = daysOfWeek(firstDayOfWeek(DateTime.Today))[dateId];
             Debug.WriteLine($"{selected_Value} --- {studentId} --- {selectedDate}");
-            db.Afwezigheden.Add(new AfwezigheidModel() {
+            db.PresentieEntrys.Add(new PresentieEntryModel() {
                 
                 Date = selectedDate,
                 OptionsId = selected_Value,
@@ -70,13 +95,13 @@ namespace StudentenVolgSysteem.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddAfwezigheidOptions(AfwezigheidOptionsModel insertedOption)
+        public ActionResult AddAfwezigheidOptions(AanwezigheidOptionModel insertedOption)
         {
             if (insertedOption == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
-            db.AfwezigheidOptions.Add(insertedOption);
+            db.AanwezigheidOptions.Add(insertedOption);
             db.SaveChanges();
             ModelState.Clear();
             return View();
